@@ -6,9 +6,9 @@ const DEFAULT_SNAPSHOT: RateSnapshot = {
   source: "stub",
   updatedAt: "2026-05-24T09:00:00.000Z",
   rates: [
-    { code: "USD", nominal: 1, value: 89.5 },
-    { code: "EUR", nominal: 1, value: 97.2 },
-    { code: "CNY", nominal: 1, value: 12.4 },
+    { code: "USD", nominal: 1, name: "US Dollar", value: 89.5 },
+    { code: "EUR", nominal: 1, name: "Euro", value: 97.2 },
+    { code: "CNY", nominal: 1, name: "Chinese Yuan", value: 12.4 },
   ],
 };
 

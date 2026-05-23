@@ -1,13 +1,15 @@
 import { CbrClient } from "../src/modules/sources/cbr/cbr.client";
 import { CbrMapper } from "../src/modules/sources/cbr/cbr.mapper";
 import { CbrParser } from "../src/modules/sources/cbr/cbr.parser";
-import { RatesRepository } from "../src/modules/rates/rates.repository";
-import { RatesService } from "../src/modules/rates/rates.service";
 
 async function main() {
-  const repository = new RatesRepository();
-  const service = new RatesService(repository, new CbrClient(), new CbrParser(), new CbrMapper());
-  const snapshot = await service.manualSync();
+  const client = new CbrClient();
+  const parser = new CbrParser();
+  const mapper = new CbrMapper();
+
+  const rawResponse = await client.fetchLatestRates();
+  const parsedRates = parser.parse(rawResponse);
+  const snapshot = mapper.toSnapshot(parsedRates);
 
   console.log("Manual sync completed");
   console.log(JSON.stringify(snapshot, null, 2));

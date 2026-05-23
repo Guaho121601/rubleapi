@@ -1,17 +1,18 @@
 export type CurrencyCode = "USD" | "EUR" | "CNY" | "RUB";
 
-export interface RateRecord {
+export interface Rate {
   code: string;
   nominal: number;
+  name: string;
   value: number;
 }
 
-export interface RateSnapshot {
+export interface RatesSnapshot {
   base: string;
   date: string;
   source: string;
   updatedAt: string;
-  rates: RateRecord[];
+  rates: Rate[];
 }
 
 export interface LatestRatesParams {
@@ -26,21 +27,28 @@ export interface WidgetPayload {
   base: string;
   date: string;
   source: string;
-  rates: RateRecord[];
+  rates: Rate[];
+}
+
+export interface CbrRawRate {
+  charCode: string;
+  nominal: number;
+  name: string;
+  value: number;
 }
 
 export interface CbrRawResponse {
   requestedAt: string;
   source: string;
-  payload: unknown;
+  status: number;
+  xml: string;
 }
 
 export interface ParsedCbrRates {
   date: string;
   source: string;
-  items: Array<{
-    code: string;
-    nominal: number;
-    value: number;
-  }>;
+  rates: CbrRawRate[];
 }
+
+export type RateRecord = Rate;
+export type RateSnapshot = RatesSnapshot;
