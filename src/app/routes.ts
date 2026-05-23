@@ -1,0 +1,49 @@
+import { readFile } from "node:fs/promises";
+import path from "node:path";
+import type { FastifyInstance } from "fastify";
+
+import { registerPublicApiRoutes } from "../modules/api/public-api.controller";
+import { registerWidgetApiRoutes } from "../modules/api/widget-api.controller";
+import { CbrClient } from "../modules/sources/cbr/cbr.client";
+import { CbrMapper } from "../modules/sources/cbr/cbr.mapper";
+import { CbrParser } from "../modules/sources/cbr/cbr.parser";
+import { RatesRepository } from "../modules/rates/rates.repository";
+import { RatesScheduler } from "../modules/rates/rates.scheduler";
+import { RatesService } from "../modules/rates/rates.service";
+
+export interface AppServices {
+  ratesService: RatesService;
+  ratesScheduler: RatesScheduler;
+}
+
+export async function registerRoutes(app: FastifyInstance): Promise<AppServices> {
+  const ratesRepository = new RatesRepository();
+  const cbrClient = new CbrClient();
+  const cbrParser = new CbrParser();
+  const cbrMapper = new CbrMapper();
+  const ratesService = new RatesService(ratesRepository, cbrClient, cbrParser, cbrMapper);
+  const ratesScheduler = new RatesScheduler(ratesService);
+
+  app.get("/health", async () => {
+    return {
+      status: "ok",
+      service: "rubleapi",
+    };
+  });
+
+  app.get("/widget.js", async (_request, reply) => {
+    const widgetPath = path.resolve(process.cwd(), "src/public/widget.js");
+    const widgetSource = await readFile(widgetPath, "utf8");
+
+    reply.type("application/javascript; charset=utf-8");
+    return widgetSource;
+  });
+
+  await registerPublicApiRoutes(app, ratesService);
+  await registerWidgetApiRoutes(app, ratesService);
+
+  return {
+    ratesService,
+    ratesScheduler,
+  };
+}
