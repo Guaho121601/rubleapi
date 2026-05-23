@@ -19,11 +19,28 @@ export class RatesService {
   ) {}
 
   async getLatestRates(params?: LatestRatesParams): Promise<RateSnapshot> {
-    return this.ratesRepository.getLatest(params);
+    const latestSnapshot = await this.ratesRepository.getLatestSnapshot();
+
+    if (!latestSnapshot) {
+      return this.ratesRepository.getLatest(params);
+    }
+
+    if (!params?.symbols?.length) {
+      return {
+        ...latestSnapshot,
+        base: params?.base ?? latestSnapshot.base,
+      };
+    }
+
+    return {
+      ...latestSnapshot,
+      base: params.base ?? latestSnapshot.base,
+      rates: latestSnapshot.rates.filter((rate) => params.symbols?.includes(rate.code)),
+    };
   }
 
   async getRatesByDate(date: string): Promise<RateSnapshot | null> {
-    return this.ratesRepository.getByDate(date);
+    return this.ratesRepository.getRatesByDate(date);
   }
 
   async getWidgetPayload(widgetKey: string): Promise<WidgetPayload> {
@@ -46,7 +63,7 @@ export class RatesService {
     const parsedRates = this.cbrParser.parse(rawResponse);
     const snapshot = this.cbrMapper.toSnapshot(parsedRates);
 
-    return this.ratesRepository.save(snapshot);
+    return this.ratesRepository.saveSnapshot(snapshot);
   }
 
   markSchedulerReady(): void {
