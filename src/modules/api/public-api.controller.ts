@@ -1,9 +1,9 @@
 import type { FastifyInstance } from "fastify";
 
 import type { RatesService } from "../rates/rates.service";
+import type { RateSnapshot } from "../rates/rates.types";
 
 interface LatestRatesQuery {
-  base?: string;
   symbols?: string;
 }
 
@@ -11,39 +11,59 @@ interface DateParams {
   date: string;
 }
 
+const API_DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
+
+function serializeSnapshot(snapshot: RateSnapshot) {
+  return {
+    source: snapshot.source,
+    date: snapshot.date,
+    fetchedAt: snapshot.updatedAt,
+    base: "RUB",
+    rates: snapshot.rates,
+  };
+}
+
 export async function registerPublicApiRoutes(
   app: FastifyInstance,
   ratesService: RatesService,
 ): Promise<void> {
-  app.get<{ Querystring: LatestRatesQuery }>("/api/rates/latest", async (request) => {
+  app.get<{ Querystring: LatestRatesQuery }>("/api/rates/latest", async (request, reply) => {
     const symbols = request.query.symbols
       ? request.query.symbols.split(",").map((symbol) => symbol.trim()).filter(Boolean)
       : undefined;
 
-    return ratesService.getLatestRates({
-      base: request.query.base,
+    const snapshot = await ratesService.findLatestRates({
       symbols,
     });
-  });
-
-  app.get<{ Params: DateParams }>("/api/rates/date/:date", async (request, reply) => {
-    const snapshot = await ratesService.getRatesByDate(request.params.date);
 
     if (!snapshot) {
-      reply.code(200);
+      reply.code(404);
       return {
-        base: "RUB",
-        date: request.params.date,
-        source: "stub",
-        updatedAt: new Date().toISOString(),
-        rates: [
-          { code: "USD", nominal: 1, name: "US Dollar", value: 89.5 },
-          { code: "EUR", nominal: 1, name: "Euro", value: 97.2 },
-          { code: "CNY", nominal: 1, name: "Chinese Yuan", value: 12.4 },
-        ],
+        error: "Rates snapshot not found",
       };
     }
 
-    return snapshot;
+    return serializeSnapshot(snapshot);
+  });
+
+  app.get<{ Params: DateParams }>("/api/rates/date/:date", async (request, reply) => {
+    if (!API_DATE_PATTERN.test(request.params.date)) {
+      reply.code(400);
+      return {
+        error: "Invalid date format. Expected YYYY-MM-DD",
+      };
+    }
+
+    const snapshot = await ratesService.getRatesByDate(request.params.date);
+
+    if (!snapshot) {
+      reply.code(404);
+      return {
+        error: "Rates snapshot not found",
+        date: request.params.date,
+      };
+    }
+
+    return serializeSnapshot(snapshot);
   });
 }

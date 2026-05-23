@@ -30,6 +30,9 @@ interface CurrencyRateRow {
   value: number;
 }
 
+const CBR_DATE_PATTERN = /^(\d{2})\.(\d{2})\.(\d{4})$/;
+const API_DATE_PATTERN = /^(\d{4})-(\d{2})-(\d{2})$/;
+
 export class RatesRepository {
   private readonly db: Database.Database;
 
@@ -93,6 +96,7 @@ export class RatesRepository {
   }
 
   async getRatesByDate(date: string): Promise<RateSnapshot | null> {
+    const lookupDate = this.toStoredDate(date);
     const snapshotRow = this.db
       .prepare(`
         SELECT id, source, date, fetched_at, raw_count
@@ -101,7 +105,7 @@ export class RatesRepository {
         ORDER BY id DESC
         LIMIT 1
       `)
-      .get(date) as SnapshotRow | undefined;
+      .get(lookupDate) as SnapshotRow | undefined;
 
     if (!snapshotRow) {
       return null;
@@ -147,7 +151,7 @@ export class RatesRepository {
 
     return {
       base: "RUB",
-      date: snapshotRow.date,
+      date: this.toApiDate(snapshotRow.date),
       source: snapshotRow.source,
       updatedAt: snapshotRow.fetched_at,
       rates: rates.map((rate): Rate => ({
@@ -157,5 +161,31 @@ export class RatesRepository {
         value: rate.value,
       })),
     };
+  }
+
+  private toStoredDate(date: string): string {
+    if (CBR_DATE_PATTERN.test(date)) {
+      return date;
+    }
+
+    const apiDateMatch = date.match(API_DATE_PATTERN);
+
+    if (!apiDateMatch) {
+      return date;
+    }
+
+    const [, year, month, day] = apiDateMatch;
+    return `${day}.${month}.${year}`;
+  }
+
+  private toApiDate(date: string): string {
+    const cbrDateMatch = date.match(CBR_DATE_PATTERN);
+
+    if (!cbrDateMatch) {
+      return date;
+    }
+
+    const [, day, month, year] = cbrDateMatch;
+    return `${year}-${month}-${day}`;
   }
 }

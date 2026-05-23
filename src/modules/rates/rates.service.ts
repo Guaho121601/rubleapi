@@ -18,11 +18,11 @@ export class RatesService {
     private readonly cbrMapper: CbrMapper,
   ) {}
 
-  async getLatestRates(params?: LatestRatesParams): Promise<RateSnapshot> {
+  async findLatestRates(params?: LatestRatesParams): Promise<RateSnapshot | null> {
     const latestSnapshot = await this.ratesRepository.getLatestSnapshot();
 
     if (!latestSnapshot) {
-      return this.ratesRepository.getLatest(params);
+      return null;
     }
 
     if (!params?.symbols?.length) {
@@ -37,6 +37,16 @@ export class RatesService {
       base: params.base ?? latestSnapshot.base,
       rates: latestSnapshot.rates.filter((rate) => params.symbols?.includes(rate.code)),
     };
+  }
+
+  async getLatestRates(params?: LatestRatesParams): Promise<RateSnapshot> {
+    const latestSnapshot = await this.findLatestRates(params);
+
+    if (latestSnapshot) {
+      return latestSnapshot;
+    }
+
+    return this.ratesRepository.getLatest(params);
   }
 
   async getRatesByDate(date: string): Promise<RateSnapshot | null> {
