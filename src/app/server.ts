@@ -1,3 +1,4 @@
+import cors from "@fastify/cors";
 import Fastify from "fastify";
 
 import { getConfig } from "./config";
@@ -6,6 +7,10 @@ import { registerRoutes } from "./routes";
 export async function buildServer() {
   const app = Fastify({
     logger: true,
+  });
+
+  await app.register(cors, {
+    origin: true,
   });
 
   const services = await registerRoutes(app);
