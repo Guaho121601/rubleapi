@@ -10,6 +10,7 @@
     theme: "light",
     round: 2,
     branding: true,
+    apiBase: "",
   };
 
   function parseSymbols(value) {
@@ -45,6 +46,7 @@
       theme: scriptElement.dataset.theme === "dark" ? "dark" : defaults.theme,
       round: parseRound(scriptElement.dataset.round),
       branding: parseBranding(scriptElement.dataset.branding),
+      apiBase: scriptElement.dataset.apiBase || defaults.apiBase,
     };
   }
 
@@ -79,7 +81,7 @@
     var muted = isDark ? "#8ea0bf" : "#70819d";
 
     return [
-      ".rubleapi-widget{font-family:Arial,sans-serif;box-sizing:border-box;max-width:360px;border:1px solid " + border + ";border-radius:14px;background:" + background + ";color:" + text + ";padding:16px;box-shadow:0 12px 32px rgba(15,23,42,.08)}",
+      '.rubleapi-widget{font-family:system-ui,-apple-system,blinkmacsystemfont,"segoe ui",sans-serif;box-sizing:border-box;max-width:360px;border:1px solid ' + border + ";border-radius:14px;background:" + background + ";color:" + text + ";padding:16px;box-shadow:0 12px 32px rgba(15,23,42,.08)}",
       ".rubleapi-widget *{box-sizing:border-box}",
       ".rubleapi-title{margin:0 0 12px;font-size:18px;font-weight:700;color:" + title + "}",
       ".rubleapi-list{list-style:none;padding:0;margin:0 0 14px}",
@@ -89,7 +91,7 @@
       ".rubleapi-value{font-size:15px;font-weight:600;color:" + accent + ";white-space:nowrap}",
       ".rubleapi-meta{display:flex;flex-direction:column;gap:4px;margin-top:14px;font-size:12px;color:" + muted + "}",
       ".rubleapi-branding{margin-top:10px;font-size:12px;font-weight:600;color:" + accent + "}",
-      ".rubleapi-error{font-family:Arial,sans-serif;max-width:360px;border:1px solid #f0c7c7;border-radius:14px;background:#fff7f7;color:#a33a3a;padding:16px;font-size:14px}",
+      '.rubleapi-error{font-family:system-ui,-apple-system,blinkmacsystemfont,"segoe ui",sans-serif;max-width:360px;border:1px solid #f0c7c7;border-radius:14px;background:#fff7f7;color:#a33a3a;padding:16px;font-size:14px}',
     ].join("");
   }
 
@@ -160,7 +162,8 @@
   async function bootstrap() {
     var config = getConfig(currentScript);
     var mount = createMount(currentScript);
-    var apiUrl = new URL("/api/rates/latest", currentScript.src);
+    var apiBase = config.apiBase || currentScript.src;
+    var apiUrl = new URL("/api/rates/latest", apiBase);
 
     apiUrl.searchParams.set("symbols", config.symbols.join(","));
 

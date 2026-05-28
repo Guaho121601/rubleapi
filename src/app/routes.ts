@@ -39,6 +39,22 @@ export async function registerRoutes(app: FastifyInstance): Promise<AppServices>
     return widgetSource;
   });
 
+  app.get("/widget-generator", async (_request, reply) => {
+    const generatorPath = path.resolve(process.cwd(), "src/public/widget-generator.html");
+    const generatorSource = await readFile(generatorPath, "utf8");
+
+    reply.type("text/html; charset=utf-8");
+    return generatorSource;
+  });
+
+  app.get("/widget", async (_request, reply) => {
+    const generatorPath = path.resolve(process.cwd(), "src/public/widget-generator.html");
+    const generatorSource = await readFile(generatorPath, "utf8");
+
+    reply.type("text/html; charset=utf-8");
+    return generatorSource;
+  });
+
   await registerPublicApiRoutes(app, ratesService);
   await registerWidgetApiRoutes(app, ratesService);
 
