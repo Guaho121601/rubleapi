@@ -31,6 +31,14 @@ export async function registerRoutes(app: FastifyInstance): Promise<AppServices>
     };
   });
 
+  app.get("/", async (_request, reply) => {
+    const indexPath = path.resolve(process.cwd(), "src/public/index.html");
+    const indexSource = await readFile(indexPath, "utf8");
+
+    reply.type("text/html; charset=utf-8");
+    return indexSource;
+  });
+
   app.get("/widget.js", async (_request, reply) => {
     const widgetPath = path.resolve(process.cwd(), "src/public/widget.js");
     const widgetSource = await readFile(widgetPath, "utf8");
