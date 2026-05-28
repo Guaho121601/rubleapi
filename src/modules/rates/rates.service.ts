@@ -76,6 +76,11 @@ export class RatesService {
     return this.ratesRepository.saveSnapshot(snapshot);
   }
 
+  async hasStoredRates(): Promise<boolean> {
+    const latestSnapshot = await this.ratesRepository.getLatestSnapshot();
+    return latestSnapshot !== null;
+  }
+
   markSchedulerReady(): void {
     this.schedulerReady = true;
   }
