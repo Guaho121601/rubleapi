@@ -56,15 +56,7 @@ export async function registerRoutes(app: FastifyInstance): Promise<AppServices>
   });
 
   app.get("/docs", async (_request, reply) => {
-    const docsPath = path.resolve(process.cwd(), "src/public/widget-docs.html");
-    const docsSource = await readFile(docsPath, "utf8");
-
-    reply.type("text/html; charset=utf-8");
-    return docsSource;
-  });
-
-  app.get("/widget-docs", async (_request, reply) => {
-    const docsPath = path.resolve(process.cwd(), "src/public/widget-docs.html");
+    const docsPath = path.resolve(process.cwd(), "src/public/docs.html");
     const docsSource = await readFile(docsPath, "utf8");
 
     reply.type("text/html; charset=utf-8");
