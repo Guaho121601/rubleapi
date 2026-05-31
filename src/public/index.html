@@ -3,27 +3,54 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>RubleAPI.ru</title>
+    <title>Валютный виджет для сайта — курсы ЦБ РФ в рублях | RubleAPI</title>
+    <meta
+      name="description"
+      content="Добавьте на сайт настраиваемый виджет курсов валют ЦБ РФ. Выберите валюты, цвета и формат отображения, скопируйте код и вставьте его на страницу."
+    />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "RubleAPI",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Web",
+        "description": "Настраиваемый валютный виджет для сайтов с курсами ЦБ РФ и API в JSON.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "RUB"
+        },
+        "url": "http://127.0.0.1:3000/",
+        "featureList": [
+          "Выбор валют",
+          "Светлая и темная тема",
+          "Настройка внешнего вида",
+          "Вставка на сайт одним кодом"
+        ]
+      }
+    </script>
     <style>
       :root {
         color-scheme: light;
         --page-bg:
-          radial-gradient(circle at top left, rgba(105, 160, 255, 0.22), transparent 28%),
+          radial-gradient(circle at top left, rgba(105, 160, 255, 0.2), transparent 28%),
           radial-gradient(circle at bottom right, rgba(24, 118, 210, 0.14), transparent 24%),
           linear-gradient(180deg, #f7faff 0%, #edf3fb 100%);
         --surface: rgba(255, 255, 255, 0.94);
-        --surface-soft: rgba(255, 255, 255, 0.76);
+        --surface-soft: rgba(255, 255, 255, 0.8);
         --border: rgba(15, 23, 42, 0.08);
         --border-strong: rgba(17, 101, 200, 0.16);
         --title: #10213c;
         --text: #4a617d;
         --muted: #6b7d95;
         --accent: #1165c8;
-        --accent-strong: #0d4f99;
-        --accent-soft: rgba(17, 101, 200, 0.1);
-        --code-bg: #0f1726;
-        --code-text: #ecf2fc;
+        --accent-strong: #0b5fc1;
+        --accent-soft: rgba(80, 170, 255, 0.18);
+        --accent-glow: #64b5ff;
         --shadow: 0 18px 60px rgba(15, 23, 42, 0.08);
+        --widget-surface: #ffffff;
+        --widget-border: rgba(17, 101, 200, 0.14);
       }
 
       * {
@@ -50,7 +77,8 @@
 
       .topbar,
       .hero,
-      .section {
+      .section,
+      .footer {
         border: 1px solid var(--border);
         border-radius: 24px;
         background: var(--surface);
@@ -65,27 +93,29 @@
         gap: 16px;
         padding: 14px 20px;
         margin-bottom: 18px;
+        border-color: #0f172a;
+        background: linear-gradient(180deg, #10213c 0%, #0b1528 100%);
+        color: #e7eef8;
       }
 
       .brand {
         display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        color: var(--title);
-        font-size: 14px;
-        font-weight: 700;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2px;
+        color: #ffffff;
         text-decoration: none;
       }
 
-      .brand-mark {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 32px;
-        height: 32px;
-        border-radius: 999px;
-        background: var(--accent-soft);
-        color: var(--accent);
+      .brand-title {
+        font-size: 15px;
+        font-weight: 700;
+      }
+
+      .brand-subtitle {
+        color: #9db3cc;
+        font-size: 12px;
+        font-weight: 600;
       }
 
       .topnav {
@@ -97,25 +127,29 @@
       .topnav a {
         padding: 8px 12px;
         border-radius: 999px;
-        color: var(--muted);
+        color: #d7e5f6;
         text-decoration: none;
         font-size: 14px;
         font-weight: 600;
       }
 
-      .topnav a:hover {
-        background: var(--accent-soft);
-        color: var(--accent);
+      .topnav a:hover,
+      .topnav a[aria-current="page"] {
+        background: rgba(100, 181, 255, 0.16);
+        color: #ffffff;
       }
 
       .hero,
-      .section {
+      .section,
+      .footer {
         padding: 28px;
       }
 
       .hero {
         display: grid;
-        gap: 16px;
+        grid-template-columns: minmax(0, 1.15fr) minmax(320px, 420px);
+        gap: 24px;
+        align-items: center;
         margin-bottom: 18px;
       }
 
@@ -134,13 +168,14 @@
       }
 
       h1,
-      h2 {
+      h2,
+      h3 {
         margin: 0;
         color: var(--title);
       }
 
       h1 {
-        max-width: 780px;
+        max-width: 640px;
         font-size: clamp(34px, 5vw, 56px);
         line-height: 1.02;
       }
@@ -150,27 +185,25 @@
         font-size: 24px;
       }
 
+      h3 {
+        font-size: 17px;
+      }
+
       p {
         margin: 0;
         line-height: 1.72;
       }
 
       .hero-copy {
-        max-width: 720px;
+        max-width: 620px;
         font-size: 18px;
-      }
-
-      .product-line {
-        max-width: 760px;
-        color: var(--title);
-        font-size: 18px;
-        font-weight: 600;
       }
 
       .actions {
         display: flex;
         flex-wrap: wrap;
         gap: 12px;
+        margin-top: 20px;
       }
 
       .button {
@@ -186,25 +219,28 @@
       }
 
       .button-primary {
-        background: var(--accent);
+        background: linear-gradient(180deg, var(--accent-glow) 0%, var(--accent) 100%);
         color: #ffffff;
+        box-shadow: 0 14px 30px rgba(17, 101, 200, 0.24);
       }
 
       .button-primary:hover {
-        background: var(--accent-strong);
+        background: linear-gradient(180deg, #7ac4ff 0%, var(--accent-strong) 100%);
       }
 
       .button-secondary {
-        border: 1px solid var(--border-strong);
-        background: rgba(255, 255, 255, 0.82);
-        color: var(--accent);
+        border: 1px solid rgba(17, 101, 200, 0.22);
+        background: #eaf4ff;
+        color: #0b5fc1;
+        box-shadow: 0 10px 24px rgba(17, 101, 200, 0.14);
       }
 
       .button-secondary:hover {
-        background: var(--accent-soft);
+        background: #dceeff;
       }
 
-      .section + .section {
+      .section + .section,
+      .footer {
         margin-top: 18px;
       }
 
@@ -213,8 +249,16 @@
         gap: 16px;
       }
 
-      .two-columns {
+      .steps-grid {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+      }
+
+      .cards-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .compact-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
       }
 
       .card {
@@ -224,10 +268,71 @@
         background: var(--surface-soft);
       }
 
-      .card strong {
-        display: block;
-        margin-bottom: 8px;
+      .card p,
+      .card ul {
+        margin-top: 8px;
+      }
+
+      .widget-demo {
+        padding: 22px;
+        border: 1px solid var(--widget-border);
+        border-radius: 24px;
+        background: linear-gradient(180deg, #ffffff 0%, #f6f9ff 100%);
+      }
+
+      .widget-demo-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        margin-bottom: 14px;
+      }
+
+      .widget-demo-title {
+        font-size: 16px;
+        font-weight: 700;
         color: var(--title);
+      }
+
+      .widget-demo-badge {
+        padding: 6px 10px;
+        border-radius: 999px;
+        background: var(--accent-soft);
+        color: var(--accent);
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .widget-list {
+        display: grid;
+        gap: 10px;
+      }
+
+      .widget-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 12px 14px;
+        border: 1px solid var(--widget-border);
+        border-radius: 16px;
+        background: var(--widget-surface);
+      }
+
+      .widget-code {
+        font-weight: 700;
+        color: var(--title);
+      }
+
+      .widget-rate {
+        font-weight: 700;
+        color: var(--accent);
+      }
+
+      .widget-meta {
+        margin-top: 14px;
+        color: var(--muted);
+        font-size: 13px;
       }
 
       ul {
@@ -236,33 +341,82 @@
       }
 
       li {
-        margin-bottom: 10px;
-        line-height: 1.65;
+        margin-bottom: 8px;
+        line-height: 1.6;
       }
 
-      pre {
-        margin: 14px 0 0;
-        padding: 18px;
-        overflow: auto;
-        border-radius: 18px;
-        background: var(--code-bg);
-        color: var(--code-text);
-        font-family: ui-monospace, sfmono-regular, menlo, consolas, monospace;
+      .footer {
+        display: grid;
+        gap: 22px;
+        border-color: #0f172a;
+        background: linear-gradient(180deg, #10213c 0%, #0b1528 100%);
+        color: #e7eef8;
+      }
+
+      .footer-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.3fr) minmax(220px, 0.8fr) minmax(240px, 0.9fr);
+        gap: 24px;
+      }
+
+      .footer-title {
+        color: #ffffff;
+        font-size: 18px;
+        font-weight: 700;
+      }
+
+      .footer-copy,
+      .footer-requisites {
+        color: #bfd0e4;
         font-size: 14px;
-        line-height: 1.65;
+        line-height: 1.7;
       }
 
-      code {
-        font-family: ui-monospace, sfmono-regular, menlo, consolas, monospace;
+      .footer-heading {
+        margin-bottom: 10px;
+        color: #ffffff;
+        font-size: 14px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
       }
 
-      @media (max-width: 860px) {
-        .topbar {
+      .footer-nav {
+        display: grid;
+        gap: 10px;
+      }
+
+      .footer-nav a {
+        color: #d8e6f7;
+        font-weight: 600;
+        text-decoration: none;
+      }
+
+      .footer-nav a:hover {
+        color: #ffffff;
+        text-decoration: underline;
+      }
+
+      .footer-note {
+        color: #9db3cc;
+        font-size: 14px;
+        line-height: 1.6;
+        padding-top: 18px;
+        border-top: 1px solid rgba(232, 240, 255, 0.12);
+      }
+
+      @media (max-width: 920px) {
+        .topbar,
+        .hero {
           flex-direction: column;
           align-items: flex-start;
         }
 
-        .two-columns {
+        .hero,
+        .steps-grid,
+        .cards-grid,
+        .compact-grid,
+        .footer-grid {
           grid-template-columns: 1fr;
         }
       }
@@ -272,89 +426,138 @@
     <main class="page-shell">
       <header class="topbar">
         <a class="brand" href="/">
-          <span class="brand-mark">₽</span>
-          <span>rubleapi.ru</span>
+          <span class="brand-title">Курс валют на сайт</span>
+          <span class="brand-subtitle">RubleAPI</span>
         </a>
         <nav class="topnav">
-          <a href="/">главная</a>
-          <a href="/widget">виджет</a>
+          <a aria-current="page" href="/">главная</a>
+          <a href="/widget">настроить виджет</a>
           <a href="/docs">документация</a>
         </nav>
       </header>
 
       <section class="hero">
-        <div class="eyebrow">rubleapi.ru</div>
-        <h1>Валютный виджет для сайта и api цб рф в json</h1>
-        <p class="product-line">
-          rubleapi.ru — настраиваемый валютный виджет для сайтов и api цб рф в json.
-        </p>
-        <p class="hero-copy">
-          Настройте валюты, тему и округление, скопируйте `script`-код и вставьте на сайт.
-        </p>
-        <div class="actions">
-          <a class="button button-primary" href="/widget">настроить виджет</a>
-          <a class="button button-secondary" href="/docs">документация</a>
+        <div>
+          <div class="eyebrow">rubleapi.ru</div>
+          <h1 style="margin-top: 14px">Добавьте курс валют на сайт</h1>
+          <p class="hero-copy" style="margin-top: 16px">
+            Настройте внешний вид виджета, выберите нужные валюты и вставьте готовый код на
+            страницу сайта. Курсы берутся по данным ЦБ РФ.
+          </p>
+          <div class="actions">
+            <a class="button button-primary" href="/widget">настроить виджет</a>
+            <a class="button button-secondary" href="/docs">как установить</a>
+          </div>
         </div>
+
+        <aside class="widget-demo" aria-label="Пример виджета">
+          <div class="widget-demo-header">
+            <div class="widget-demo-title">Как выглядит виджет</div>
+            <div class="widget-demo-badge">пример</div>
+          </div>
+          <div class="widget-list">
+            <div class="widget-row">
+              <span class="widget-code">USD</span>
+              <span class="widget-rate">79.42 ₽</span>
+            </div>
+            <div class="widget-row">
+              <span class="widget-code">EUR</span>
+              <span class="widget-rate">86.18 ₽</span>
+            </div>
+            <div class="widget-row">
+              <span class="widget-code">CNY</span>
+              <span class="widget-rate">10.96 ₽</span>
+            </div>
+          </div>
+          <p class="widget-meta">Виджет можно оформить под стиль сайта и вставить на любую страницу.</p>
+        </aside>
       </section>
 
       <section class="section">
-        <h2>Что умеет</h2>
-        <div class="grid two-columns">
+        <h2>Как это работает</h2>
+        <div class="grid steps-grid">
           <div class="card">
-            <strong>Курсы ЦБ РФ</strong>
-            <p>Показывает курсы валют ЦБ РФ в удобном формате для сайта.</p>
+            <h3>Выберите валюты</h3>
+            <p>Отметьте те курсы, которые хотите показать посетителям сайта.</p>
           </div>
           <div class="card">
-            <strong>Один script-тег</strong>
-            <p>Подключается простым embeddable-скриптом без React, Vue и jQuery.</p>
+            <h3>Настройте внешний вид</h3>
+            <p>Подберите цвета, тему и оформление под свой сайт.</p>
           </div>
           <div class="card">
-            <strong>Настройка отображения</strong>
-            <p>Поддерживает выбор валют, light/dark тему и округление значений.</p>
+            <h3>Скопируйте код</h3>
+            <p>Генератор подготовит готовый код для вставки без ручной настройки.</p>
           </div>
           <div class="card">
-            <strong>CORS для внешних сайтов</strong>
-            <p>Может работать с внешних сайтов через CORS на основном сервере.</p>
+            <h3>Вставьте на сайт</h3>
+            <p>Добавьте код на страницу через html-блок или в шаблон сайта.</p>
+          </div>
+          <div class="card">
+            <h3>Показывайте курсы ЦБ РФ</h3>
+            <p>Виджет сам получит данные и отобразит их в аккуратном блоке.</p>
           </div>
         </div>
       </section>
 
       <section class="section">
         <h2>Для кого</h2>
-        <ul>
-          <li>вебмастера</li>
-          <li>владельцы сайтов</li>
-          <li>туристические сайты</li>
-          <li>информационные проекты</li>
-          <li>разработчики</li>
-        </ul>
-      </section>
-
-      <section class="section">
-        <h2>Пример кода</h2>
-        <pre><code>&lt;script
-  src="http://127.0.0.1:3000/widget.js"
-  data-api-base="http://127.0.0.1:3000"
-  data-symbols="usd,eur,cny"
-  data-theme="light"
-  data-round="2"
-  data-branding="true"&gt;
-&lt;/script&gt;</code></pre>
-      </section>
-
-      <section class="section">
-        <h2>Api</h2>
-        <p>Публичный json api можно использовать напрямую из своих интеграций.</p>
-        <pre><code>get /api/rates/latest?symbols=usd,eur,cny</code></pre>
-      </section>
-
-      <section class="section">
-        <h2>Начать</h2>
-        <p>Перейдите в генератор, настройте параметры виджета и получите готовый код вставки.</p>
-        <div class="actions" style="margin-top: 18px">
-          <a class="button button-primary" href="/widget">открыть /widget</a>
+        <div class="grid compact-grid">
+          <div class="card"><p>сайты компаний</p></div>
+          <div class="card"><p>туристические проекты</p></div>
+          <div class="card"><p>информационные сайты</p></div>
+          <div class="card"><p>блоги и медиа</p></div>
+          <div class="card"><p>разработчики</p></div>
         </div>
       </section>
+
+      <section class="section">
+        <h2>Что можно настроить</h2>
+        <div class="grid cards-grid">
+          <div class="card">
+            <ul>
+              <li>валюты</li>
+              <li>цвета</li>
+              <li>размер</li>
+              <li>ширину</li>
+            </ul>
+          </div>
+          <div class="card">
+            <ul>
+              <li>скругление</li>
+              <li>светлую или тёмную тему</li>
+              <li>отображение брендинга rubleapi</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <div class="footer-grid">
+          <div>
+            <div class="footer-title">rubleapi</div>
+            <p class="footer-copy">
+              RubleAPI — валютный виджет для сайтов на основе курсов ЦБ РФ.
+            </p>
+          </div>
+          <nav class="footer-nav">
+            <div class="footer-heading">Навигация</div>
+            <a href="/">главная</a>
+            <a href="/widget">настроить виджет</a>
+            <a href="/docs">документация</a>
+          </nav>
+          <div>
+            <div class="footer-heading">Реквизиты</div>
+            <div class="footer-requisites">
+              ИП Шабанов Г. С.<br />
+              ИНН 773000981144<br />
+              ОГРНИП 325774600045755
+            </div>
+          </div>
+        </div>
+        <p class="footer-note">
+          Данные курсов носят справочный характер и не являются финансовой рекомендацией.
+        </p>
+      </footer>
     </main>
   </body>
 </html>

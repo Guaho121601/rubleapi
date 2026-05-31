@@ -3,24 +3,49 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>RubleAPI Widget Generator</title>
+    <title>Настроить валютный виджет для сайта | RubleAPI</title>
+    <meta
+      name="description"
+      content="Настройте валютный виджет RubleAPI: выберите валюты, тему и параметры отображения, посмотрите пример и получите готовый код для вставки на сайт."
+    />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Главная",
+            "item": "http://127.0.0.1:3000/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Настроить виджет",
+            "item": "http://127.0.0.1:3000/widget"
+          }
+        ]
+      }
+    </script>
     <style>
       :root {
         color-scheme: light;
         --page-bg:
-          radial-gradient(circle at top left, rgba(105, 160, 255, 0.22), transparent 28%),
+          radial-gradient(circle at top left, rgba(105, 160, 255, 0.2), transparent 28%),
           radial-gradient(circle at bottom right, rgba(24, 118, 210, 0.14), transparent 24%),
           linear-gradient(180deg, #f7faff 0%, #edf3fb 100%);
         --surface: rgba(255, 255, 255, 0.94);
-        --surface-soft: rgba(255, 255, 255, 0.76);
+        --surface-soft: rgba(255, 255, 255, 0.8);
         --border: rgba(15, 23, 42, 0.08);
         --border-strong: rgba(17, 101, 200, 0.16);
         --title: #10213c;
         --text: #4a617d;
         --muted: #6b7d95;
         --accent: #1165c8;
-        --accent-strong: #0d4f99;
-        --accent-soft: rgba(17, 101, 200, 0.1);
+        --accent-strong: #0b5fc1;
+        --accent-soft: rgba(80, 170, 255, 0.18);
+        --accent-glow: #64b5ff;
         --code-bg: #0f1726;
         --code-text: #ecf2fc;
         --warning-bg: #fff8ea;
@@ -53,7 +78,8 @@
 
       .topbar,
       .hero,
-      .panel {
+      .panel,
+      .footer {
         border: 1px solid var(--border);
         border-radius: 24px;
         background: var(--surface);
@@ -68,27 +94,29 @@
         gap: 16px;
         padding: 14px 20px;
         margin-bottom: 18px;
+        border-color: #0f172a;
+        background: linear-gradient(180deg, #10213c 0%, #0b1528 100%);
+        color: #e7eef8;
       }
 
       .brand {
         display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        color: var(--title);
-        font-size: 14px;
-        font-weight: 700;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2px;
+        color: #ffffff;
         text-decoration: none;
       }
 
-      .brand-mark {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 32px;
-        height: 32px;
-        border-radius: 999px;
-        background: var(--accent-soft);
-        color: var(--accent);
+      .brand-title {
+        font-size: 15px;
+        font-weight: 700;
+      }
+
+      .brand-subtitle {
+        color: #9db3cc;
+        font-size: 12px;
+        font-weight: 600;
       }
 
       .topnav {
@@ -100,21 +128,27 @@
       .topnav a {
         padding: 8px 12px;
         border-radius: 999px;
-        color: var(--muted);
+        color: #d7e5f6;
         text-decoration: none;
         font-size: 14px;
         font-weight: 600;
       }
 
-      .topnav a:hover {
-        background: var(--accent-soft);
-        color: var(--accent);
+      .topnav a:hover,
+      .topnav a[aria-current="page"] {
+        background: rgba(100, 181, 255, 0.16);
+        color: #ffffff;
+      }
+
+      .hero,
+      .panel,
+      .footer {
+        padding: 28px;
       }
 
       .hero {
         display: grid;
-        gap: 16px;
-        padding: 28px;
+        gap: 14px;
         margin-bottom: 18px;
       }
 
@@ -133,7 +167,8 @@
       }
 
       h1,
-      h2 {
+      h2,
+      h3 {
         margin: 0;
         color: var(--title);
       }
@@ -165,33 +200,29 @@
         align-items: start;
       }
 
-      .panel {
-        padding: 24px;
-      }
-
       .output-panel {
         display: grid;
-        gap: 20px;
+        gap: 18px;
       }
 
       .section-title {
-        margin: 0 0 8px;
-        color: var(--title);
-        font-size: 22px;
+        margin-bottom: 8px;
       }
 
       .section-copy {
-        margin: 0 0 18px;
+        margin-bottom: 18px;
         color: var(--muted);
         font-size: 14px;
         line-height: 1.6;
       }
 
-      .field {
+      .field,
+      .settings-group {
         margin-bottom: 22px;
       }
 
-      .field:last-child {
+      .field:last-child,
+      .settings-group:last-child {
         margin-bottom: 0;
       }
 
@@ -210,14 +241,26 @@
         line-height: 1.55;
       }
 
-      .currency-grid {
+      .currency-grid,
+      .size-grid,
+      .color-grid {
         display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 10px;
       }
 
+      .currency-grid,
+      .size-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .color-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
       .choice,
-      .option-row {
+      .option-row,
+      .step-card,
+      .color-card {
         display: flex;
         align-items: center;
         gap: 10px;
@@ -233,9 +276,40 @@
         font-weight: 600;
       }
 
-      .option-stack {
+      .option-stack,
+      .steps-grid {
         display: grid;
         gap: 10px;
+      }
+
+      .steps-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .color-card {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .color-card input[type="color"] {
+        width: 100%;
+        height: 42px;
+        padding: 0;
+        border: 1px solid var(--border-strong);
+        border-radius: 12px;
+        background: transparent;
+        cursor: pointer;
+      }
+
+      .select-field {
+        width: 100%;
+        min-height: 48px;
+        padding: 12px 14px;
+        border: 1px solid var(--border-strong);
+        border-radius: 16px;
+        background: var(--surface-soft);
+        color: var(--title);
+        font: inherit;
       }
 
       input[type="checkbox"],
@@ -244,58 +318,32 @@
         accent-color: var(--accent);
       }
 
-      .helper-box,
-      .meta-card {
-        padding: 16px;
-        border: 1px solid var(--border-strong);
-        border-radius: 18px;
-        background: var(--surface-soft);
+      input[type="checkbox"][disabled] {
+        cursor: not-allowed;
       }
 
-      .helper-box {
-        display: grid;
-        gap: 8px;
-      }
-
-      .helper-title {
-        margin: 0;
-        color: var(--title);
-        font-size: 13px;
-        font-weight: 700;
-      }
-
-      .helper-copy {
-        margin: 0;
-        color: var(--muted);
+      .brand-lock {
+        margin-top: 10px;
+        padding: 12px 14px;
+        border: 1px solid var(--warning-border);
+        border-radius: 16px;
+        background: var(--warning-bg);
+        color: var(--warning-text);
         font-size: 13px;
         line-height: 1.55;
       }
 
-      .meta-grid {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 12px;
+      .is-hidden {
+        display: none;
       }
 
-      .meta-label {
-        display: block;
-        margin-bottom: 6px;
-        color: var(--muted);
-        font-size: 12px;
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
-      }
-
-      .meta-value {
-        color: var(--title);
-        font-size: 14px;
-        font-weight: 700;
-        word-break: break-word;
-      }
-
-      .code-card {
-        display: grid;
-        gap: 12px;
+      .code-card,
+      .preview-card,
+      .details-card {
+        padding: 18px;
+        border: 1px solid var(--border-strong);
+        border-radius: 18px;
+        background: var(--surface-soft);
       }
 
       .toolbar {
@@ -303,6 +351,7 @@
         justify-content: space-between;
         align-items: center;
         gap: 12px;
+        margin-bottom: 12px;
       }
 
       .toolbar-title {
@@ -314,17 +363,18 @@
       .copy-button {
         border: none;
         border-radius: 999px;
-        background: var(--accent);
+        background: linear-gradient(180deg, var(--accent-glow) 0%, var(--accent) 100%);
         color: #ffffff;
         padding: 11px 16px;
         font: inherit;
         font-size: 14px;
         font-weight: 700;
         cursor: pointer;
+        box-shadow: 0 14px 30px rgba(17, 101, 200, 0.24);
       }
 
       .copy-button:hover {
-        background: var(--accent-strong);
+        background: linear-gradient(180deg, #7ac4ff 0%, var(--accent-strong) 100%);
       }
 
       pre {
@@ -340,35 +390,114 @@
       }
 
       .status-text,
-      .preview-copy {
+      .preview-copy,
+      .dev-copy {
         margin: 0;
         color: var(--muted);
         font-size: 13px;
         line-height: 1.55;
       }
 
-      .warning-note {
-        display: none;
-        padding: 12px 14px;
-        border: 1px solid var(--warning-border);
-        border-radius: 16px;
-        background: var(--warning-bg);
-        color: var(--warning-text);
-        font-size: 13px;
-        font-weight: 600;
-        line-height: 1.5;
-      }
-
-      .warning-note.is-visible {
-        display: block;
-      }
-
       .preview-frame {
         width: 100%;
-        min-height: 370px;
+        min-height: 460px;
+        margin-top: 12px;
         border: 1px solid var(--border-strong);
         border-radius: 20px;
         background: #f6faff;
+      }
+
+      details {
+        border: 1px solid var(--border-strong);
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.64);
+        padding: 16px 18px;
+      }
+
+      summary {
+        cursor: pointer;
+        color: var(--title);
+        font-weight: 700;
+      }
+
+      .dev-grid {
+        display: grid;
+        gap: 10px;
+        margin-top: 12px;
+      }
+
+      .dev-key {
+        color: var(--muted);
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+
+      .dev-value {
+        color: var(--title);
+        font-weight: 700;
+        word-break: break-word;
+      }
+
+      .footer {
+        display: grid;
+        gap: 22px;
+        margin-top: 18px;
+        border-color: #0f172a;
+        background: linear-gradient(180deg, #10213c 0%, #0b1528 100%);
+        color: #e7eef8;
+      }
+
+      .footer-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.3fr) minmax(220px, 0.8fr) minmax(240px, 0.9fr);
+        gap: 24px;
+      }
+
+      .footer-title {
+        color: #ffffff;
+        font-size: 18px;
+        font-weight: 700;
+      }
+
+      .footer-copy,
+      .footer-requisites {
+        color: #bfd0e4;
+        font-size: 14px;
+        line-height: 1.7;
+      }
+
+      .footer-heading {
+        margin-bottom: 10px;
+        color: #ffffff;
+        font-size: 14px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+
+      .footer-nav {
+        display: grid;
+        gap: 10px;
+      }
+
+      .footer-nav a {
+        color: #d8e6f7;
+        font-weight: 600;
+        text-decoration: none;
+      }
+
+      .footer-nav a:hover {
+        color: #ffffff;
+        text-decoration: underline;
+      }
+
+      .footer-note {
+        color: #9db3cc;
+        font-size: 14px;
+        line-height: 1.6;
+        padding-top: 18px;
+        border-top: 1px solid rgba(232, 240, 255, 0.12);
       }
 
       @media (max-width: 920px) {
@@ -379,7 +508,10 @@
 
         .layout,
         .currency-grid,
-        .meta-grid {
+        .size-grid,
+        .color-grid,
+        .steps-grid,
+        .footer-grid {
           grid-template-columns: 1fr;
         }
       }
@@ -389,156 +521,309 @@
     <main class="page-shell">
       <header class="topbar">
         <a class="brand" href="/">
-          <span class="brand-mark">₽</span>
-          <span>rubleapi.ru</span>
+          <span class="brand-title">Курс валют на сайт</span>
+          <span class="brand-subtitle">RubleAPI</span>
         </a>
         <nav class="topnav">
           <a href="/">главная</a>
-          <a href="/widget">виджет</a>
+          <a aria-current="page" href="/widget">настроить виджет</a>
           <a href="/docs">документация</a>
         </nav>
       </header>
 
       <section class="hero">
         <div class="eyebrow">генератор</div>
-        <h1>Генератор кода валютного виджета</h1>
+        <h1>Настройте валютный виджет</h1>
         <p class="hero-copy">
-          Настройте валюты, тему и параметры отображения. Генератор сразу обновит готовый
-          `script` для вставки и покажет live-preview на тех же настройках.
+          Выберите тип виджета, валюты и внешний вид. Генератор покажет пример и подготовит код,
+          который можно вставить на сайт.
         </p>
       </section>
 
       <section class="layout">
         <form class="panel" id="widget-generator-form">
-          <h2 class="section-title">Настройки виджета</h2>
+          <h2 class="section-title">Параметры виджета</h2>
           <p class="section-copy">
-            Страница работает в рамках mvp: только embeddable-виджет RubleAPI и api ЦБ РФ в json.
+            Изменения применяются сразу. Вы можете подобрать нужный вариант и сразу скопировать
+            готовый код.
           </p>
 
           <div class="field">
-            <span class="field-label">Валюты</span>
-            <div class="currency-grid">
-              <label class="choice">
-                <input type="checkbox" name="symbols" value="usd" checked />
-                <span class="choice-label">USD</span>
+            <span class="field-label">Тип виджета</span>
+            <div class="option-stack">
+              <label class="option-row">
+                <input type="radio" name="widget-type" value="rates" checked />
+                <span class="choice-label">Курсы валют</span>
               </label>
-              <label class="choice">
-                <input type="checkbox" name="symbols" value="eur" checked />
-                <span class="choice-label">EUR</span>
-              </label>
-              <label class="choice">
-                <input type="checkbox" name="symbols" value="cny" checked />
-                <span class="choice-label">CNY</span>
-              </label>
-              <label class="choice">
-                <input type="checkbox" name="symbols" value="aed" />
-                <span class="choice-label">AED</span>
-              </label>
-              <label class="choice">
-                <input type="checkbox" name="symbols" value="try" />
-                <span class="choice-label">TRY</span>
-              </label>
-              <label class="choice">
-                <input type="checkbox" name="symbols" value="thb" />
-                <span class="choice-label">THB</span>
-              </label>
-              <label class="choice">
-                <input type="checkbox" name="symbols" value="vnd" />
-                <span class="choice-label">VND</span>
+              <label class="option-row">
+                <input type="radio" name="widget-type" value="converter" />
+                <span class="choice-label">Конвертер валют</span>
               </label>
             </div>
-            <p class="field-hint">Если ничего не выбрать, генератор оставит `usd` как безопасный дефолт.</p>
+          </div>
+
+          <div class="settings-group" id="rates-settings">
+            <div class="field">
+              <span class="field-label">Валюты</span>
+              <div class="currency-grid">
+                <label class="choice">
+                  <input type="checkbox" name="symbols" value="usd" checked />
+                  <span class="choice-label">USD</span>
+                </label>
+                <label class="choice">
+                  <input type="checkbox" name="symbols" value="eur" checked />
+                  <span class="choice-label">EUR</span>
+                </label>
+                <label class="choice">
+                  <input type="checkbox" name="symbols" value="cny" checked />
+                  <span class="choice-label">CNY</span>
+                </label>
+                <label class="choice">
+                  <input type="checkbox" name="symbols" value="aed" />
+                  <span class="choice-label">AED</span>
+                </label>
+                <label class="choice">
+                  <input type="checkbox" name="symbols" value="try" />
+                  <span class="choice-label">TRY</span>
+                </label>
+                <label class="choice">
+                  <input type="checkbox" name="symbols" value="thb" />
+                  <span class="choice-label">THB</span>
+                </label>
+                <label class="choice">
+                  <input type="checkbox" name="symbols" value="vnd" />
+                  <span class="choice-label">VND</span>
+                </label>
+              </div>
+              <p class="field-hint">
+                Если ничего не выбрать, генератор оставит USD как безопасный вариант по умолчанию.
+              </p>
+            </div>
+
+            <div class="field">
+              <span class="field-label">Показывать копейки</span>
+              <div class="option-stack">
+                <label class="option-row">
+                  <input type="radio" name="round" value="0" />
+                  <span class="choice-label">нет</span>
+                </label>
+                <label class="option-row">
+                  <input type="radio" name="round" value="2" checked />
+                  <span class="choice-label">да</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="settings-group is-hidden" id="converter-settings">
+            <div class="field">
+              <label class="field-label" for="converter-symbol">Валюта</label>
+              <select class="select-field" id="converter-symbol" name="converter-symbol">
+                <option value="usd">USD</option>
+                <option value="eur">EUR</option>
+                <option value="cny">CNY</option>
+                <option value="aed">AED</option>
+                <option value="try">TRY</option>
+                <option value="thb">THB</option>
+                <option value="vnd">VND</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <span class="field-label">Направление</span>
+              <div class="option-stack">
+                <label class="option-row">
+                  <input type="radio" name="converter-direction" value="to-rub" checked />
+                  <span class="choice-label">из валюты в рубли</span>
+                </label>
+                <label class="option-row">
+                  <input type="radio" name="converter-direction" value="from-rub" />
+                  <span class="choice-label">из рублей в валюту</span>
+                </label>
+              </div>
+            </div>
           </div>
 
           <div class="field">
-            <span class="field-label">Тема</span>
+            <span class="field-label">Тема оформления</span>
             <div class="option-stack">
               <label class="option-row">
                 <input type="radio" name="theme" value="light" checked />
-                <span class="choice-label">light</span>
+                <span class="choice-label">светлая</span>
               </label>
               <label class="option-row">
                 <input type="radio" name="theme" value="dark" />
-                <span class="choice-label">dark</span>
+                <span class="choice-label">тёмная</span>
               </label>
             </div>
           </div>
 
           <div class="field">
-            <span class="field-label">Округление</span>
+            <span class="field-label">Ширина виджета</span>
             <div class="option-stack">
               <label class="option-row">
-                <input type="radio" name="round" value="0" />
+                <input type="radio" name="width" value="compact" />
+                <span class="choice-label">компактная</span>
+              </label>
+              <label class="option-row">
+                <input type="radio" name="width" value="card" checked />
+                <span class="choice-label">карточка</span>
+              </label>
+              <label class="option-row">
+                <input type="radio" name="width" value="full" />
+                <span class="choice-label">во всю ширину</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="field">
+            <span class="field-label">Размер текста</span>
+            <div class="option-stack">
+              <label class="option-row">
+                <input type="radio" name="font-size" value="small" />
+                <span class="choice-label">маленький</span>
+              </label>
+              <label class="option-row">
+                <input type="radio" name="font-size" value="medium" checked />
+                <span class="choice-label">средний</span>
+              </label>
+              <label class="option-row">
+                <input type="radio" name="font-size" value="large" />
+                <span class="choice-label">крупный</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="field">
+            <span class="field-label">Скругление углов</span>
+            <div class="size-grid">
+              <label class="choice">
+                <input type="radio" name="radius" value="0" />
                 <span class="choice-label">0</span>
               </label>
-              <label class="option-row">
-                <input type="radio" name="round" value="2" checked />
-                <span class="choice-label">2</span>
+              <label class="choice">
+                <input type="radio" name="radius" value="8" />
+                <span class="choice-label">8</span>
+              </label>
+              <label class="choice">
+                <input type="radio" name="radius" value="16" checked />
+                <span class="choice-label">16</span>
+              </label>
+              <label class="choice">
+                <input type="radio" name="radius" value="24" />
+                <span class="choice-label">24</span>
               </label>
             </div>
           </div>
 
           <div class="field">
-            <span class="field-label">Брендинг</span>
-            <div class="option-stack">
-              <label class="option-row">
-                <input type="radio" name="branding" value="true" checked />
-                <span class="choice-label">true</span>
+            <span class="field-label">Цвета</span>
+            <div class="color-grid">
+              <label class="color-card">
+                <span class="choice-label">Цвет фона</span>
+                <input type="color" name="bg-color" value="#ffffff" />
               </label>
-              <label class="option-row">
-                <input type="radio" name="branding" value="false" />
-                <span class="choice-label">false</span>
+              <label class="color-card">
+                <span class="choice-label">Цвет текста</span>
+                <input type="color" name="text-color" value="#4f5d75" />
+              </label>
+              <label class="color-card">
+                <span class="choice-label">Цвет акцента</span>
+                <input type="color" name="accent-color" value="#0f6fc6" />
               </label>
             </div>
           </div>
 
-          <div class="helper-box">
-            <p class="helper-title">Что делает генератор</p>
-            <p class="helper-copy">
-              Он собирает только готовый `script`-код встраивания. Оплата, кабинет и отдельные
-              интеграции здесь не добавляются.
-            </p>
+          <div class="field">
+            <span class="field-label">Брендинг RubleAPI</span>
+            <label class="option-row">
+              <input type="checkbox" name="branding" checked disabled />
+              <span class="choice-label">сохранять ссылку «Данные: RubleAPI»</span>
+            </label>
+            <div class="brand-lock">
+              Бесплатный виджет можно использовать только при сохранении ссылки «Данные:
+              RubleAPI». Отключение брендинга будет доступно в платной версии.
+            </div>
           </div>
         </form>
 
         <section class="panel output-panel">
-          <div class="meta-grid">
-            <div class="meta-card">
-              <span class="meta-label">Источник</span>
-              <span class="meta-value">/widget.js + /api/rates/latest</span>
-            </div>
-            <div class="meta-card">
-              <span class="meta-label">Api base</span>
-              <span class="meta-value" id="api-base-value"></span>
-            </div>
-          </div>
-
           <div class="code-card">
             <div class="toolbar">
-              <h2 class="toolbar-title">Готовый html-код</h2>
+              <h2 class="toolbar-title">Код для вставки на сайт</h2>
               <button class="copy-button" id="copy-code-button" type="button">Скопировать код</button>
             </div>
             <pre><code id="embed-code"></code></pre>
-            <p class="status-text" id="copy-status">Код обновляется автоматически при смене настроек.</p>
-            <div class="warning-note" id="branding-warning">
-              Отключение брендинга будет доступно в платной версии.
+            <p class="status-text" id="copy-status">
+              Скопируйте этот код и вставьте его в html-блок на странице сайта.
+            </p>
+          </div>
+
+          <div class="preview-card">
+            <h2 class="toolbar-title">Пример виджета</h2>
+            <p class="preview-copy">Ниже показано, как виджет будет выглядеть с текущими настройками.</p>
+            <iframe class="preview-frame" id="widget-preview" title="Widget preview" loading="lazy"></iframe>
+          </div>
+
+          <div class="panel" style="padding: 0; border: none; box-shadow: none; background: transparent">
+            <h2 class="section-title">Как установить</h2>
+            <div class="steps-grid">
+              <div class="step-card"><p>Скопируйте код</p></div>
+              <div class="step-card"><p>Откройте страницу сайта</p></div>
+              <div class="step-card"><p>Добавьте html-блок</p></div>
+              <div class="step-card"><p>Вставьте код, сохраните и опубликуйте страницу</p></div>
             </div>
           </div>
 
-          <div>
-            <h2 class="section-title">Live-preview</h2>
-            <p class="preview-copy">
-              Предпросмотр использует тот же `widget.js`, что и реальная вставка на сайт.
-            </p>
+          <div class="details-card">
+            <details>
+              <summary>Для разработчиков</summary>
+              <p class="dev-copy" style="margin-top: 10px">
+                Этот блок нужен только для локальной проверки и интеграции. Обычному пользователю
+                он не требуется.
+              </p>
+              <div class="dev-grid">
+                <div>
+                  <div class="dev-key">Текущий адрес сервиса</div>
+                  <div class="dev-value" id="api-base-value"></div>
+                </div>
+                <div>
+                  <div class="dev-key">Тип текущего виджета</div>
+                  <div class="dev-value" id="developer-widget-type"></div>
+                </div>
+              </div>
+            </details>
           </div>
-          <iframe
-            class="preview-frame"
-            id="widget-preview"
-            title="Widget preview"
-            loading="lazy"
-          ></iframe>
         </section>
       </section>
+
+      <footer class="footer">
+        <div class="footer-grid">
+          <div>
+            <div class="footer-title">rubleapi</div>
+            <p class="footer-copy">
+              RubleAPI — валютный виджет для сайтов на основе курсов ЦБ РФ.
+            </p>
+          </div>
+          <nav class="footer-nav">
+            <div class="footer-heading">Навигация</div>
+            <a href="/">главная</a>
+            <a href="/widget">настроить виджет</a>
+            <a href="/docs">документация</a>
+          </nav>
+          <div>
+            <div class="footer-heading">Реквизиты</div>
+            <div class="footer-requisites">
+              ИП Шабанов Г. С.<br />
+              ИНН 773000981144<br />
+              ОГРНИП 325774600045755
+            </div>
+          </div>
+        </div>
+        <p class="footer-note">
+          Данные курсов носят справочный характер и не являются финансовой рекомендацией.
+        </p>
+      </footer>
     </main>
 
     <script>
@@ -548,8 +833,23 @@
         var previewFrame = document.getElementById("widget-preview");
         var copyButton = document.getElementById("copy-code-button");
         var copyStatus = document.getElementById("copy-status");
-        var brandingWarning = document.getElementById("branding-warning");
         var apiBaseValue = document.getElementById("api-base-value");
+        var developerWidgetType = document.getElementById("developer-widget-type");
+        var ratesSettings = document.getElementById("rates-settings");
+        var converterSettings = document.getElementById("converter-settings");
+
+        var themePresets = {
+          light: {
+            bgColor: "#ffffff",
+            textColor: "#4f5d75",
+            accentColor: "#0f6fc6"
+          },
+          dark: {
+            bgColor: "#172033",
+            textColor: "#d5deed",
+            accentColor: "#7dd3fc"
+          }
+        };
 
         function getApiBase() {
           return window.location.origin;
@@ -570,27 +870,68 @@
           return selected ? selected.value : "";
         }
 
+        function getInputValue(name) {
+          var input = form.querySelector('[name="' + name + '"]');
+          return input ? input.value : "";
+        }
+
+        function applyThemePreset(theme) {
+          var preset = themePresets[theme] || themePresets.light;
+
+          form.querySelector('[name="bg-color"]').value = preset.bgColor;
+          form.querySelector('[name="text-color"]').value = preset.textColor;
+          form.querySelector('[name="accent-color"]').value = preset.accentColor;
+        }
+
         function getConfig() {
+          var widgetType = getSelectedValue("widget-type") || "rates";
+          var converterSymbol = getInputValue("converter-symbol") || "usd";
+          var symbols = widgetType === "converter" ? [converterSymbol] : getSelectedSymbols();
+
           return {
             apiBase: getApiBase(),
-            symbols: getSelectedSymbols(),
+            widgetType: widgetType,
+            symbols: symbols,
+            converterSymbol: converterSymbol,
+            converterDirection: getSelectedValue("converter-direction") || "to-rub",
             theme: getSelectedValue("theme") || "light",
             round: getSelectedValue("round") || "2",
-            branding: getSelectedValue("branding") || "true",
+            width: getSelectedValue("width") || "card",
+            fontSize: getSelectedValue("font-size") || "medium",
+            radius: getSelectedValue("radius") || "16",
+            bgColor: getInputValue("bg-color") || themePresets.light.bgColor,
+            textColor: getInputValue("text-color") || themePresets.light.textColor,
+            accentColor: getInputValue("accent-color") || themePresets.light.accentColor,
+            branding: "true"
           };
         }
 
         function buildEmbedCode(config) {
-          return [
+          var lines = [
             "<script",
             '  src="' + config.apiBase + '/widget.js"',
             '  data-api-base="' + config.apiBase + '"',
+            '  data-widget-type="' + config.widgetType + '"',
             '  data-symbols="' + config.symbols.join(",") + '"',
             '  data-theme="' + config.theme + '"',
             '  data-round="' + config.round + '"',
-            '  data-branding="' + config.branding + '">',
-            "<" + "/script>",
-          ].join("\n");
+            '  data-width="' + config.width + '"',
+            '  data-font-size="' + config.fontSize + '"',
+            '  data-radius="' + config.radius + '"',
+            '  data-bg-color="' + config.bgColor + '"',
+            '  data-text-color="' + config.textColor + '"',
+            '  data-accent-color="' + config.accentColor + '"'
+          ];
+
+          if (config.widgetType === "converter") {
+            lines.push('  data-converter-symbol="' + config.converterSymbol + '"');
+            lines.push('  data-converter-direction="' + config.converterDirection + '"');
+          }
+
+          lines.push('  data-branding="' + config.branding + '">');
+          lines.push("<" + "/script>");
+
+          return lines.join("\n");
         }
 
         function buildPreviewDocument(config) {
@@ -602,37 +943,59 @@
             '  <meta name="viewport" content="width=device-width, initial-scale=1.0" />',
             "  <style>",
             '    body{margin:0;padding:24px;font-family:system-ui,-apple-system,blinkmacsystemfont,"segoe ui",sans-serif;background:#edf4ff;color:#10213c}',
-            "    .preview-shell{max-width:420px}",
+            "    .preview-shell{max-width:100%}",
             "    .preview-caption{margin:0 0 14px;font-size:13px;line-height:1.5;color:#5a6b86}",
             "  </style>",
             "</head>",
             "<body>",
             '  <div class="preview-shell">',
-            '    <p class="preview-caption">Предпросмотр виджета RubleAPI с текущими параметрами.</p>',
+            '    <p class="preview-caption">Предварительный пример виджета с текущими настройками.</p>',
             "  </div>",
             '  <scr' + 'ipt',
             '    src="' + config.apiBase + '/widget.js"',
             '    data-api-base="' + config.apiBase + '"',
+            '    data-widget-type="' + config.widgetType + '"',
             '    data-symbols="' + config.symbols.join(",") + '"',
             '    data-theme="' + config.theme + '"',
             '    data-round="' + config.round + '"',
-            '    data-branding="' + config.branding + '">',
-            "  </scr" + "ipt>",
-            "</body>",
-            "</html>",
+            '    data-width="' + config.width + '"',
+            '    data-font-size="' + config.fontSize + '"',
+            '    data-radius="' + config.radius + '"',
+            '    data-bg-color="' + config.bgColor + '"',
+            '    data-text-color="' + config.textColor + '"',
+            '    data-accent-color="' + config.accentColor + '"',
+            '    data-branding="' + config.branding + '"'
           ];
 
+          if (config.widgetType === "converter") {
+            lines.push('    data-converter-symbol="' + config.converterSymbol + '"');
+            lines.push('    data-converter-direction="' + config.converterDirection + '"');
+          }
+
+          lines.push("  >");
+          lines.push("  </scr" + "ipt>");
+          lines.push("</body>");
+          lines.push("</html>");
+
           return lines.join("\n");
+        }
+
+        function syncModeState(config) {
+          var isConverter = config.widgetType === "converter";
+
+          ratesSettings.classList.toggle("is-hidden", isConverter);
+          converterSettings.classList.toggle("is-hidden", !isConverter);
         }
 
         function render() {
           var config = getConfig();
 
+          syncModeState(config);
           codeElement.textContent = buildEmbedCode(config);
           previewFrame.srcdoc = buildPreviewDocument(config);
           apiBaseValue.textContent = config.apiBase;
-          brandingWarning.classList.toggle("is-visible", config.branding === "false");
-          copyStatus.textContent = "Код обновляется автоматически при смене настроек.";
+          developerWidgetType.textContent = config.widgetType === "converter" ? "конвертер валют" : "курсы валют";
+          copyStatus.textContent = "Скопируйте этот код и вставьте его в html-блок на странице сайта.";
         }
 
         async function copyCode() {
@@ -644,9 +1007,18 @@
           }
         }
 
-        form.addEventListener("change", render);
+        form.addEventListener("change", function (event) {
+          if (event.target && event.target.name === "theme") {
+            applyThemePreset(event.target.value);
+          }
+
+          render();
+        });
+
+        form.addEventListener("input", render);
         copyButton.addEventListener("click", copyCode);
 
+        applyThemePreset("light");
         render();
       })();
     </script>

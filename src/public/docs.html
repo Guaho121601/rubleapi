@@ -3,24 +3,49 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>RubleAPI Docs</title>
+    <title>Документация по установке валютного виджета | RubleAPI</title>
+    <meta
+      name="description"
+      content="Пошаговая документация по установке валютного виджета RubleAPI: быстрый старт, настройка внешнего вида, примеры для Tilda, WordPress и обычного HTML-сайта."
+    />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Главная",
+            "item": "http://127.0.0.1:3000/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Документация",
+            "item": "http://127.0.0.1:3000/docs"
+          }
+        ]
+      }
+    </script>
     <style>
       :root {
         color-scheme: light;
         --page-bg:
-          radial-gradient(circle at top left, rgba(105, 160, 255, 0.22), transparent 28%),
+          radial-gradient(circle at top left, rgba(105, 160, 255, 0.2), transparent 28%),
           radial-gradient(circle at bottom right, rgba(24, 118, 210, 0.14), transparent 24%),
           linear-gradient(180deg, #f7faff 0%, #edf3fb 100%);
         --surface: rgba(255, 255, 255, 0.94);
-        --surface-soft: rgba(255, 255, 255, 0.76);
+        --surface-soft: rgba(255, 255, 255, 0.8);
         --border: rgba(15, 23, 42, 0.08);
         --border-strong: rgba(17, 101, 200, 0.16);
         --title: #10213c;
         --text: #4a617d;
         --muted: #6b7d95;
         --accent: #1165c8;
-        --accent-strong: #0d4f99;
-        --accent-soft: rgba(17, 101, 200, 0.1);
+        --accent-strong: #0b5fc1;
+        --accent-soft: rgba(80, 170, 255, 0.18);
+        --accent-glow: #64b5ff;
         --code-bg: #0f1726;
         --code-text: #ecf2fc;
         --warning-bg: #fff8ea;
@@ -53,7 +78,8 @@
 
       .topbar,
       .hero,
-      .panel {
+      .panel,
+      .footer {
         border: 1px solid var(--border);
         border-radius: 24px;
         background: var(--surface);
@@ -68,27 +94,29 @@
         gap: 16px;
         padding: 14px 20px;
         margin-bottom: 18px;
+        border-color: #0f172a;
+        background: linear-gradient(180deg, #10213c 0%, #0b1528 100%);
+        color: #e7eef8;
       }
 
       .brand {
         display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        color: var(--title);
-        font-size: 14px;
-        font-weight: 700;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2px;
+        color: #ffffff;
         text-decoration: none;
       }
 
-      .brand-mark {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 32px;
-        height: 32px;
-        border-radius: 999px;
-        background: var(--accent-soft);
-        color: var(--accent);
+      .brand-title {
+        font-size: 15px;
+        font-weight: 700;
+      }
+
+      .brand-subtitle {
+        color: #9db3cc;
+        font-size: 12px;
+        font-weight: 600;
       }
 
       .topnav {
@@ -100,25 +128,27 @@
       .topnav a {
         padding: 8px 12px;
         border-radius: 999px;
-        color: var(--muted);
+        color: #d7e5f6;
         text-decoration: none;
         font-size: 14px;
         font-weight: 600;
       }
 
-      .topnav a:hover {
-        background: var(--accent-soft);
-        color: var(--accent);
+      .topnav a:hover,
+      .topnav a[aria-current="page"] {
+        background: rgba(100, 181, 255, 0.16);
+        color: #ffffff;
       }
 
       .hero,
-      .panel {
+      .panel,
+      .footer {
         padding: 28px;
       }
 
       .hero {
         display: grid;
-        gap: 16px;
+        gap: 14px;
         margin-bottom: 18px;
       }
 
@@ -137,7 +167,8 @@
       }
 
       h1,
-      h2 {
+      h2,
+      h3 {
         margin: 0;
         color: var(--title);
       }
@@ -151,6 +182,10 @@
       h2 {
         margin-bottom: 10px;
         font-size: 24px;
+      }
+
+      h3 {
+        font-size: 17px;
       }
 
       p {
@@ -172,43 +207,42 @@
         font-size: 15px;
       }
 
-      .quick-list,
-      .tips-list {
+      .list,
+      .qa-list {
         margin: 14px 0 0;
         padding-left: 20px;
       }
 
-      .quick-list li,
-      .tips-list li {
+      .list li,
+      .qa-list li {
         margin-bottom: 10px;
         line-height: 1.65;
       }
 
-      .params-grid {
+      .params-grid,
+      .ways-grid {
         display: grid;
         gap: 12px;
         margin-top: 16px;
       }
 
-      .param-card {
+      .ways-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .card {
         padding: 16px;
         border: 1px solid var(--border-strong);
         border-radius: 18px;
         background: var(--surface-soft);
       }
 
-      .param-name {
+      .card-title {
         display: inline-block;
         margin-bottom: 6px;
         color: var(--title);
         font-size: 14px;
         font-weight: 700;
-      }
-
-      .param-text {
-        margin: 0;
-        font-size: 14px;
-        line-height: 1.6;
       }
 
       pre {
@@ -234,27 +268,105 @@
         line-height: 1.6;
       }
 
-      .footer-link {
+      .cta-link {
         display: inline-flex;
         align-items: center;
+        justify-content: center;
         margin-top: 16px;
-        color: var(--accent);
+        min-height: 46px;
+        padding: 12px 18px;
+        border-radius: 999px;
+        background: linear-gradient(180deg, var(--accent-glow) 0%, var(--accent) 100%);
+        color: #ffffff;
         font-weight: 700;
         text-decoration: none;
+        box-shadow: 0 14px 30px rgba(17, 101, 200, 0.24);
       }
 
-      .footer-link:hover {
-        text-decoration: underline;
+      .cta-link:hover,
+      .footer-nav a:hover {
+        color: #ffffff;
+      }
+
+      .cta-link:hover {
+        background: linear-gradient(180deg, #7ac4ff 0%, var(--accent-strong) 100%);
+        text-decoration: none;
       }
 
       code {
         font-family: ui-monospace, sfmono-regular, menlo, consolas, monospace;
       }
 
-      @media (max-width: 860px) {
+      .footer {
+        display: grid;
+        gap: 22px;
+        margin-top: 18px;
+        border-color: #0f172a;
+        background: linear-gradient(180deg, #10213c 0%, #0b1528 100%);
+        color: #e7eef8;
+      }
+
+      .footer-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.3fr) minmax(220px, 0.8fr) minmax(240px, 0.9fr);
+        gap: 24px;
+      }
+
+      .footer-title {
+        color: #ffffff;
+        font-size: 18px;
+        font-weight: 700;
+      }
+
+      .footer-copy,
+      .footer-requisites {
+        color: #bfd0e4;
+        font-size: 14px;
+        line-height: 1.7;
+      }
+
+      .footer-heading {
+        margin-bottom: 10px;
+        color: #ffffff;
+        font-size: 14px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+
+      .footer-nav {
+        display: grid;
+        gap: 10px;
+      }
+
+      .footer-nav a {
+        color: #d8e6f7;
+        font-weight: 600;
+        text-decoration: none;
+      }
+
+      .footer-nav a:hover {
+        color: #ffffff;
+        text-decoration: underline;
+      }
+
+      .footer-note {
+        color: #9db3cc;
+        font-size: 14px;
+        line-height: 1.6;
+        padding-top: 18px;
+        border-top: 1px solid rgba(232, 240, 255, 0.12);
+      }
+
+      @media (max-width: 920px) {
         .topbar {
           flex-direction: column;
           align-items: flex-start;
+        }
+
+        .ways-grid,
+        .footer-grid {
+          grid-template-columns: 1fr;
         }
       }
     </style>
@@ -263,44 +375,48 @@
     <main class="page-shell">
       <header class="topbar">
         <a class="brand" href="/">
-          <span class="brand-mark">₽</span>
-          <span>rubleapi.ru</span>
+          <span class="brand-title">Курс валют на сайт</span>
+          <span class="brand-subtitle">RubleAPI</span>
         </a>
         <nav class="topnav">
           <a href="/">главная</a>
-          <a href="/widget">виджет</a>
-          <a href="/docs">документация</a>
+          <a href="/widget">настроить виджет</a>
+          <a aria-current="page" href="/docs">документация</a>
         </nav>
       </header>
 
       <section class="hero">
         <div class="eyebrow">документация</div>
-        <h1>Установка валютного виджета RubleAPI</h1>
+        <h1>Как установить валютный виджет на сайт</h1>
         <p class="hero-copy">
-          Подключите embeddable-виджет одним `script`-тегом, настройте валюты и тему на `/widget`
-          и используйте тот же API ЦБ РФ в json для своих интеграций.
+          Ниже собраны простые инструкции по подключению виджета RubleAPI. Выберите настройки,
+          получите готовый код и вставьте его на нужную страницу сайта.
         </p>
       </section>
 
       <section class="layout">
         <section class="panel">
-          <h2>1. Быстрый старт</h2>
+          <h2>Быстрый старт</h2>
           <p class="section-copy">
-            Выберите настройки на странице <code>/widget</code>, скопируйте готовый
-            <code>script</code>-код и вставьте его на сайт. Виджет сам загрузит курсы через
-            публичный api RubleAPI и отрисуется рядом со <code>script</code>.
+            Сначала откройте генератор, выберите валюты и внешний вид, затем скопируйте код и
+            вставьте его на страницу сайта.
           </p>
-          <ol class="quick-list">
-            <li>Откройте страницу генератора кода по адресу `/widget`.</li>
-            <li>Выберите валюты, тему, округление и брендинг.</li>
-            <li>Скопируйте готовый `script` и вставьте его на сайт.</li>
-            <li>Сохраните страницу и проверьте, что сайт может загрузить `widget.js` и api.</li>
+          <ol class="list">
+            <li>Откройте страницу <code>/widget</code>.</li>
+            <li>Выберите валюты и настройте внешний вид.</li>
+            <li>Скопируйте готовый код.</li>
+            <li>Вставьте код на нужную страницу сайта.</li>
+            <li>Сохраните изменения и опубликуйте страницу.</li>
           </ol>
+          <a class="cta-link" href="/widget">Перейти в генератор кода</a>
         </section>
 
         <section class="panel">
-          <h2>2. Пример script-кода</h2>
-          <p class="section-copy">Ниже базовый пример подключения локального виджета во время разработки.</p>
+          <h2>Установка на Tilda</h2>
+          <p class="section-copy">
+            Добавьте html-блок, вставьте в него код виджета, сохраните изменения и заново
+            опубликуйте страницу.
+          </p>
           <pre><code>&lt;script
   src="http://127.0.0.1:3000/widget.js"
   data-api-base="http://127.0.0.1:3000"
@@ -312,35 +428,27 @@
         </section>
 
         <section class="panel">
-          <h2>3. Параметры виджета</h2>
-          <p class="section-copy">Виджет читает настройки напрямую из `data-*` атрибутов у подключенного `script`.</p>
-          <div class="params-grid">
-            <div class="param-card">
-              <span class="param-name">data-api-base</span>
-              <p class="param-text">Базовый адрес RubleAPI, откуда виджет возьмёт `widget.js` и api курсов.</p>
-            </div>
-            <div class="param-card">
-              <span class="param-name">data-symbols</span>
-              <p class="param-text">Список валют через запятую, например `usd,eur,cny`. Поддерживаются `usd`, `eur`, `cny`, `aed`, `try`, `thb`, `vnd`.</p>
-            </div>
-            <div class="param-card">
-              <span class="param-name">data-theme</span>
-              <p class="param-text">Тема оформления виджета. Для mvp доступны значения `light` и `dark`.</p>
-            </div>
-            <div class="param-card">
-              <span class="param-name">data-round</span>
-              <p class="param-text">Число знаков после запятой. В генераторе предусмотрены варианты `0` и `2`.</p>
-            </div>
-            <div class="param-card">
-              <span class="param-name">data-branding</span>
-              <p class="param-text">Показывать брендинг RubleAPI или нет. Возможные значения: `true` или `false`.</p>
-            </div>
-          </div>
+          <h2>Установка на WordPress</h2>
+          <p class="section-copy">
+            В редакторе страницы добавьте блок <code>Custom HTML</code> или
+            <code>Произвольный HTML</code>, вставьте код виджета и обновите публикацию.
+          </p>
+          <pre><code>&lt;script
+  src="http://127.0.0.1:3000/widget.js"
+  data-api-base="http://127.0.0.1:3000"
+  data-symbols="usd,eur"
+  data-theme="light"
+  data-round="2"
+  data-branding="true"&gt;
+&lt;/script&gt;</code></pre>
         </section>
 
         <section class="panel">
-          <h2>4. Установка на обычный html-сайт</h2>
-          <p class="section-copy">Для обычного html-сайта достаточно вставить `script` в нужное место страницы. Виджет отрисуется рядом с ним автоматически.</p>
+          <h2>Установка на обычный html-сайт</h2>
+          <p class="section-copy">
+            Если у вас обычный html-сайт, просто вставьте код виджета в нужное место страницы.
+            После загрузки страницы виджет появится рядом с кодом.
+          </p>
           <pre><code>&lt;div class="rates-block"&gt;
   &lt;h2&gt;Курсы валют&lt;/h2&gt;
   &lt;script
@@ -355,53 +463,85 @@
         </section>
 
         <section class="panel">
-          <h2>5. Установка на Tilda</h2>
-          <p class="section-copy">В Tilda добавьте html-блок, вставьте в него готовый `script`-код из генератора, затем сохраните и опубликуйте страницу.</p>
-          <pre><code>&lt;script
-  src="http://127.0.0.1:3000/widget.js"
-  data-api-base="http://127.0.0.1:3000"
-  data-symbols="usd,eur"
-  data-theme="light"
-  data-round="2"
-  data-branding="true"&gt;
-&lt;/script&gt;</code></pre>
-        </section>
-
-        <section class="panel">
-          <h2>6. Установка на WordPress</h2>
-          <p class="section-copy">В редакторе WordPress добавьте блок <code>Custom HTML</code> или <code>Произвольный HTML</code> и вставьте туда код виджета.</p>
-          <pre><code>&lt;script
-  src="http://127.0.0.1:3000/widget.js"
-  data-api-base="http://127.0.0.1:3000"
-  data-symbols="usd,eur,cny,aed"
-  data-theme="dark"
-  data-round="0"
-  data-branding="true"&gt;
-&lt;/script&gt;</code></pre>
-        </section>
-
-        <section class="panel">
-          <h2>7. Если виджет не загрузился</h2>
-          <p class="section-copy">Если на странице не появился виджет, проверьте самые частые причины.</p>
-          <ul class="tips-list">
-            <li>Backend недоступен.</li>
-            <li>Неправильно указан `data-api-base`.</li>
-            <li>Не выбраны валюты.</li>
-            <li>Нет сохранённых курсов в базе.</li>
-            <li>Браузер блокирует запрос.</li>
-            <li>Сайт кеширует старый код.</li>
-          </ul>
-          <div class="warning-box">
-            Для проверки откройте `http://127.0.0.1:3000/health`, убедитесь, что сервер отвечает со статусом `200`, и посмотрите ошибки в devtools браузера.
+          <h2>Настройка внешнего вида</h2>
+          <p class="section-copy">
+            Внешний вид меняется через параметры в коде. Вы можете выбрать валюты, тему,
+            округление и отображение брендинга.
+          </p>
+          <p class="section-copy" style="margin-top: 10px">
+            Если рядом с валютой указано 10 или 10 000, курс показан за это количество единиц
+            валюты по данным ЦБ РФ.
+          </p>
+          <div class="params-grid">
+            <div class="card">
+              <span class="card-title">Какие валюты показывать</span>
+              <p>Параметр <code>data-symbols</code> позволяет выбрать нужные валюты через запятую.</p>
+            </div>
+            <div class="card">
+              <span class="card-title">Светлая или тёмная тема</span>
+              <p>Параметр <code>data-theme</code> задаёт светлый или тёмный вариант оформления.</p>
+            </div>
+            <div class="card">
+              <span class="card-title">Формат чисел</span>
+              <p>Параметр <code>data-round</code> управляет тем, сколько знаков будет после запятой.</p>
+            </div>
+            <div class="card">
+              <span class="card-title">Брендинг RubleAPI</span>
+              <p>Параметр <code>data-branding</code> включает или скрывает подпись сервиса.</p>
+            </div>
+            <div class="card">
+              <span class="card-title">Адрес сервиса</span>
+              <p>Параметр <code>data-api-base</code> указывает, откуда виджет получает данные и скрипт.</p>
+            </div>
           </div>
         </section>
 
         <section class="panel">
-          <h2>8. Генератор кода</h2>
-          <p class="section-copy">Для быстрой сборки параметров и получения готового embed-кода используйте страницу генератора.</p>
-          <a class="footer-link" href="/widget">Открыть генератор кода /widget</a>
+          <h2>Вопросы и ошибки</h2>
+          <p class="section-copy">Если виджет не появился на странице, проверьте самые частые причины.</p>
+          <ul class="qa-list">
+            <li>Сервис RubleAPI временно недоступен.</li>
+            <li>В коде указан неверный адрес в <code>data-api-base</code>.</li>
+            <li>В параметрах не выбраны валюты.</li>
+            <li>В базе пока нет сохранённых курсов.</li>
+            <li>Браузер или расширение блокирует загрузку данных.</li>
+            <li>На сайте сохранилась старая версия страницы в кеше.</li>
+          </ul>
+          <div class="warning-box">
+            Виджет можно вставлять на разные сайты. Сервер RubleAPI разрешает таким сайтам получать
+            данные курсов. Если вставка не работает, проверьте ошибки в браузере и убедитесь, что
+            страница загружает актуальный код.
+          </div>
         </section>
       </section>
+
+      <footer class="footer">
+        <div class="footer-grid">
+          <div>
+            <div class="footer-title">rubleapi</div>
+            <p class="footer-copy">
+              RubleAPI — валютный виджет для сайтов на основе курсов ЦБ РФ.
+            </p>
+          </div>
+          <nav class="footer-nav">
+            <div class="footer-heading">Навигация</div>
+            <a href="/">главная</a>
+            <a href="/widget">настроить виджет</a>
+            <a href="/docs">документация</a>
+          </nav>
+          <div>
+            <div class="footer-heading">Реквизиты</div>
+            <div class="footer-requisites">
+              ИП Шабанов Г. С.<br />
+              ИНН 773000981144<br />
+              ОГРНИП 325774600045755
+            </div>
+          </div>
+        </div>
+        <p class="footer-note">
+          Данные курсов носят справочный характер и не являются финансовой рекомендацией.
+        </p>
+      </footer>
     </main>
   </body>
 </html>
