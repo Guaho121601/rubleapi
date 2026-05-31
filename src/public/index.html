@@ -8,18 +8,22 @@
       :root {
         color-scheme: light;
         --page-bg:
-          radial-gradient(circle at top left, rgba(109, 162, 255, 0.2), transparent 28%),
-          linear-gradient(180deg, #f7faff 0%, #eef4fb 100%);
-        --panel-bg: rgba(255, 255, 255, 0.92);
-        --panel-border: rgba(15, 23, 42, 0.08);
+          radial-gradient(circle at top left, rgba(105, 160, 255, 0.22), transparent 28%),
+          radial-gradient(circle at bottom right, rgba(24, 118, 210, 0.14), transparent 24%),
+          linear-gradient(180deg, #f7faff 0%, #edf3fb 100%);
+        --surface: rgba(255, 255, 255, 0.94);
+        --surface-soft: rgba(255, 255, 255, 0.76);
+        --border: rgba(15, 23, 42, 0.08);
+        --border-strong: rgba(17, 101, 200, 0.16);
         --title: #10213c;
-        --text: #4a627e;
-        --muted: #6a7d95;
+        --text: #4a617d;
+        --muted: #6b7d95;
         --accent: #1165c8;
         --accent-strong: #0d4f99;
         --accent-soft: rgba(17, 101, 200, 0.1);
         --code-bg: #0f1726;
         --code-text: #ecf2fc;
+        --shadow: 0 18px 60px rgba(15, 23, 42, 0.08);
       }
 
       * {
@@ -34,32 +38,90 @@
         color: var(--text);
       }
 
+      a {
+        color: inherit;
+      }
+
       .page-shell {
-        width: min(1080px, calc(100% - 32px));
+        width: min(1120px, calc(100% - 32px));
         margin: 0 auto;
-        padding: 36px 0 52px;
+        padding: 28px 0 56px;
+      }
+
+      .topbar,
+      .hero,
+      .section {
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        background: var(--surface);
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(12px);
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 14px 20px;
+        margin-bottom: 18px;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--title);
+        font-size: 14px;
+        font-weight: 700;
+        text-decoration: none;
+      }
+
+      .brand-mark {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        border-radius: 999px;
+        background: var(--accent-soft);
+        color: var(--accent);
+      }
+
+      .topnav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .topnav a {
+        padding: 8px 12px;
+        border-radius: 999px;
+        color: var(--muted);
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      .topnav a:hover {
+        background: var(--accent-soft);
+        color: var(--accent);
       }
 
       .hero,
       .section {
         padding: 28px;
-        border: 1px solid var(--panel-border);
-        border-radius: 26px;
-        background: var(--panel-bg);
-        box-shadow: 0 18px 60px rgba(15, 23, 42, 0.08);
-        backdrop-filter: blur(12px);
       }
 
       .hero {
+        display: grid;
+        gap: 16px;
         margin-bottom: 18px;
       }
 
-      .section + .section {
-        margin-top: 18px;
-      }
-
-      .kicker {
+      .eyebrow {
         display: inline-flex;
+        width: fit-content;
         align-items: center;
         padding: 7px 12px;
         border-radius: 999px;
@@ -73,24 +135,24 @@
 
       h1,
       h2 {
+        margin: 0;
         color: var(--title);
       }
 
       h1 {
-        max-width: 760px;
-        margin: 18px 0 12px;
-        font-size: clamp(34px, 5vw, 54px);
+        max-width: 780px;
+        font-size: clamp(34px, 5vw, 56px);
         line-height: 1.02;
       }
 
       h2 {
-        margin: 0 0 12px;
+        margin-bottom: 14px;
         font-size: 24px;
       }
 
       p {
         margin: 0;
-        line-height: 1.7;
+        line-height: 1.72;
       }
 
       .hero-copy {
@@ -98,19 +160,27 @@
         font-size: 18px;
       }
 
+      .product-line {
+        max-width: 760px;
+        color: var(--title);
+        font-size: 18px;
+        font-weight: 600;
+      }
+
       .actions {
         display: flex;
         flex-wrap: wrap;
         gap: 12px;
-        margin-top: 22px;
       }
 
       .button {
         display: inline-flex;
         align-items: center;
         justify-content: center;
+        min-height: 46px;
         padding: 12px 18px;
         border-radius: 999px;
+        font-size: 14px;
         font-weight: 700;
         text-decoration: none;
       }
@@ -125,9 +195,17 @@
       }
 
       .button-secondary {
-        border: 1px solid rgba(17, 101, 200, 0.22);
-        background: rgba(255, 255, 255, 0.7);
+        border: 1px solid var(--border-strong);
+        background: rgba(255, 255, 255, 0.82);
         color: var(--accent);
+      }
+
+      .button-secondary:hover {
+        background: var(--accent-soft);
+      }
+
+      .section + .section {
+        margin-top: 18px;
       }
 
       .grid {
@@ -141,9 +219,9 @@
 
       .card {
         padding: 18px;
-        border: 1px solid rgba(17, 101, 200, 0.12);
+        border: 1px solid var(--border-strong);
         border-radius: 18px;
-        background: rgba(255, 255, 255, 0.72);
+        background: var(--surface-soft);
       }
 
       .card strong {
@@ -154,12 +232,12 @@
 
       ul {
         margin: 0;
-        padding-left: 18px;
+        padding-left: 20px;
       }
 
       li {
         margin-bottom: 10px;
-        line-height: 1.6;
+        line-height: 1.65;
       }
 
       pre {
@@ -178,7 +256,12 @@
         font-family: ui-monospace, sfmono-regular, menlo, consolas, monospace;
       }
 
-      @media (max-width: 840px) {
+      @media (max-width: 860px) {
+        .topbar {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
         .two-columns {
           grid-template-columns: 1fr;
         }
@@ -187,15 +270,30 @@
   </head>
   <body>
     <main class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="/">
+          <span class="brand-mark">₽</span>
+          <span>rubleapi.ru</span>
+        </a>
+        <nav class="topnav">
+          <a href="/">главная</a>
+          <a href="/widget">виджет</a>
+          <a href="/docs">документация</a>
+        </nav>
+      </header>
+
       <section class="hero">
-        <div class="kicker">RubleAPI.ru</div>
-        <h1>Валютный виджет для сайта и API ЦБ РФ в JSON</h1>
+        <div class="eyebrow">rubleapi.ru</div>
+        <h1>Валютный виджет для сайта и api цб рф в json</h1>
+        <p class="product-line">
+          rubleapi.ru — настраиваемый валютный виджет для сайтов и api цб рф в json.
+        </p>
         <p class="hero-copy">
           Настройте валюты, тему и округление, скопируйте `script`-код и вставьте на сайт.
         </p>
         <div class="actions">
-          <a class="button button-primary" href="/widget">Настроить виджет</a>
-          <a class="button button-secondary" href="/docs">Документация</a>
+          <a class="button button-primary" href="/widget">настроить виджет</a>
+          <a class="button button-secondary" href="/docs">документация</a>
         </div>
       </section>
 
@@ -224,11 +322,11 @@
       <section class="section">
         <h2>Для кого</h2>
         <ul>
-          <li>Вебмастера.</li>
-          <li>Владельцы сайтов.</li>
-          <li>Туристические сайты.</li>
-          <li>Информационные проекты.</li>
-          <li>Разработчики.</li>
+          <li>вебмастера</li>
+          <li>владельцы сайтов</li>
+          <li>туристические сайты</li>
+          <li>информационные проекты</li>
+          <li>разработчики</li>
         </ul>
       </section>
 
@@ -245,16 +343,16 @@
       </section>
 
       <section class="section">
-        <h2>API</h2>
-        <p>Публичный JSON API можно использовать напрямую из своих интеграций.</p>
-        <pre><code>GET /api/rates/latest?symbols=usd,eur,cny</code></pre>
+        <h2>Api</h2>
+        <p>Публичный json api можно использовать напрямую из своих интеграций.</p>
+        <pre><code>get /api/rates/latest?symbols=usd,eur,cny</code></pre>
       </section>
 
       <section class="section">
         <h2>Начать</h2>
         <p>Перейдите в генератор, настройте параметры виджета и получите готовый код вставки.</p>
-        <div class="actions">
-          <a class="button button-primary" href="/widget">Открыть /widget</a>
+        <div class="actions" style="margin-top: 18px">
+          <a class="button button-primary" href="/widget">открыть /widget</a>
         </div>
       </section>
     </main>

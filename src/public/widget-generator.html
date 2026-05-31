@@ -8,24 +8,25 @@
       :root {
         color-scheme: light;
         --page-bg:
-          radial-gradient(circle at top left, rgba(123, 178, 255, 0.24), transparent 28%),
-          radial-gradient(circle at bottom right, rgba(20, 110, 210, 0.18), transparent 26%),
-          linear-gradient(180deg, #f5f9ff 0%, #eef4fb 100%);
-        --panel-bg: rgba(255, 255, 255, 0.92);
-        --panel-border: rgba(15, 23, 42, 0.08);
+          radial-gradient(circle at top left, rgba(105, 160, 255, 0.22), transparent 28%),
+          radial-gradient(circle at bottom right, rgba(24, 118, 210, 0.14), transparent 24%),
+          linear-gradient(180deg, #f7faff 0%, #edf3fb 100%);
+        --surface: rgba(255, 255, 255, 0.94);
+        --surface-soft: rgba(255, 255, 255, 0.76);
+        --border: rgba(15, 23, 42, 0.08);
+        --border-strong: rgba(17, 101, 200, 0.16);
         --title: #10213c;
-        --text: #49607d;
-        --muted: #697d97;
+        --text: #4a617d;
+        --muted: #6b7d95;
         --accent: #1165c8;
-        --accent-strong: #0e4f9a;
+        --accent-strong: #0d4f99;
         --accent-soft: rgba(17, 101, 200, 0.1);
-        --surface-soft: #f4f8fd;
-        --chip-border: #d8e4f3;
         --code-bg: #0f1726;
-        --code-text: #ebf1fb;
-        --warning-bg: #fff5e8;
-        --warning-border: #ffd7a1;
-        --warning-text: #8a5400;
+        --code-text: #ecf2fc;
+        --warning-bg: #fff8ea;
+        --warning-border: #ffd79e;
+        --warning-text: #8c5b06;
+        --shadow: 0 18px 60px rgba(15, 23, 42, 0.08);
       }
 
       * {
@@ -40,73 +41,141 @@
         color: var(--text);
       }
 
+      a {
+        color: inherit;
+      }
+
       .page-shell {
-        width: min(1180px, calc(100% - 32px));
+        width: min(1120px, calc(100% - 32px));
         margin: 0 auto;
-        padding: 36px 0 52px;
+        padding: 28px 0 56px;
+      }
+
+      .topbar,
+      .hero,
+      .panel {
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        background: var(--surface);
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(12px);
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 14px 20px;
+        margin-bottom: 18px;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--title);
+        font-size: 14px;
+        font-weight: 700;
+        text-decoration: none;
+      }
+
+      .brand-mark {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        border-radius: 999px;
+        background: var(--accent-soft);
+        color: var(--accent);
+      }
+
+      .topnav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .topnav a {
+        padding: 8px 12px;
+        border-radius: 999px;
+        color: var(--muted);
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      .topnav a:hover {
+        background: var(--accent-soft);
+        color: var(--accent);
       }
 
       .hero {
         display: grid;
-        gap: 14px;
-        margin-bottom: 26px;
+        gap: 16px;
+        padding: 28px;
+        margin-bottom: 18px;
       }
 
-      .hero-badge {
+      .eyebrow {
         display: inline-flex;
-        align-items: center;
         width: fit-content;
+        align-items: center;
         padding: 7px 12px;
         border-radius: 999px;
         background: var(--accent-soft);
-        color: var(--accent-strong);
+        color: var(--accent);
         font-size: 12px;
         font-weight: 700;
         letter-spacing: 0.08em;
         text-transform: uppercase;
       }
 
-      h1 {
+      h1,
+      h2 {
         margin: 0;
         color: var(--title);
-        font-size: clamp(30px, 5vw, 52px);
-        line-height: 1.04;
+      }
+
+      h1 {
+        max-width: 760px;
+        font-size: clamp(34px, 5vw, 52px);
+        line-height: 1.02;
+      }
+
+      h2 {
+        font-size: 22px;
+      }
+
+      p {
+        margin: 0;
+        line-height: 1.72;
       }
 
       .hero-copy {
         max-width: 760px;
-        margin: 0;
         font-size: 18px;
-        line-height: 1.6;
       }
 
       .layout {
         display: grid;
         grid-template-columns: minmax(320px, 420px) minmax(320px, 1fr);
-        gap: 22px;
+        gap: 18px;
         align-items: start;
       }
 
       .panel {
-        background: var(--panel-bg);
-        border: 1px solid var(--panel-border);
-        border-radius: 24px;
-        box-shadow: 0 18px 60px rgba(15, 23, 42, 0.08);
-        backdrop-filter: blur(14px);
-      }
-
-      .settings-panel {
         padding: 24px;
       }
 
       .output-panel {
-        padding: 24px;
         display: grid;
         gap: 20px;
       }
 
       .section-title {
-        margin: 0 0 6px;
+        margin: 0 0 8px;
         color: var(--title);
         font-size: 22px;
       }
@@ -115,7 +184,7 @@
         margin: 0 0 18px;
         color: var(--muted);
         font-size: 14px;
-        line-height: 1.55;
+        line-height: 1.6;
       }
 
       .field {
@@ -138,7 +207,7 @@
         margin: 8px 0 0;
         color: var(--muted);
         font-size: 13px;
-        line-height: 1.5;
+        line-height: 1.55;
       }
 
       .currency-grid {
@@ -153,7 +222,7 @@
         align-items: center;
         gap: 10px;
         padding: 12px 14px;
-        border: 1px solid var(--chip-border);
+        border: 1px solid var(--border-strong);
         border-radius: 16px;
         background: var(--surface-soft);
       }
@@ -175,13 +244,17 @@
         accent-color: var(--accent);
       }
 
+      .helper-box,
+      .meta-card {
+        padding: 16px;
+        border: 1px solid var(--border-strong);
+        border-radius: 18px;
+        background: var(--surface-soft);
+      }
+
       .helper-box {
         display: grid;
         gap: 8px;
-        padding: 14px 16px;
-        border: 1px dashed var(--chip-border);
-        border-radius: 16px;
-        background: rgba(255, 255, 255, 0.7);
       }
 
       .helper-title {
@@ -195,7 +268,29 @@
         margin: 0;
         color: var(--muted);
         font-size: 13px;
-        line-height: 1.5;
+        line-height: 1.55;
+      }
+
+      .meta-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .meta-label {
+        display: block;
+        margin-bottom: 6px;
+        color: var(--muted);
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+
+      .meta-value {
+        color: var(--title);
+        font-size: 14px;
+        font-weight: 700;
+        word-break: break-word;
       }
 
       .code-card {
@@ -271,45 +366,18 @@
       .preview-frame {
         width: 100%;
         min-height: 370px;
-        border: 1px solid var(--chip-border);
+        border: 1px solid var(--border-strong);
         border-radius: 20px;
         background: #f6faff;
       }
 
-      .meta-grid {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 12px;
-      }
-
-      .meta-card {
-        padding: 14px;
-        border: 1px solid var(--chip-border);
-        border-radius: 16px;
-        background: rgba(255, 255, 255, 0.76);
-      }
-
-      .meta-label {
-        display: block;
-        margin-bottom: 6px;
-        color: var(--muted);
-        font-size: 12px;
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
-      }
-
-      .meta-value {
-        color: var(--title);
-        font-size: 14px;
-        font-weight: 700;
-        word-break: break-word;
-      }
-
       @media (max-width: 920px) {
-        .layout {
-          grid-template-columns: 1fr;
+        .topbar {
+          flex-direction: column;
+          align-items: flex-start;
         }
 
+        .layout,
         .currency-grid,
         .meta-grid {
           grid-template-columns: 1fr;
@@ -319,8 +387,20 @@
   </head>
   <body>
     <main class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="/">
+          <span class="brand-mark">₽</span>
+          <span>rubleapi.ru</span>
+        </a>
+        <nav class="topnav">
+          <a href="/">главная</a>
+          <a href="/widget">виджет</a>
+          <a href="/docs">документация</a>
+        </nav>
+      </header>
+
       <section class="hero">
-        <div class="hero-badge">RubleAPI Widget</div>
+        <div class="eyebrow">генератор</div>
         <h1>Генератор кода валютного виджета</h1>
         <p class="hero-copy">
           Настройте валюты, тему и параметры отображения. Генератор сразу обновит готовый
@@ -329,10 +409,10 @@
       </section>
 
       <section class="layout">
-        <form class="panel settings-panel" id="widget-generator-form">
+        <form class="panel" id="widget-generator-form">
           <h2 class="section-title">Настройки виджета</h2>
           <p class="section-copy">
-            Страница работает в рамках MVP: только embeddable-виджет RubleAPI и API ЦБ РФ в JSON.
+            Страница работает в рамках mvp: только embeddable-виджет RubleAPI и api ЦБ РФ в json.
           </p>
 
           <div class="field">
@@ -428,14 +508,14 @@
               <span class="meta-value">/widget.js + /api/rates/latest</span>
             </div>
             <div class="meta-card">
-              <span class="meta-label">API Base</span>
+              <span class="meta-label">Api base</span>
               <span class="meta-value" id="api-base-value"></span>
             </div>
           </div>
 
           <div class="code-card">
             <div class="toolbar">
-              <h2 class="toolbar-title">Готовый HTML-код</h2>
+              <h2 class="toolbar-title">Готовый html-код</h2>
               <button class="copy-button" id="copy-code-button" type="button">Скопировать код</button>
             </div>
             <pre><code id="embed-code"></code></pre>

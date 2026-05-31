@@ -3,25 +3,30 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>RubleAPI Widget Docs</title>
+    <title>RubleAPI Docs</title>
     <style>
       :root {
         color-scheme: light;
         --page-bg:
-          radial-gradient(circle at top left, rgba(123, 178, 255, 0.2), transparent 30%),
-          linear-gradient(180deg, #f6f9fe 0%, #eef4fb 100%);
-        --panel-bg: rgba(255, 255, 255, 0.94);
-        --panel-border: rgba(15, 23, 42, 0.08);
+          radial-gradient(circle at top left, rgba(105, 160, 255, 0.22), transparent 28%),
+          radial-gradient(circle at bottom right, rgba(24, 118, 210, 0.14), transparent 24%),
+          linear-gradient(180deg, #f7faff 0%, #edf3fb 100%);
+        --surface: rgba(255, 255, 255, 0.94);
+        --surface-soft: rgba(255, 255, 255, 0.76);
+        --border: rgba(15, 23, 42, 0.08);
+        --border-strong: rgba(17, 101, 200, 0.16);
         --title: #10213c;
-        --text: #48607c;
+        --text: #4a617d;
         --muted: #6b7d95;
         --accent: #1165c8;
+        --accent-strong: #0d4f99;
         --accent-soft: rgba(17, 101, 200, 0.1);
         --code-bg: #0f1726;
-        --code-text: #ebf1fb;
+        --code-text: #ecf2fc;
         --warning-bg: #fff8ea;
         --warning-border: #ffd79e;
         --warning-text: #8c5b06;
+        --shadow: 0 18px 60px rgba(15, 23, 42, 0.08);
       }
 
       * {
@@ -36,19 +41,88 @@
         color: var(--text);
       }
 
+      a {
+        color: inherit;
+      }
+
       .page-shell {
-        width: min(1040px, calc(100% - 32px));
+        width: min(1080px, calc(100% - 32px));
         margin: 0 auto;
-        padding: 36px 0 52px;
+        padding: 28px 0 56px;
+      }
+
+      .topbar,
+      .hero,
+      .panel {
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        background: var(--surface);
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(12px);
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 14px 20px;
+        margin-bottom: 18px;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--title);
+        font-size: 14px;
+        font-weight: 700;
+        text-decoration: none;
+      }
+
+      .brand-mark {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        border-radius: 999px;
+        background: var(--accent-soft);
+        color: var(--accent);
+      }
+
+      .topnav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .topnav a {
+        padding: 8px 12px;
+        border-radius: 999px;
+        color: var(--muted);
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      .topnav a:hover {
+        background: var(--accent-soft);
+        color: var(--accent);
+      }
+
+      .hero,
+      .panel {
+        padding: 28px;
       }
 
       .hero {
         display: grid;
-        gap: 14px;
-        margin-bottom: 24px;
+        gap: 16px;
+        margin-bottom: 18px;
       }
 
-      .hero-badge {
+      .eyebrow {
         display: inline-flex;
         width: fit-content;
         align-items: center;
@@ -62,18 +136,31 @@
         text-transform: uppercase;
       }
 
-      h1 {
+      h1,
+      h2 {
         margin: 0;
         color: var(--title);
-        font-size: clamp(30px, 5vw, 50px);
-        line-height: 1.05;
+      }
+
+      h1 {
+        max-width: 760px;
+        font-size: clamp(34px, 5vw, 52px);
+        line-height: 1.02;
+      }
+
+      h2 {
+        margin-bottom: 10px;
+        font-size: 24px;
+      }
+
+      p {
+        margin: 0;
+        line-height: 1.72;
       }
 
       .hero-copy {
         max-width: 760px;
-        margin: 0;
         font-size: 18px;
-        line-height: 1.6;
       }
 
       .layout {
@@ -81,37 +168,20 @@
         gap: 18px;
       }
 
-      .panel {
-        padding: 24px;
-        border: 1px solid var(--panel-border);
-        border-radius: 24px;
-        background: var(--panel-bg);
-        box-shadow: 0 18px 60px rgba(15, 23, 42, 0.08);
-        backdrop-filter: blur(12px);
-      }
-
-      .section-title {
-        margin: 0 0 10px;
-        color: var(--title);
-        font-size: 24px;
-      }
-
       .section-copy {
-        margin: 0;
         font-size: 15px;
-        line-height: 1.7;
       }
 
       .quick-list,
       .tips-list {
         margin: 14px 0 0;
-        padding-left: 18px;
+        padding-left: 20px;
       }
 
       .quick-list li,
       .tips-list li {
         margin-bottom: 10px;
-        line-height: 1.6;
+        line-height: 1.65;
       }
 
       .params-grid {
@@ -122,9 +192,9 @@
 
       .param-card {
         padding: 16px;
-        border: 1px solid rgba(17, 101, 200, 0.14);
+        border: 1px solid var(--border-strong);
         border-radius: 18px;
-        background: rgba(255, 255, 255, 0.84);
+        background: var(--surface-soft);
       }
 
       .param-name {
@@ -137,7 +207,6 @@
 
       .param-text {
         margin: 0;
-        color: var(--text);
         font-size: 14px;
         line-height: 1.6;
       }
@@ -181,40 +250,57 @@
       code {
         font-family: ui-monospace, sfmono-regular, menlo, consolas, monospace;
       }
+
+      @media (max-width: 860px) {
+        .topbar {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
     </style>
   </head>
   <body>
     <main class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="/">
+          <span class="brand-mark">₽</span>
+          <span>rubleapi.ru</span>
+        </a>
+        <nav class="topnav">
+          <a href="/">главная</a>
+          <a href="/widget">виджет</a>
+          <a href="/docs">документация</a>
+        </nav>
+      </header>
+
       <section class="hero">
-        <div class="hero-badge">RubleAPI Docs</div>
-        <h1>Документация по установке валютного виджета</h1>
+        <div class="eyebrow">документация</div>
+        <h1>Установка валютного виджета RubleAPI</h1>
         <p class="hero-copy">
-          Эта страница показывает базовую установку embeddable-виджета RubleAPI, параметры
-          настройки и примеры встраивания для обычного HTML, Tilda и WordPress.
+          Подключите embeddable-виджет одним `script`-тегом, настройте валюты и тему на `/widget`
+          и используйте тот же API ЦБ РФ в json для своих интеграций.
         </p>
       </section>
 
       <section class="layout">
         <section class="panel">
-          <h2 class="section-title">1. Быстрый старт</h2>
+          <h2>1. Быстрый старт</h2>
           <p class="section-copy">
             Выберите настройки на странице <code>/widget</code>, скопируйте готовый
             <code>script</code>-код и вставьте его на сайт. Виджет сам загрузит курсы через
-            публичный API RubleAPI и отрисуется рядом со <code>script</code>.
+            публичный api RubleAPI и отрисуется рядом со <code>script</code>.
           </p>
           <ol class="quick-list">
             <li>Откройте страницу генератора кода по адресу `/widget`.</li>
             <li>Выберите валюты, тему, округление и брендинг.</li>
             <li>Скопируйте готовый `script` и вставьте его на сайт.</li>
-            <li>Сохраните страницу и проверьте, что сайт может загрузить `widget.js` и API.</li>
+            <li>Сохраните страницу и проверьте, что сайт может загрузить `widget.js` и api.</li>
           </ol>
         </section>
 
         <section class="panel">
-          <h2 class="section-title">2. Пример script-кода</h2>
-          <p class="section-copy">
-            Ниже базовый пример подключения локального виджета во время разработки.
-          </p>
+          <h2>2. Пример script-кода</h2>
+          <p class="section-copy">Ниже базовый пример подключения локального виджета во время разработки.</p>
           <pre><code>&lt;script
   src="http://127.0.0.1:3000/widget.js"
   data-api-base="http://127.0.0.1:3000"
@@ -226,51 +312,35 @@
         </section>
 
         <section class="panel">
-          <h2 class="section-title">3. Параметры виджета</h2>
-          <p class="section-copy">
-            Виджет читает настройки напрямую из `data-*` атрибутов у подключенного `script`.
-          </p>
+          <h2>3. Параметры виджета</h2>
+          <p class="section-copy">Виджет читает настройки напрямую из `data-*` атрибутов у подключенного `script`.</p>
           <div class="params-grid">
             <div class="param-card">
               <span class="param-name">data-api-base</span>
-              <p class="param-text">
-                Базовый адрес RubleAPI, откуда виджет возьмёт `widget.js` и API курсов.
-              </p>
+              <p class="param-text">Базовый адрес RubleAPI, откуда виджет возьмёт `widget.js` и api курсов.</p>
             </div>
             <div class="param-card">
               <span class="param-name">data-symbols</span>
-              <p class="param-text">
-                Список валют через запятую, например `usd,eur,cny`. Поддерживаются `usd`, `eur`,
-                `cny`, `aed`, `try`, `thb`, `vnd`.
-              </p>
+              <p class="param-text">Список валют через запятую, например `usd,eur,cny`. Поддерживаются `usd`, `eur`, `cny`, `aed`, `try`, `thb`, `vnd`.</p>
             </div>
             <div class="param-card">
               <span class="param-name">data-theme</span>
-              <p class="param-text">
-                Тема оформления виджета. Для MVP доступны значения `light` и `dark`.
-              </p>
+              <p class="param-text">Тема оформления виджета. Для mvp доступны значения `light` и `dark`.</p>
             </div>
             <div class="param-card">
               <span class="param-name">data-round</span>
-              <p class="param-text">
-                Число знаков после запятой. В генераторе предусмотрены варианты `0` и `2`.
-              </p>
+              <p class="param-text">Число знаков после запятой. В генераторе предусмотрены варианты `0` и `2`.</p>
             </div>
             <div class="param-card">
               <span class="param-name">data-branding</span>
-              <p class="param-text">
-                Показывать брендинг RubleAPI или нет. Возможные значения: `true` или `false`.
-              </p>
+              <p class="param-text">Показывать брендинг RubleAPI или нет. Возможные значения: `true` или `false`.</p>
             </div>
           </div>
         </section>
 
         <section class="panel">
-          <h2 class="section-title">4. Установка на обычный HTML-сайт</h2>
-          <p class="section-copy">
-            Для обычного HTML-сайта достаточно вставить <code>script</code> в нужное место страницы.
-            Виджет отрисуется рядом с ним автоматически.
-          </p>
+          <h2>4. Установка на обычный html-сайт</h2>
+          <p class="section-copy">Для обычного html-сайта достаточно вставить `script` в нужное место страницы. Виджет отрисуется рядом с ним автоматически.</p>
           <pre><code>&lt;div class="rates-block"&gt;
   &lt;h2&gt;Курсы валют&lt;/h2&gt;
   &lt;script
@@ -285,11 +355,8 @@
         </section>
 
         <section class="panel">
-          <h2 class="section-title">5. Установка на Tilda</h2>
-          <p class="section-copy">
-            В Tilda добавьте HTML-блок, вставьте в него готовый <code>script</code>-код из
-            генератора, затем сохраните и опубликуйте страницу.
-          </p>
+          <h2>5. Установка на Tilda</h2>
+          <p class="section-copy">В Tilda добавьте html-блок, вставьте в него готовый `script`-код из генератора, затем сохраните и опубликуйте страницу.</p>
           <pre><code>&lt;script
   src="http://127.0.0.1:3000/widget.js"
   data-api-base="http://127.0.0.1:3000"
@@ -301,11 +368,8 @@
         </section>
 
         <section class="panel">
-          <h2 class="section-title">6. Установка на WordPress</h2>
-          <p class="section-copy">
-            В редакторе WordPress добавьте блок <code>Custom HTML</code> или
-            <code>Произвольный HTML</code> и вставьте туда код виджета.
-          </p>
+          <h2>6. Установка на WordPress</h2>
+          <p class="section-copy">В редакторе WordPress добавьте блок <code>Custom HTML</code> или <code>Произвольный HTML</code> и вставьте туда код виджета.</p>
           <pre><code>&lt;script
   src="http://127.0.0.1:3000/widget.js"
   data-api-base="http://127.0.0.1:3000"
@@ -317,10 +381,8 @@
         </section>
 
         <section class="panel">
-          <h2 class="section-title">7. Если виджет не загрузился</h2>
-          <p class="section-copy">
-            Если на странице не появился виджет, проверьте самые частые причины.
-          </p>
+          <h2>7. Если виджет не загрузился</h2>
+          <p class="section-copy">Если на странице не появился виджет, проверьте самые частые причины.</p>
           <ul class="tips-list">
             <li>Backend недоступен.</li>
             <li>Неправильно указан `data-api-base`.</li>
@@ -330,17 +392,13 @@
             <li>Сайт кеширует старый код.</li>
           </ul>
           <div class="warning-box">
-            Для проверки откройте `http://127.0.0.1:3000/health`, убедитесь, что сервер отвечает
-            со статусом `200`, и посмотрите ошибки в DevTools браузера.
+            Для проверки откройте `http://127.0.0.1:3000/health`, убедитесь, что сервер отвечает со статусом `200`, и посмотрите ошибки в devtools браузера.
           </div>
         </section>
 
         <section class="panel">
-          <h2 class="section-title">8. Генератор кода</h2>
-          <p class="section-copy">
-            Для быстрой сборки параметров и получения готового embed-кода используйте страницу
-            генератора.
-          </p>
+          <h2>8. Генератор кода</h2>
+          <p class="section-copy">Для быстрой сборки параметров и получения готового embed-кода используйте страницу генератора.</p>
           <a class="footer-link" href="/widget">Открыть генератор кода /widget</a>
         </section>
       </section>
