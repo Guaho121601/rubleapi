@@ -5,3 +5,6 @@ dist/
 *.log
 .DS_Store
 rubleapi.sqlite
+data/
+*.sqlite
+*.db

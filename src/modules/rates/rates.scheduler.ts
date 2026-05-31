@@ -1,13 +1,14 @@
 import type { RatesService } from "./rates.service";
 
-const SIX_HOURS_IN_MS = 6 * 60 * 60 * 1000;
-
 export class RatesScheduler {
   private started = false;
   private intervalId: NodeJS.Timeout | null = null;
   private syncInProgress: Promise<void> | null = null;
 
-  constructor(private readonly ratesService: RatesService) {}
+  constructor(
+    private readonly ratesService: RatesService,
+    private readonly syncIntervalHours: number,
+  ) {}
 
   async start(): Promise<void> {
     if (this.started) {
@@ -21,7 +22,7 @@ export class RatesScheduler {
 
     this.intervalId = setInterval(() => {
       void this.runScheduledSync();
-    }, SIX_HOURS_IN_MS);
+    }, this.syncIntervalHours * 60 * 60 * 1000);
   }
 
   stop(): void {

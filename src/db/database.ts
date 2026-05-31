@@ -3,9 +3,8 @@ import path from "node:path";
 
 import Database from "better-sqlite3";
 
+import { getConfig } from "../app/config";
 import { applySchema } from "./schema";
-
-const DATABASE_FILE_PATH = path.resolve(process.cwd(), "src/db/rubleapi.sqlite");
 
 let databaseInstance: Database.Database | null = null;
 
@@ -14,9 +13,11 @@ export function getDatabase(): Database.Database {
     return databaseInstance;
   }
 
-  mkdirSync(path.dirname(DATABASE_FILE_PATH), { recursive: true });
+  const databaseFilePath = getDatabaseFilePath();
 
-  const database = new Database(DATABASE_FILE_PATH);
+  mkdirSync(path.dirname(databaseFilePath), { recursive: true });
+
+  const database = new Database(databaseFilePath);
   database.pragma("foreign_keys = ON");
 
   applySchema(database);
@@ -26,5 +27,5 @@ export function getDatabase(): Database.Database {
 }
 
 export function getDatabaseFilePath(): string {
-  return DATABASE_FILE_PATH;
+  return getConfig().databasePath;
 }

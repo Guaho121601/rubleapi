@@ -5,6 +5,7 @@ import { getConfig } from "./config";
 import { registerRoutes } from "./routes";
 
 export async function buildServer() {
+  const config = getConfig();
   const app = Fastify({
     logger: true,
   });
@@ -13,7 +14,7 @@ export async function buildServer() {
     origin: true,
   });
 
-  const services = await registerRoutes(app);
+  const services = await registerRoutes(app, config);
   await services.ratesScheduler.start();
 
   app.addHook("onClose", async () => {

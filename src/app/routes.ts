@@ -2,6 +2,7 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import type { FastifyInstance } from "fastify";
 
+import type { AppConfig } from "./config";
 import { registerPublicApiRoutes } from "../modules/api/public-api.controller";
 import { registerWidgetApiRoutes } from "../modules/api/widget-api.controller";
 import { CbrClient } from "../modules/sources/cbr/cbr.client";
@@ -16,13 +17,16 @@ export interface AppServices {
   ratesScheduler: RatesScheduler;
 }
 
-export async function registerRoutes(app: FastifyInstance): Promise<AppServices> {
+export async function registerRoutes(
+  app: FastifyInstance,
+  config: AppConfig,
+): Promise<AppServices> {
   const ratesRepository = new RatesRepository();
   const cbrClient = new CbrClient();
   const cbrParser = new CbrParser();
   const cbrMapper = new CbrMapper();
   const ratesService = new RatesService(ratesRepository, cbrClient, cbrParser, cbrMapper);
-  const ratesScheduler = new RatesScheduler(ratesService);
+  const ratesScheduler = new RatesScheduler(ratesService, config.ratesSyncIntervalHours);
 
   app.get("/health", async () => {
     return {
