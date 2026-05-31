@@ -1,11 +1,10 @@
 import cors from "@fastify/cors";
 import Fastify from "fastify";
 
-import { getConfig } from "./config";
+import { config } from "./config";
 import { registerRoutes } from "./routes";
 
 export async function buildServer() {
-  const config = getConfig();
   const app = Fastify({
     logger: true,
   });
@@ -25,7 +24,6 @@ export async function buildServer() {
 }
 
 async function startServer() {
-  const config = getConfig();
   const app = await buildServer();
 
   await app.listen({

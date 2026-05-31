@@ -3,7 +3,7 @@ import path from "node:path";
 
 import Database from "better-sqlite3";
 
-import { getConfig } from "../app/config";
+import { config } from "../app/config";
 import { applySchema } from "./schema";
 
 let databaseInstance: Database.Database | null = null;
@@ -27,5 +27,5 @@ export function getDatabase(): Database.Database {
 }
 
 export function getDatabaseFilePath(): string {
-  return getConfig().databasePath;
+  return config.databasePath;
 }

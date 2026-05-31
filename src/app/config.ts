@@ -31,7 +31,7 @@ const DEFAULT_DATABASE_PATH = "./data/rubleapi.sqlite";
 const DEFAULT_PUBLIC_BASE_URL = "http://127.0.0.1:3000";
 const DEFAULT_RATES_SYNC_INTERVAL_HOURS = 6;
 
-export function getConfig(): AppConfig {
+function createConfig(): AppConfig {
   const port = Number(getEnvValue("port", "PORT") ?? DEFAULT_PORT);
   const ratesSyncIntervalHours = Number(
     getEnvValue("rates_sync_interval_hours", "RATES_SYNC_INTERVAL_HOURS") ??
@@ -53,4 +53,10 @@ export function getConfig(): AppConfig {
         : DEFAULT_RATES_SYNC_INTERVAL_HOURS,
     nodeEnv: getEnvValue("node_env", "NODE_ENV") ?? "development",
   };
+}
+
+export const config = createConfig();
+
+export function getConfig(): AppConfig {
+  return config;
 }
