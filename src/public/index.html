@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Валютный виджет для сайта — курсы ЦБ РФ в рублях | RubleAPI</title>
+    <title>Виджет курса валют для сайта — курсы ЦБ РФ | RubleAPI</title>
     <meta
       name="description"
       content="Добавьте на сайт настраиваемый виджет курсов валют ЦБ РФ. Выберите валюты, цвета и формат отображения, скопируйте код и вставьте его на страницу."
@@ -15,54 +15,106 @@
         "name": "RubleAPI",
         "applicationCategory": "BusinessApplication",
         "operatingSystem": "Web",
-        "description": "Настраиваемый валютный виджет для сайтов с курсами ЦБ РФ и API в JSON.",
+        "url": "http://127.0.0.1:3000/",
+        "description": "Сервис для настройки и вставки виджета курсов валют ЦБ РФ на сайт.",
         "offers": {
           "@type": "Offer",
           "price": "0",
           "priceCurrency": "RUB"
         },
-        "url": "http://127.0.0.1:3000/",
         "featureList": [
-          "Выбор валют",
-          "Светлая и темная тема",
-          "Настройка внешнего вида",
-          "Вставка на сайт одним кодом"
+          "Виджет курсов валют для сайта",
+          "Настройка валют и внешнего вида",
+          "Подключение одним кодом",
+          "Данные по курсам ЦБ РФ"
+        ]
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Откуда берутся курсы валют?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Курсы берутся по данным ЦБ РФ. Для некоторых валют курс указывается за 10 или 10 000 единиц — это отображается в виджете."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Можно ли поставить виджет на Tilda?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Да. Скопируйте код в генераторе и вставьте его в html-блок на странице Tilda."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Можно ли изменить внешний вид виджета?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Да. Можно настроить валюты, ширину, размер текста, скругление углов и цвета."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Можно ли убрать ссылку «Данные: RubleAPI»?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "В бесплатной версии ссылка должна сохраняться. Отключение брендинга будет доступно в платной версии."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Это финансовая рекомендация?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Нет. Курсы отображаются справочно и не являются финансовой рекомендацией."
+            }
+          }
         ]
       }
     </script>
     <style>
       :root {
-        color-scheme: light;
-        --page-bg:
-          radial-gradient(circle at top left, rgba(105, 160, 255, 0.2), transparent 28%),
-          radial-gradient(circle at bottom right, rgba(24, 118, 210, 0.14), transparent 24%),
-          linear-gradient(180deg, #f7faff 0%, #edf3fb 100%);
-        --surface: rgba(255, 255, 255, 0.94);
-        --surface-soft: rgba(255, 255, 255, 0.8);
-        --border: rgba(15, 23, 42, 0.08);
-        --border-strong: rgba(17, 101, 200, 0.16);
-        --title: #10213c;
-        --text: #4a617d;
-        --muted: #6b7d95;
-        --accent: #1165c8;
-        --accent-strong: #0b5fc1;
-        --accent-soft: rgba(80, 170, 255, 0.18);
-        --accent-glow: #64b5ff;
-        --shadow: 0 18px 60px rgba(15, 23, 42, 0.08);
-        --widget-surface: #ffffff;
-        --widget-border: rgba(17, 101, 200, 0.14);
+        color-scheme: dark;
+        --bg: #07111f;
+        --bg-strong: #040b16;
+        --surface: rgba(11, 21, 37, 0.88);
+        --surface-strong: rgba(15, 28, 48, 0.94);
+        --surface-soft: rgba(18, 34, 58, 0.7);
+        --border: rgba(137, 180, 255, 0.16);
+        --border-strong: rgba(140, 165, 255, 0.28);
+        --text: #f5f8ff;
+        --text-soft: #c2d2ea;
+        --muted: #8fa2bf;
+        --accent: #67a9ff;
+        --accent-strong: #8d74ff;
+        --accent-soft: rgba(103, 169, 255, 0.16);
+        --shadow: 0 28px 80px rgba(0, 0, 0, 0.34);
       }
 
       * {
         box-sizing: border-box;
       }
 
+      html {
+        scroll-behavior: smooth;
+      }
+
       body {
         margin: 0;
         min-height: 100vh;
         font-family: system-ui, -apple-system, blinkmacsystemfont, "segoe ui", sans-serif;
-        background: var(--page-bg);
-        color: var(--text);
+        color: var(--text-soft);
+        background:
+          radial-gradient(circle at top left, rgba(103, 169, 255, 0.18), transparent 28%),
+          radial-gradient(circle at top right, rgba(141, 116, 255, 0.16), transparent 24%),
+          radial-gradient(circle at bottom center, rgba(18, 115, 255, 0.12), transparent 28%),
+          linear-gradient(180deg, #091321 0%, #050b15 100%);
       }
 
       a {
@@ -70,97 +122,149 @@
       }
 
       .page-shell {
-        width: min(1120px, calc(100% - 32px));
+        width: min(1180px, calc(100% - 32px));
         margin: 0 auto;
-        padding: 28px 0 56px;
+        padding: 24px 0 56px;
       }
 
-      .topbar,
-      .hero,
-      .section,
-      .footer {
+      .site-header,
+      .section-card,
+      .hero-card,
+      .site-footer {
         border: 1px solid var(--border);
-        border-radius: 24px;
+        border-radius: 28px;
         background: var(--surface);
         box-shadow: var(--shadow);
-        backdrop-filter: blur(12px);
+        backdrop-filter: blur(18px);
       }
 
-      .topbar {
+      .site-header {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        gap: 16px;
-        padding: 14px 20px;
-        margin-bottom: 18px;
-        border-color: #0f172a;
-        background: linear-gradient(180deg, #10213c 0%, #0b1528 100%);
-        color: #e7eef8;
+        gap: 20px;
+        padding: 16px 20px;
+        margin-bottom: 20px;
+        background: rgba(8, 16, 30, 0.92);
       }
 
       .brand {
         display: inline-flex;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 2px;
-        color: #ffffff;
+        align-items: center;
+        gap: 12px;
         text-decoration: none;
       }
 
+      .brand-mark {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 42px;
+        height: 42px;
+        border-radius: 999px;
+        background: linear-gradient(135deg, var(--accent) 0%, var(--accent-strong) 100%);
+        color: #ffffff;
+        font-size: 20px;
+        font-weight: 800;
+        box-shadow: 0 14px 30px rgba(90, 122, 255, 0.35);
+      }
+
+      .brand-copy {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+
       .brand-title {
+        color: var(--text);
         font-size: 15px;
         font-weight: 700;
       }
 
       .brand-subtitle {
-        color: #9db3cc;
+        color: var(--muted);
         font-size: 12px;
         font-weight: 600;
       }
 
-      .topnav {
+      .header-nav {
         display: flex;
+        align-items: center;
+        gap: 18px;
         flex-wrap: wrap;
-        gap: 10px;
       }
 
-      .topnav a {
-        padding: 8px 12px;
+      .nav-link {
+        padding: 12px 20px;
+        border: 1px solid transparent;
         border-radius: 999px;
-        color: #d7e5f6;
+        color: var(--text-soft);
         text-decoration: none;
         font-size: 14px;
         font-weight: 600;
       }
 
-      .topnav a:hover,
-      .topnav a[aria-current="page"] {
-        background: rgba(100, 181, 255, 0.16);
+      .nav-link:hover,
+      .nav-link[aria-current="page"] {
+        border-color: rgba(255, 255, 255, 0.9);
+        background: rgba(255, 255, 255, 0.04);
+        color: var(--text);
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 48px;
+        padding: 12px 18px;
+        border-radius: 999px;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 700;
+      }
+
+      .button-primary {
+        background: linear-gradient(135deg, var(--accent) 0%, var(--accent-strong) 100%);
         color: #ffffff;
+        box-shadow: 0 18px 36px rgba(79, 125, 255, 0.34);
       }
 
-      .hero,
-      .section,
-      .footer {
-        padding: 28px;
+      .button-primary:hover {
+        filter: brightness(1.08);
       }
 
-      .hero {
+      .button-secondary {
+        border: 1px solid var(--border-strong);
+        background: rgba(14, 29, 49, 0.8);
+        color: var(--text);
+      }
+
+      .button-secondary:hover {
+        background: rgba(24, 42, 68, 0.95);
+      }
+
+      .hero-card,
+      .section-card,
+      .site-footer {
+        padding: 30px;
+      }
+
+      .hero-card {
         display: grid;
-        grid-template-columns: minmax(0, 1.15fr) minmax(320px, 420px);
+        grid-template-columns: minmax(0, 1.08fr) minmax(320px, 420px);
         gap: 24px;
         align-items: center;
-        margin-bottom: 18px;
       }
 
       .eyebrow {
         display: inline-flex;
-        width: fit-content;
         align-items: center;
-        padding: 7px 12px;
+        gap: 8px;
+        width: fit-content;
+        padding: 8px 12px;
         border-radius: 999px;
-        background: var(--accent-soft);
-        color: var(--accent);
+        background: rgba(103, 169, 255, 0.12);
+        color: #9ecbff;
         font-size: 12px;
         font-weight: 700;
         letter-spacing: 0.08em;
@@ -171,77 +275,136 @@
       h2,
       h3 {
         margin: 0;
-        color: var(--title);
+        color: var(--text);
       }
 
       h1 {
         max-width: 640px;
-        font-size: clamp(34px, 5vw, 56px);
-        line-height: 1.02;
+        margin-top: 18px;
+        font-size: clamp(40px, 6vw, 70px);
+        line-height: 0.96;
+        letter-spacing: -0.04em;
       }
 
       h2 {
-        margin-bottom: 14px;
-        font-size: 24px;
+        font-size: 30px;
+        line-height: 1.08;
       }
 
       h3 {
-        font-size: 17px;
+        font-size: 18px;
       }
 
       p {
         margin: 0;
-        line-height: 1.72;
+        line-height: 1.75;
       }
 
       .hero-copy {
         max-width: 620px;
+        margin-top: 18px;
         font-size: 18px;
+        color: var(--text-soft);
       }
 
-      .actions {
+      .hero-actions {
         display: flex;
         flex-wrap: wrap;
         gap: 12px;
-        margin-top: 20px;
+        margin-top: 24px;
       }
 
-      .button {
+      .hero-note {
+        margin-top: 14px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .demo-card {
+        padding: 22px;
+        border: 1px solid var(--border-strong);
+        border-radius: 24px;
+        background: linear-gradient(180deg, rgba(17, 31, 53, 0.96) 0%, rgba(11, 22, 39, 0.98) 100%);
+      }
+
+      .demo-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 16px;
+      }
+
+      .demo-title {
+        color: var(--text);
+        font-size: 16px;
+        font-weight: 700;
+      }
+
+      .demo-badge {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        min-height: 46px;
-        padding: 12px 18px;
+        padding: 8px 10px;
         border-radius: 999px;
-        font-size: 14px;
+        background: rgba(103, 169, 255, 0.14);
+        color: #9ecbff;
+        font-size: 12px;
         font-weight: 700;
-        text-decoration: none;
       }
 
-      .button-primary {
-        background: linear-gradient(180deg, var(--accent-glow) 0%, var(--accent) 100%);
-        color: #ffffff;
-        box-shadow: 0 14px 30px rgba(17, 101, 200, 0.24);
+      .demo-list {
+        display: grid;
+        gap: 10px;
       }
 
-      .button-primary:hover {
-        background: linear-gradient(180deg, #7ac4ff 0%, var(--accent-strong) 100%);
+      .demo-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 14px 16px;
+        border: 1px solid rgba(145, 181, 255, 0.14);
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.03);
       }
 
-      .button-secondary {
-        border: 1px solid rgba(17, 101, 200, 0.22);
-        background: #eaf4ff;
-        color: #0b5fc1;
-        box-shadow: 0 10px 24px rgba(17, 101, 200, 0.14);
+      .demo-code {
+        color: var(--text);
+        font-weight: 700;
       }
 
-      .button-secondary:hover {
-        background: #dceeff;
+      .demo-value {
+        color: #8fc0ff;
+        font-weight: 700;
       }
 
-      .section + .section,
-      .footer {
-        margin-top: 18px;
+      .demo-meta {
+        display: grid;
+        gap: 6px;
+        margin-top: 16px;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .content-stack {
+        display: grid;
+        gap: 20px;
+        margin-top: 20px;
+      }
+
+      .section-head {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 18px;
+        margin-bottom: 20px;
+      }
+
+      .section-copy {
+        max-width: 640px;
+        color: var(--muted);
+        font-size: 15px;
       }
 
       .grid {
@@ -249,132 +412,108 @@
         gap: 16px;
       }
 
+      .feature-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
       .steps-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .audience-grid {
         grid-template-columns: repeat(5, minmax(0, 1fr));
       }
 
-      .cards-grid {
+      .faq-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
-      .compact-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-      }
-
-      .card {
-        padding: 18px;
-        border: 1px solid var(--border-strong);
-        border-radius: 18px;
+      .feature-card,
+      .step-card,
+      .audience-card,
+      .faq-card,
+      .cta-card {
+        border: 1px solid var(--border);
+        border-radius: 24px;
         background: var(--surface-soft);
       }
 
-      .card p,
-      .card ul {
-        margin-top: 8px;
-      }
-
-      .widget-demo {
+      .feature-card,
+      .step-card,
+      .faq-card,
+      .cta-card {
         padding: 22px;
-        border: 1px solid var(--widget-border);
-        border-radius: 24px;
-        background: linear-gradient(180deg, #ffffff 0%, #f6f9ff 100%);
       }
 
-      .widget-demo-header {
+      .audience-card {
+        padding: 18px;
+        text-align: center;
+        color: var(--text);
+        font-weight: 600;
+      }
+
+      .feature-icon,
+      .step-number {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 42px;
+        height: 42px;
+        margin-bottom: 16px;
+        border-radius: 14px;
+        background: linear-gradient(135deg, rgba(103, 169, 255, 0.2) 0%, rgba(141, 116, 255, 0.18) 100%);
+        color: #a9c8ff;
+        font-size: 18px;
+        font-weight: 800;
+      }
+
+      .feature-card p,
+      .step-card p,
+      .faq-card p {
+        margin-top: 10px;
+        color: var(--text-soft);
+      }
+
+      .faq-card h3 {
+        font-size: 17px;
+      }
+
+      .cta-card {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        gap: 10px;
-        margin-bottom: 14px;
+        gap: 20px;
       }
 
-      .widget-demo-title {
-        font-size: 16px;
-        font-weight: 700;
-        color: var(--title);
-      }
-
-      .widget-demo-badge {
-        padding: 6px 10px;
-        border-radius: 999px;
-        background: var(--accent-soft);
-        color: var(--accent);
-        font-size: 12px;
-        font-weight: 700;
-      }
-
-      .widget-list {
-        display: grid;
-        gap: 10px;
-      }
-
-      .widget-row {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 12px;
-        padding: 12px 14px;
-        border: 1px solid var(--widget-border);
-        border-radius: 16px;
-        background: var(--widget-surface);
-      }
-
-      .widget-code {
-        font-weight: 700;
-        color: var(--title);
-      }
-
-      .widget-rate {
-        font-weight: 700;
-        color: var(--accent);
-      }
-
-      .widget-meta {
-        margin-top: 14px;
-        color: var(--muted);
-        font-size: 13px;
-      }
-
-      ul {
-        margin: 0;
-        padding-left: 20px;
-      }
-
-      li {
-        margin-bottom: 8px;
-        line-height: 1.6;
-      }
-
-      .footer {
+      .site-footer {
         display: grid;
         gap: 22px;
-        border-color: #0f172a;
-        background: linear-gradient(180deg, #10213c 0%, #0b1528 100%);
-        color: #e7eef8;
+        margin-top: 20px;
+        background: rgba(8, 16, 30, 0.94);
       }
 
       .footer-grid {
         display: grid;
-        grid-template-columns: minmax(0, 1.3fr) minmax(220px, 0.8fr) minmax(240px, 0.9fr);
+        grid-template-columns: minmax(0, 1.2fr) minmax(220px, 0.8fr) minmax(250px, 0.9fr);
         gap: 24px;
       }
 
       .footer-title {
-        color: #ffffff;
+        color: var(--text);
         font-size: 18px;
         font-weight: 700;
       }
 
       .footer-copy,
       .footer-requisites {
-        color: #bfd0e4;
+        color: var(--text-soft);
         font-size: 14px;
         line-height: 1.7;
       }
 
       .footer-heading {
         margin-bottom: 10px;
-        color: #ffffff;
+        color: var(--text);
         font-size: 14px;
         font-weight: 700;
         text-transform: uppercase;
@@ -387,157 +526,243 @@
       }
 
       .footer-nav a {
-        color: #d8e6f7;
+        color: var(--text-soft);
         font-weight: 600;
         text-decoration: none;
       }
 
       .footer-nav a:hover {
-        color: #ffffff;
+        color: var(--text);
         text-decoration: underline;
       }
 
       .footer-note {
-        color: #9db3cc;
+        padding-top: 18px;
+        border-top: 1px solid rgba(145, 181, 255, 0.12);
+        color: var(--muted);
         font-size: 14px;
         line-height: 1.6;
-        padding-top: 18px;
-        border-top: 1px solid rgba(232, 240, 255, 0.12);
       }
 
-      @media (max-width: 920px) {
-        .topbar,
-        .hero {
+      @media (max-width: 980px) {
+        .site-header,
+        .section-head,
+        .cta-card {
           flex-direction: column;
           align-items: flex-start;
         }
 
-        .hero,
+        .hero-card,
+        .feature-grid,
         .steps-grid,
-        .cards-grid,
-        .compact-grid,
+        .audience-grid,
+        .faq-grid,
         .footer-grid {
           grid-template-columns: 1fr;
+        }
+
+        .header-nav {
+          width: 100%;
         }
       }
     </style>
   </head>
   <body>
     <main class="page-shell">
-      <header class="topbar">
+      <header class="site-header">
         <a class="brand" href="/">
-          <span class="brand-title">Курс валют на сайт</span>
-          <span class="brand-subtitle">RubleAPI</span>
+          <span class="brand-mark">₽</span>
+          <span class="brand-copy">
+            <span class="brand-title">Курс валют на сайт</span>
+            <span class="brand-subtitle">RubleAPI</span>
+          </span>
         </a>
-        <nav class="topnav">
-          <a aria-current="page" href="/">главная</a>
-          <a href="/widget">настроить виджет</a>
-          <a href="/docs">документация</a>
+        <nav class="header-nav">
+          <a class="nav-link" aria-current="page" href="/">Главная</a>
+          <a class="nav-link" href="/widget">Настроить виджет</a>
+          <a class="nav-link" href="/docs">Документация</a>
+          <a class="nav-link" href="/#faq">FAQ</a>
         </nav>
       </header>
 
-      <section class="hero">
+      <section class="hero-card">
         <div>
-          <div class="eyebrow">rubleapi.ru</div>
-          <h1 style="margin-top: 14px">Добавьте курс валют на сайт</h1>
-          <p class="hero-copy" style="margin-top: 16px">
-            Настройте внешний вид виджета, выберите нужные валюты и вставьте готовый код на
-            страницу сайта. Курсы берутся по данным ЦБ РФ.
+          <div class="eyebrow">Настраиваемый сервис для сайта</div>
+          <h1>добавьте курс валют на сайт</h1>
+          <p class="hero-copy">
+            Настройте внешний вид виджета, выберите нужные валюты и вставьте готовый код на страницу
+            сайта. Курсы берутся по данным ЦБ РФ.
           </p>
-          <div class="actions">
-            <a class="button button-primary" href="/widget">настроить виджет</a>
-            <a class="button button-secondary" href="/docs">как установить</a>
+          <div class="hero-actions">
+            <a class="button button-primary" href="/widget">Настроить виджет</a>
+            <a class="button button-secondary" href="/docs">Как установить</a>
           </div>
+          <p class="hero-note">
+            Подходит для Tilda, WordPress, обычных html-страниц и внутренних разделов сайта.
+          </p>
         </div>
 
-        <aside class="widget-demo" aria-label="Пример виджета">
-          <div class="widget-demo-header">
-            <div class="widget-demo-title">Как выглядит виджет</div>
-            <div class="widget-demo-badge">пример</div>
+        <aside class="demo-card" aria-label="Пример виджета">
+          <div class="demo-header">
+            <div class="demo-title">Пример виджета</div>
+            <div class="demo-badge">демо</div>
           </div>
-          <div class="widget-list">
-            <div class="widget-row">
-              <span class="widget-code">USD</span>
-              <span class="widget-rate">79.42 ₽</span>
+          <div class="demo-list">
+            <div class="demo-row">
+              <span class="demo-code">usd</span>
+              <span class="demo-value">71,21 ₽</span>
             </div>
-            <div class="widget-row">
-              <span class="widget-code">EUR</span>
-              <span class="widget-rate">86.18 ₽</span>
+            <div class="demo-row">
+              <span class="demo-code">eur</span>
+              <span class="demo-value">82,54 ₽</span>
             </div>
-            <div class="widget-row">
-              <span class="widget-code">CNY</span>
-              <span class="widget-rate">10.96 ₽</span>
+            <div class="demo-row">
+              <span class="demo-code">10 000 vnd</span>
+              <span class="demo-value">28,25 ₽</span>
             </div>
           </div>
-          <p class="widget-meta">Виджет можно оформить под стиль сайта и вставить на любую страницу.</p>
+          <div class="demo-meta">
+            <span>Дата курса: 31.05.2026</span>
+            <span>Источник: ЦБ РФ</span>
+            <span>Данные: RubleAPI</span>
+          </div>
         </aside>
       </section>
 
-      <section class="section">
-        <h2>Как это работает</h2>
-        <div class="grid steps-grid">
-          <div class="card">
-            <h3>Выберите валюты</h3>
-            <p>Отметьте те курсы, которые хотите показать посетителям сайта.</p>
+      <div class="content-stack">
+        <section class="section-card">
+          <div class="section-head">
+            <div>
+              <h2>Почему сервисом удобно пользоваться</h2>
+              <p class="section-copy">
+                Всё сделано так, чтобы поставить блок с курсами на сайт без долгой ручной настройки.
+              </p>
+            </div>
           </div>
-          <div class="card">
-            <h3>Настройте внешний вид</h3>
-            <p>Подберите цвета, тему и оформление под свой сайт.</p>
+          <div class="grid feature-grid">
+            <article class="feature-card">
+              <div class="feature-icon">1</div>
+              <h3>Один код для вставки</h3>
+              <p>Виджет подключается через html-блок или обычный script-код.</p>
+            </article>
+            <article class="feature-card">
+              <div class="feature-icon">2</div>
+              <h3>Настройки внешнего вида</h3>
+              <p>Выберите цвета, ширину, размер текста и скругление углов.</p>
+            </article>
+            <article class="feature-card">
+              <div class="feature-icon">3</div>
+              <h3>Курсы ЦБ РФ</h3>
+              <p>Данные обновляются автоматически и берутся из официального источника.</p>
+            </article>
+            <article class="feature-card">
+              <div class="feature-icon">4</div>
+              <h3>Подходит для разных сайтов</h3>
+              <p>Можно использовать на Tilda, WordPress, html-страницах и информационных проектах.</p>
+            </article>
           </div>
-          <div class="card">
-            <h3>Скопируйте код</h3>
-            <p>Генератор подготовит готовый код для вставки без ручной настройки.</p>
-          </div>
-          <div class="card">
-            <h3>Вставьте на сайт</h3>
-            <p>Добавьте код на страницу через html-блок или в шаблон сайта.</p>
-          </div>
-          <div class="card">
-            <h3>Показывайте курсы ЦБ РФ</h3>
-            <p>Виджет сам получит данные и отобразит их в аккуратном блоке.</p>
-          </div>
-        </div>
-      </section>
+        </section>
 
-      <section class="section">
-        <h2>Для кого</h2>
-        <div class="grid compact-grid">
-          <div class="card"><p>сайты компаний</p></div>
-          <div class="card"><p>туристические проекты</p></div>
-          <div class="card"><p>информационные сайты</p></div>
-          <div class="card"><p>блоги и медиа</p></div>
-          <div class="card"><p>разработчики</p></div>
-        </div>
-      </section>
-
-      <section class="section">
-        <h2>Что можно настроить</h2>
-        <div class="grid cards-grid">
-          <div class="card">
-            <ul>
-              <li>валюты</li>
-              <li>цвета</li>
-              <li>размер</li>
-              <li>ширину</li>
-            </ul>
+        <section class="section-card">
+          <div class="section-head">
+            <div>
+              <h2>Как это работает</h2>
+              <p class="section-copy">Простой сценарий без лишних технических шагов.</p>
+            </div>
           </div>
-          <div class="card">
-            <ul>
-              <li>скругление</li>
-              <li>светлую или тёмную тему</li>
-              <li>отображение брендинга rubleapi</li>
-            </ul>
+          <div class="grid steps-grid">
+            <article class="step-card">
+              <div class="step-number">1</div>
+              <h3>Выберите валюты</h3>
+              <p>Отметьте те курсы, которые хотите показывать на сайте.</p>
+            </article>
+            <article class="step-card">
+              <div class="step-number">2</div>
+              <h3>Настройте внешний вид</h3>
+              <p>Подберите тему, цвета, ширину и стиль блока под дизайн сайта.</p>
+            </article>
+            <article class="step-card">
+              <div class="step-number">3</div>
+              <h3>Скопируйте код</h3>
+              <p>Генератор сразу подготовит готовый вариант для вставки.</p>
+            </article>
+            <article class="step-card">
+              <div class="step-number">4</div>
+              <h3>Вставьте код на сайт</h3>
+              <p>Добавьте его на страницу и виджет начнёт показывать курсы ЦБ РФ.</p>
+            </article>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <footer class="footer">
+        <section class="section-card">
+          <div class="section-head">
+            <div>
+              <h2>Для кого</h2>
+              <p class="section-copy">Сервис подойдёт и для простых сайтов, и для рабочих проектов команды.</p>
+            </div>
+          </div>
+          <div class="grid audience-grid">
+            <div class="audience-card">сайты компаний</div>
+            <div class="audience-card">туристические проекты</div>
+            <div class="audience-card">информационные сайты</div>
+            <div class="audience-card">блоги и медиа</div>
+            <div class="audience-card">разработчики</div>
+          </div>
+        </section>
+
+        <section class="section-card" id="faq">
+          <div class="section-head">
+            <div>
+              <h2>Частые вопросы</h2>
+              <p class="section-copy">Короткие ответы на основные вопросы перед установкой.</p>
+            </div>
+          </div>
+          <div class="grid faq-grid">
+            <article class="faq-card">
+              <h3>Откуда берутся курсы валют?</h3>
+              <p>
+                Курсы берутся по данным ЦБ РФ. Для некоторых валют курс указывается за 10 или 10 000
+                единиц — это отображается в виджете.
+              </p>
+            </article>
+            <article class="faq-card">
+              <h3>Можно ли поставить виджет на Tilda?</h3>
+              <p>Да. Скопируйте код в генераторе и вставьте его в html-блок на странице Tilda.</p>
+            </article>
+            <article class="faq-card">
+              <h3>Можно ли изменить внешний вид виджета?</h3>
+              <p>Да. Можно настроить валюты, ширину, размер текста, скругление углов и цвета.</p>
+            </article>
+            <article class="faq-card">
+              <h3>Можно ли убрать ссылку «Данные: RubleAPI»?</h3>
+              <p>
+                В бесплатной версии ссылка должна сохраняться. Отключение брендинга будет доступно в
+                платной версии.
+              </p>
+            </article>
+            <article class="faq-card">
+              <h3>Это финансовая рекомендация?</h3>
+              <p>Нет. Курсы отображаются справочно и не являются финансовой рекомендацией.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="cta-card">
+          <div>
+            <h2>Попробуйте настроить виджет под свой сайт</h2>
+            <p class="section-copy">
+              Выберите валюты и оформление, посмотрите пример и получите код для вставки за пару минут.
+            </p>
+          </div>
+          <a class="button button-primary" href="/widget">Настроить виджет</a>
+        </section>
+      </div>
+
+      <footer class="site-footer">
         <div class="footer-grid">
           <div>
-            <div class="footer-title">rubleapi</div>
-            <p class="footer-copy">
-              RubleAPI — валютный виджет для сайтов на основе курсов ЦБ РФ.
-            </p>
+            <div class="footer-title">Курс валют на сайт</div>
+            <p class="footer-copy">RubleAPI — валютный виджет для сайтов на основе курсов ЦБ РФ.</p>
           </div>
           <nav class="footer-nav">
             <div class="footer-heading">Навигация</div>

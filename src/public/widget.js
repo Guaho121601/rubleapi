@@ -8,8 +8,6 @@
   var defaults = {
     symbols: "USD,EUR,CNY",
     widgetType: "rates",
-    converterSymbol: "USD",
-    converterDirection: "to-rub",
     theme: "light",
     round: 2,
     branding: true,
@@ -52,10 +50,6 @@
 
   function parseWidgetType(value) {
     return value === "converter" ? "converter" : defaults.widgetType;
-  }
-
-  function parseConverterDirection(value) {
-    return value === "from-rub" ? "from-rub" : defaults.converterDirection;
   }
 
   function parseRound(value) {
@@ -142,15 +136,10 @@
   function getConfig(scriptElement) {
     var theme = scriptElement.dataset.theme === "dark" ? "dark" : defaults.theme;
     var palette = getThemePalette(theme);
-    var widgetType = parseWidgetType(scriptElement.dataset.widgetType);
-    var parsedSymbols = parseSymbols(scriptElement.dataset.symbols);
-    var converterSymbol = (scriptElement.dataset.converterSymbol || parsedSymbols[0] || defaults.converterSymbol).toUpperCase();
 
     return {
-      widgetType: widgetType,
-      symbols: widgetType === "converter" ? [converterSymbol] : parsedSymbols,
-      converterSymbol: converterSymbol,
-      converterDirection: parseConverterDirection(scriptElement.dataset.converterDirection),
+      widgetType: parseWidgetType(scriptElement.dataset.widgetType),
+      symbols: parseSymbols(scriptElement.dataset.symbols),
       theme: theme,
       round: parseRound(scriptElement.dataset.round),
       branding: parseBranding(scriptElement.dataset.branding),
@@ -268,7 +257,11 @@
       ".rubleapi-chip{display:inline-flex;align-items:center;padding:8px 12px;border-radius:999px;background:" + chipAccent + ";color:" + accent + ";font-size:" + typography.meta + "px;font-weight:700}",
       ".rubleapi-field{display:grid;gap:8px}",
       ".rubleapi-field-label{font-size:" + typography.meta + "px;font-weight:700;letter-spacing:.02em;color:" + muted + "}",
-      ".rubleapi-input{width:100%;min-height:46px;padding:12px 14px;border:1px solid " + border + ";border-radius:" + Math.max(config.radius - 6, 8) + "px;background:" + background + ";color:" + title + ";font:inherit}",
+      ".rubleapi-input,.rubleapi-select{width:100%;min-height:46px;padding:12px 14px;border:1px solid " + border + ";border-radius:" + Math.max(config.radius - 6, 8) + "px;background:" + background + ";color:" + title + ";font:inherit}",
+      ".rubleapi-direction{display:grid;gap:8px}",
+      ".rubleapi-direction-grid{display:grid;gap:8px}",
+      ".rubleapi-direction-option{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid " + border + ";border-radius:" + Math.max(config.radius - 6, 8) + "px;background:" + softAccent + "}",
+      ".rubleapi-direction-option input{margin:0;accent-color:" + accent + "}",
       ".rubleapi-result{padding:14px;border:1px solid " + border + ";border-radius:" + Math.max(config.radius - 4, 10) + "px;background:" + softAccent + "}",
       ".rubleapi-result-label{margin:0 0 6px;font-size:" + typography.meta + "px;color:" + muted + "}",
       ".rubleapi-result-value{margin:0;font-size:" + (typography.value + 6) + "px;line-height:1.2;font-weight:700;color:" + accent + "}",
@@ -322,16 +315,31 @@
       .replace(/'/g, "&#39;");
   }
 
+  function sortRatesBySymbols(rates, symbols) {
+    var byCode = {};
+
+    rates.forEach(function (rate) {
+      byCode[String(rate.code || "").toUpperCase()] = rate;
+    });
+
+    return symbols
+      .map(function (symbol) {
+        return byCode[String(symbol || "").toUpperCase()];
+      })
+      .filter(Boolean);
+  }
+
   function renderError(root, config) {
     root.innerHTML = "<style>" + buildStyles(config) + '</style><div class="rubleapi-error">Не удалось загрузить курсы валют</div>';
   }
 
   function renderRatesWidget(root, config, payload) {
+    var orderedRates = sortRatesBySymbols(payload.rates || [], config.symbols);
     var styleTag = "<style>" + buildStyles(config) + "</style>";
-    var hasExtendedNominal = payload.rates.some(function (rate) {
+    var hasExtendedNominal = orderedRates.some(function (rate) {
       return Number(rate.nominal) > 1;
     });
-    var ratesHtml = payload.rates
+    var ratesHtml = orderedRates
       .map(function (rate) {
         return [
           '<li class="rubleapi-item">',
@@ -372,20 +380,19 @@
   }
 
   function renderConverter(root, config, payload) {
-    var rate = payload.rates[0];
+    var orderedRates = sortRatesBySymbols(payload.rates || [], config.symbols);
 
-    if (!rate) {
+    if (!orderedRates.length) {
       renderError(root, config);
       return;
     }
 
     var styleTag = "<style>" + buildStyles(config) + "</style>";
-    var code = String(rate.code || "").toUpperCase();
-    var currencyTitle = formatCurrencyTitle(rate);
-    var pairLabel = config.converterDirection === "from-rub" ? "RUB → " + code : code + " → RUB";
-    var nominalNote = Number(rate.nominal) > 1
-      ? "Курс показан за " + currencyTitle.toLowerCase() + " по данным ЦБ РФ."
-      : "Курс показан по данным ЦБ РФ.";
+    var optionsHtml = orderedRates
+      .map(function (rate, index) {
+        return '<option value="' + escapeHtml(String(rate.code || "").toUpperCase()) + '"' + (index === 0 ? " selected" : "") + ">" + escapeHtml(String(rate.code || "").toUpperCase()) + "</option>";
+      })
+      .join("");
     var brandingHtml = config.branding
       ? '<div class="rubleapi-branding">Данные: RubleAPI</div>'
       : "";
@@ -396,18 +403,29 @@
       '<div class="rubleapi-converter">',
       '<div class="rubleapi-converter-top">',
       '<h3 class="rubleapi-title">Конвертер валют</h3>',
-      '<div class="rubleapi-chip">' + escapeHtml(pairLabel) + "</div>",
+      '<div class="rubleapi-chip" data-role="pair-label"></div>',
       "</div>",
-      '<p class="rubleapi-subtitle">Быстрый пересчёт по курсу ЦБ РФ для ' + escapeHtml(currencyTitle) + ".</p>",
+      '<p class="rubleapi-subtitle">Выберите валюту и направление пересчёта. Для некоторых валют курс ЦБ РФ указан не за 1 единицу, и это уже учтено.</p>',
       '<label class="rubleapi-field">',
       '<span class="rubleapi-field-label">Сумма</span>',
-      '<input class="rubleapi-input" type="number" min="0" step="any" value="1" inputmode="decimal" />',
+      '<input class="rubleapi-input" data-role="amount-input" type="number" min="0" step="any" value="1" inputmode="decimal" />',
       "</label>",
+      '<label class="rubleapi-field">',
+      '<span class="rubleapi-field-label">Валюта</span>',
+      '<select class="rubleapi-select" data-role="currency-select">' + optionsHtml + "</select>",
+      "</label>",
+      '<div class="rubleapi-direction">',
+      '<span class="rubleapi-field-label">Направление</span>',
+      '<div class="rubleapi-direction-grid">',
+      '<label class="rubleapi-direction-option"><input type="radio" name="rubleapi-direction" value="to-rub" checked /> <span>из валюты в рубли</span></label>',
+      '<label class="rubleapi-direction-option"><input type="radio" name="rubleapi-direction" value="from-rub" /> <span>из рублей в валюту</span></label>',
+      "</div>",
+      "</div>",
       '<div class="rubleapi-result">',
       '<p class="rubleapi-result-label">Результат</p>',
       '<p class="rubleapi-result-value" data-role="result-value"></p>',
       "</div>",
-      '<div class="rubleapi-note">' + escapeHtml(nominalNote) + "</div>",
+      '<div class="rubleapi-note" data-role="nominal-note"></div>',
       '<div class="rubleapi-meta">',
       "<div>Дата курса: " + escapeHtml(payload.date) + "</div>",
       "<div>Источник: ЦБ РФ</div>",
@@ -417,25 +435,54 @@
       "</div>"
     ].join("");
 
-    var input = root.querySelector(".rubleapi-input");
+    var amountInput = root.querySelector('[data-role="amount-input"]');
+    var currencySelect = root.querySelector('[data-role="currency-select"]');
     var resultValue = root.querySelector('[data-role="result-value"]');
+    var pairLabel = root.querySelector('[data-role="pair-label"]');
+    var nominalNote = root.querySelector('[data-role="nominal-note"]');
+
+    function getSelectedDirection() {
+      var selectedDirection = root.querySelector('input[name="rubleapi-direction"]:checked');
+      return selectedDirection ? selectedDirection.value : "to-rub";
+    }
+
+    function getSelectedRate() {
+      var selectedCode = String(currencySelect.value || orderedRates[0].code || "").toUpperCase();
+
+      return orderedRates.find(function (rate) {
+        return String(rate.code || "").toUpperCase() === selectedCode;
+      }) || orderedRates[0];
+    }
 
     function updateResult() {
-      var amount = Number.parseFloat(String(input.value || "").replace(",", "."));
+      var amount = Number.parseFloat(String(amountInput.value || "").replace(",", "."));
+      var selectedRate = getSelectedRate();
+      var direction = getSelectedDirection();
+      var code = String(selectedRate.code || "").toUpperCase();
+
+      pairLabel.textContent = direction === "from-rub" ? "RUB -> " + code : code + " -> RUB";
+      nominalNote.textContent = Number(selectedRate.nominal) > 1
+        ? "Курс показан за " + formatCurrencyTitle(selectedRate) + " по данным ЦБ РФ."
+        : "Курс показан по данным ЦБ РФ.";
 
       if (!Number.isFinite(amount)) {
         resultValue.textContent = "Введите сумму";
         return;
       }
 
-      var result = getConverterResult(amount, rate, config.converterDirection);
+      var result = getConverterResult(amount, selectedRate, direction);
       var decimals = result >= 100 ? 2 : 4;
-      var suffix = config.converterDirection === "from-rub" ? " " + code : " ₽";
+      var suffix = direction === "from-rub" ? " " + code : " ₽";
 
       resultValue.textContent = formatAmount(result, decimals) + suffix;
     }
 
-    input.addEventListener("input", updateResult);
+    amountInput.addEventListener("input", updateResult);
+    currencySelect.addEventListener("change", updateResult);
+    Array.prototype.slice.call(root.querySelectorAll('input[name="rubleapi-direction"]')).forEach(function (input) {
+      input.addEventListener("change", updateResult);
+    });
+
     updateResult();
   }
 

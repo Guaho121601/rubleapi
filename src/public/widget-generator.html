@@ -6,7 +6,7 @@
     <title>Настроить валютный виджет для сайта | RubleAPI</title>
     <meta
       name="description"
-      content="Настройте валютный виджет RubleAPI: выберите валюты, тему и параметры отображения, посмотрите пример и получите готовый код для вставки на сайт."
+      content="Настройте валютный виджет RubleAPI: выберите тип виджета, валюты и внешний вид, посмотрите пример и получите готовый код для вставки на сайт."
     />
     <script type="application/ld+json">
       {
@@ -30,28 +30,26 @@
     </script>
     <style>
       :root {
-        color-scheme: light;
-        --page-bg:
-          radial-gradient(circle at top left, rgba(105, 160, 255, 0.2), transparent 28%),
-          radial-gradient(circle at bottom right, rgba(24, 118, 210, 0.14), transparent 24%),
-          linear-gradient(180deg, #f7faff 0%, #edf3fb 100%);
-        --surface: rgba(255, 255, 255, 0.94);
-        --surface-soft: rgba(255, 255, 255, 0.8);
-        --border: rgba(15, 23, 42, 0.08);
-        --border-strong: rgba(17, 101, 200, 0.16);
-        --title: #10213c;
-        --text: #4a617d;
-        --muted: #6b7d95;
-        --accent: #1165c8;
-        --accent-strong: #0b5fc1;
-        --accent-soft: rgba(80, 170, 255, 0.18);
-        --accent-glow: #64b5ff;
-        --code-bg: #0f1726;
-        --code-text: #ecf2fc;
-        --warning-bg: #fff8ea;
-        --warning-border: #ffd79e;
-        --warning-text: #8c5b06;
-        --shadow: 0 18px 60px rgba(15, 23, 42, 0.08);
+        color-scheme: dark;
+        --bg: #07111f;
+        --bg-strong: #040b16;
+        --surface: rgba(11, 21, 37, 0.88);
+        --surface-strong: rgba(15, 28, 48, 0.94);
+        --surface-soft: rgba(18, 34, 58, 0.72);
+        --border: rgba(137, 180, 255, 0.16);
+        --border-strong: rgba(140, 165, 255, 0.28);
+        --text: #f5f8ff;
+        --text-soft: #c2d2ea;
+        --muted: #8fa2bf;
+        --accent: #67a9ff;
+        --accent-strong: #8d74ff;
+        --accent-soft: rgba(103, 169, 255, 0.16);
+        --shadow: 0 28px 80px rgba(0, 0, 0, 0.34);
+        --warning-bg: rgba(116, 86, 20, 0.22);
+        --warning-border: rgba(255, 211, 122, 0.28);
+        --warning-text: #f5d484;
+        --code-bg: #050d18;
+        --code-text: #eff5ff;
       }
 
       * {
@@ -62,8 +60,12 @@
         margin: 0;
         min-height: 100vh;
         font-family: system-ui, -apple-system, blinkmacsystemfont, "segoe ui", sans-serif;
-        background: var(--page-bg);
-        color: var(--text);
+        color: var(--text-soft);
+        background:
+          radial-gradient(circle at top left, rgba(103, 169, 255, 0.18), transparent 28%),
+          radial-gradient(circle at top right, rgba(141, 116, 255, 0.16), transparent 24%),
+          radial-gradient(circle at bottom center, rgba(18, 115, 255, 0.12), transparent 28%),
+          linear-gradient(180deg, #091321 0%, #050b15 100%);
       }
 
       a {
@@ -71,95 +73,138 @@
       }
 
       .page-shell {
-        width: min(1120px, calc(100% - 32px));
+        width: min(1180px, calc(100% - 32px));
         margin: 0 auto;
-        padding: 28px 0 56px;
+        padding: 24px 0 56px;
       }
 
-      .topbar,
-      .hero,
+      .site-header,
+      .hero-card,
       .panel,
-      .footer {
+      .site-footer {
         border: 1px solid var(--border);
-        border-radius: 24px;
+        border-radius: 28px;
         background: var(--surface);
         box-shadow: var(--shadow);
-        backdrop-filter: blur(12px);
+        backdrop-filter: blur(18px);
       }
 
-      .topbar {
+      .site-header {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        gap: 16px;
-        padding: 14px 20px;
-        margin-bottom: 18px;
-        border-color: #0f172a;
-        background: linear-gradient(180deg, #10213c 0%, #0b1528 100%);
-        color: #e7eef8;
+        gap: 20px;
+        padding: 16px 20px;
+        margin-bottom: 20px;
+        background: rgba(8, 16, 30, 0.92);
       }
 
       .brand {
         display: inline-flex;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 2px;
-        color: #ffffff;
+        align-items: center;
+        gap: 12px;
         text-decoration: none;
       }
 
+      .brand-mark {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 42px;
+        height: 42px;
+        border-radius: 999px;
+        background: linear-gradient(135deg, var(--accent) 0%, var(--accent-strong) 100%);
+        color: #ffffff;
+        font-size: 20px;
+        font-weight: 800;
+        box-shadow: 0 14px 30px rgba(90, 122, 255, 0.35);
+      }
+
+      .brand-copy {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+
       .brand-title {
+        color: var(--text);
         font-size: 15px;
         font-weight: 700;
       }
 
       .brand-subtitle {
-        color: #9db3cc;
+        color: var(--muted);
         font-size: 12px;
         font-weight: 600;
       }
 
-      .topnav {
+      .header-nav {
         display: flex;
+        align-items: center;
+        gap: 18px;
         flex-wrap: wrap;
-        gap: 10px;
       }
 
-      .topnav a {
-        padding: 8px 12px;
+      .nav-link {
+        padding: 12px 20px;
+        border: 1px solid transparent;
         border-radius: 999px;
-        color: #d7e5f6;
+        color: var(--text-soft);
         text-decoration: none;
         font-size: 14px;
         font-weight: 600;
       }
 
-      .topnav a:hover,
-      .topnav a[aria-current="page"] {
-        background: rgba(100, 181, 255, 0.16);
+      .nav-link:hover,
+      .nav-link[aria-current="page"] {
+        border-color: rgba(255, 255, 255, 0.9);
+        background: rgba(255, 255, 255, 0.04);
+        color: var(--text);
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 48px;
+        padding: 12px 18px;
+        border-radius: 999px;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 700;
+      }
+
+      .button-primary {
+        background: linear-gradient(135deg, var(--accent) 0%, var(--accent-strong) 100%);
         color: #ffffff;
+        box-shadow: 0 18px 36px rgba(79, 125, 255, 0.34);
       }
 
-      .hero,
+      .button-primary:hover {
+        filter: brightness(1.08);
+      }
+
+      .hero-card,
       .panel,
-      .footer {
-        padding: 28px;
+      .site-footer {
+        padding: 30px;
       }
 
-      .hero {
+      .hero-card {
         display: grid;
         gap: 14px;
-        margin-bottom: 18px;
+        margin-bottom: 20px;
       }
 
       .eyebrow {
         display: inline-flex;
-        width: fit-content;
         align-items: center;
-        padding: 7px 12px;
+        gap: 8px;
+        width: fit-content;
+        padding: 8px 12px;
         border-radius: 999px;
-        background: var(--accent-soft);
-        color: var(--accent);
+        background: rgba(103, 169, 255, 0.12);
+        color: #9ecbff;
         font-size: 12px;
         font-weight: 700;
         letter-spacing: 0.08em;
@@ -170,22 +215,23 @@
       h2,
       h3 {
         margin: 0;
-        color: var(--title);
+        color: var(--text);
       }
 
       h1 {
         max-width: 760px;
-        font-size: clamp(34px, 5vw, 52px);
-        line-height: 1.02;
+        font-size: clamp(38px, 5vw, 58px);
+        line-height: 1;
+        letter-spacing: -0.04em;
       }
 
       h2 {
-        font-size: 22px;
+        font-size: 24px;
       }
 
       p {
         margin: 0;
-        line-height: 1.72;
+        line-height: 1.75;
       }
 
       .hero-copy {
@@ -195,14 +241,14 @@
 
       .layout {
         display: grid;
-        grid-template-columns: minmax(320px, 420px) minmax(320px, 1fr);
-        gap: 18px;
+        grid-template-columns: minmax(320px, 430px) minmax(320px, 1fr);
+        gap: 20px;
         align-items: start;
       }
 
       .output-panel {
         display: grid;
-        gap: 18px;
+        gap: 20px;
       }
 
       .section-title {
@@ -213,39 +259,38 @@
         margin-bottom: 18px;
         color: var(--muted);
         font-size: 14px;
-        line-height: 1.6;
+        line-height: 1.65;
       }
 
-      .field,
-      .settings-group {
+      .field {
         margin-bottom: 22px;
       }
 
-      .field:last-child,
-      .settings-group:last-child {
+      .field:last-child {
         margin-bottom: 0;
       }
 
       .field-label {
         display: block;
         margin-bottom: 10px;
-        color: var(--title);
+        color: var(--text);
         font-size: 15px;
         font-weight: 700;
       }
 
       .field-hint {
-        margin: 8px 0 0;
+        margin-top: 8px;
         color: var(--muted);
         font-size: 13px;
-        line-height: 1.55;
+        line-height: 1.6;
       }
 
       .currency-grid,
       .size-grid,
-      .color-grid {
+      .color-grid,
+      .steps-grid {
         display: grid;
-        gap: 10px;
+        gap: 12px;
       }
 
       .currency-grid,
@@ -260,30 +305,26 @@
       .choice,
       .option-row,
       .step-card,
-      .color-card {
+      .color-card,
+      .card-block {
         display: flex;
         align-items: center;
         gap: 10px;
-        padding: 12px 14px;
-        border: 1px solid var(--border-strong);
-        border-radius: 16px;
+        padding: 14px 16px;
+        border: 1px solid var(--border);
+        border-radius: 20px;
         background: var(--surface-soft);
       }
 
       .choice-label {
-        color: var(--title);
+        color: var(--text);
         font-size: 14px;
         font-weight: 600;
       }
 
-      .option-stack,
-      .steps-grid {
+      .option-stack {
         display: grid;
         gap: 10px;
-      }
-
-      .steps-grid {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
       }
 
       .color-card {
@@ -293,23 +334,12 @@
 
       .color-card input[type="color"] {
         width: 100%;
-        height: 42px;
+        height: 44px;
         padding: 0;
         border: 1px solid var(--border-strong);
-        border-radius: 12px;
+        border-radius: 14px;
         background: transparent;
         cursor: pointer;
-      }
-
-      .select-field {
-        width: 100%;
-        min-height: 48px;
-        padding: 12px 14px;
-        border: 1px solid var(--border-strong);
-        border-radius: 16px;
-        background: var(--surface-soft);
-        color: var(--title);
-        font: inherit;
       }
 
       input[type="checkbox"],
@@ -318,19 +348,15 @@
         accent-color: var(--accent);
       }
 
-      input[type="checkbox"][disabled] {
-        cursor: not-allowed;
-      }
-
       .brand-lock {
         margin-top: 10px;
-        padding: 12px 14px;
+        padding: 14px 16px;
         border: 1px solid var(--warning-border);
-        border-radius: 16px;
+        border-radius: 18px;
         background: var(--warning-bg);
         color: var(--warning-text);
         font-size: 13px;
-        line-height: 1.55;
+        line-height: 1.6;
       }
 
       .is-hidden {
@@ -339,10 +365,10 @@
 
       .code-card,
       .preview-card,
-      .details-card {
-        padding: 18px;
-        border: 1px solid var(--border-strong);
-        border-radius: 18px;
+      .install-card {
+        padding: 22px;
+        border: 1px solid var(--border);
+        border-radius: 24px;
         background: var(--surface-soft);
       }
 
@@ -355,26 +381,24 @@
       }
 
       .toolbar-title {
-        margin: 0;
-        color: var(--title);
         font-size: 18px;
       }
 
       .copy-button {
         border: none;
         border-radius: 999px;
-        background: linear-gradient(180deg, var(--accent-glow) 0%, var(--accent) 100%);
+        background: linear-gradient(135deg, var(--accent) 0%, var(--accent-strong) 100%);
         color: #ffffff;
         padding: 11px 16px;
         font: inherit;
         font-size: 14px;
         font-weight: 700;
         cursor: pointer;
-        box-shadow: 0 14px 30px rgba(17, 101, 200, 0.24);
+        box-shadow: 0 18px 36px rgba(79, 125, 255, 0.28);
       }
 
       .copy-button:hover {
-        background: linear-gradient(180deg, #7ac4ff 0%, var(--accent-strong) 100%);
+        filter: brightness(1.08);
       }
 
       pre {
@@ -390,86 +414,60 @@
       }
 
       .status-text,
-      .preview-copy,
-      .dev-copy {
+      .preview-copy {
         margin: 0;
         color: var(--muted);
         font-size: 13px;
-        line-height: 1.55;
+        line-height: 1.6;
       }
 
       .preview-frame {
         width: 100%;
-        min-height: 460px;
-        margin-top: 12px;
+        min-height: 560px;
+        margin-top: 14px;
         border: 1px solid var(--border-strong);
-        border-radius: 20px;
-        background: #f6faff;
+        border-radius: 22px;
+        background: #07111f;
       }
 
-      details {
-        border: 1px solid var(--border-strong);
-        border-radius: 18px;
-        background: rgba(255, 255, 255, 0.64);
-        padding: 16px 18px;
+      .steps-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        margin-top: 14px;
       }
 
-      summary {
-        cursor: pointer;
-        color: var(--title);
-        font-weight: 700;
+      .step-card {
+        align-items: flex-start;
       }
 
-      .dev-grid {
-        display: grid;
-        gap: 10px;
-        margin-top: 12px;
-      }
-
-      .dev-key {
-        color: var(--muted);
-        font-size: 12px;
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
-      }
-
-      .dev-value {
-        color: var(--title);
-        font-weight: 700;
-        word-break: break-word;
-      }
-
-      .footer {
+      .site-footer {
         display: grid;
         gap: 22px;
-        margin-top: 18px;
-        border-color: #0f172a;
-        background: linear-gradient(180deg, #10213c 0%, #0b1528 100%);
-        color: #e7eef8;
+        margin-top: 20px;
+        background: rgba(8, 16, 30, 0.94);
       }
 
       .footer-grid {
         display: grid;
-        grid-template-columns: minmax(0, 1.3fr) minmax(220px, 0.8fr) minmax(240px, 0.9fr);
+        grid-template-columns: minmax(0, 1.2fr) minmax(220px, 0.8fr) minmax(250px, 0.9fr);
         gap: 24px;
       }
 
       .footer-title {
-        color: #ffffff;
+        color: var(--text);
         font-size: 18px;
         font-weight: 700;
       }
 
       .footer-copy,
       .footer-requisites {
-        color: #bfd0e4;
+        color: var(--text-soft);
         font-size: 14px;
         line-height: 1.7;
       }
 
       .footer-heading {
         margin-bottom: 10px;
-        color: #ffffff;
+        color: var(--text);
         font-size: 14px;
         font-weight: 700;
         text-transform: uppercase;
@@ -482,26 +480,27 @@
       }
 
       .footer-nav a {
-        color: #d8e6f7;
+        color: var(--text-soft);
         font-weight: 600;
         text-decoration: none;
       }
 
       .footer-nav a:hover {
-        color: #ffffff;
+        color: var(--text);
         text-decoration: underline;
       }
 
       .footer-note {
-        color: #9db3cc;
+        padding-top: 18px;
+        border-top: 1px solid rgba(145, 181, 255, 0.12);
+        color: var(--muted);
         font-size: 14px;
         line-height: 1.6;
-        padding-top: 18px;
-        border-top: 1px solid rgba(232, 240, 255, 0.12);
       }
 
-      @media (max-width: 920px) {
-        .topbar {
+      @media (max-width: 980px) {
+        .site-header,
+        .toolbar {
           flex-direction: column;
           align-items: flex-start;
         }
@@ -519,23 +518,27 @@
   </head>
   <body>
     <main class="page-shell">
-      <header class="topbar">
+      <header class="site-header">
         <a class="brand" href="/">
-          <span class="brand-title">Курс валют на сайт</span>
-          <span class="brand-subtitle">RubleAPI</span>
+          <span class="brand-mark">₽</span>
+          <span class="brand-copy">
+            <span class="brand-title">Курс валют на сайт</span>
+            <span class="brand-subtitle">RubleAPI</span>
+          </span>
         </a>
-        <nav class="topnav">
-          <a href="/">главная</a>
-          <a aria-current="page" href="/widget">настроить виджет</a>
-          <a href="/docs">документация</a>
+        <nav class="header-nav">
+          <a class="nav-link" href="/">Главная</a>
+          <a class="nav-link" aria-current="page" href="/widget">Настроить виджет</a>
+          <a class="nav-link" href="/docs">Документация</a>
+          <a class="nav-link" href="/#faq">FAQ</a>
         </nav>
       </header>
 
-      <section class="hero">
-        <div class="eyebrow">генератор</div>
+      <section class="hero-card">
+        <div class="eyebrow">Генератор RubleAPI</div>
         <h1>Настройте валютный виджет</h1>
         <p class="hero-copy">
-          Выберите тип виджета, валюты и внешний вид. Генератор покажет пример и подготовит код,
+          Выберите валюты и внешний вид. Генератор покажет пример виджета и подготовит код,
           который можно вставить на сайт.
         </p>
       </section>
@@ -544,8 +547,8 @@
         <form class="panel" id="widget-generator-form">
           <h2 class="section-title">Параметры виджета</h2>
           <p class="section-copy">
-            Изменения применяются сразу. Вы можете подобрать нужный вариант и сразу скопировать
-            готовый код.
+            Изменения применяются сразу. Для конвертера выбранные валюты станут выпадающим списком
+            внутри самого виджета.
           </p>
 
           <div class="field">
@@ -562,85 +565,54 @@
             </div>
           </div>
 
-          <div class="settings-group" id="rates-settings">
-            <div class="field">
-              <span class="field-label">Валюты</span>
-              <div class="currency-grid">
-                <label class="choice">
-                  <input type="checkbox" name="symbols" value="usd" checked />
-                  <span class="choice-label">USD</span>
-                </label>
-                <label class="choice">
-                  <input type="checkbox" name="symbols" value="eur" checked />
-                  <span class="choice-label">EUR</span>
-                </label>
-                <label class="choice">
-                  <input type="checkbox" name="symbols" value="cny" checked />
-                  <span class="choice-label">CNY</span>
-                </label>
-                <label class="choice">
-                  <input type="checkbox" name="symbols" value="aed" />
-                  <span class="choice-label">AED</span>
-                </label>
-                <label class="choice">
-                  <input type="checkbox" name="symbols" value="try" />
-                  <span class="choice-label">TRY</span>
-                </label>
-                <label class="choice">
-                  <input type="checkbox" name="symbols" value="thb" />
-                  <span class="choice-label">THB</span>
-                </label>
-                <label class="choice">
-                  <input type="checkbox" name="symbols" value="vnd" />
-                  <span class="choice-label">VND</span>
-                </label>
-              </div>
-              <p class="field-hint">
-                Если ничего не выбрать, генератор оставит USD как безопасный вариант по умолчанию.
-              </p>
+          <div class="field">
+            <span class="field-label">Валюты</span>
+            <div class="currency-grid">
+              <label class="choice">
+                <input type="checkbox" name="symbols" value="usd" checked />
+                <span class="choice-label">USD</span>
+              </label>
+              <label class="choice">
+                <input type="checkbox" name="symbols" value="eur" checked />
+                <span class="choice-label">EUR</span>
+              </label>
+              <label class="choice">
+                <input type="checkbox" name="symbols" value="cny" checked />
+                <span class="choice-label">CNY</span>
+              </label>
+              <label class="choice">
+                <input type="checkbox" name="symbols" value="aed" />
+                <span class="choice-label">AED</span>
+              </label>
+              <label class="choice">
+                <input type="checkbox" name="symbols" value="try" />
+                <span class="choice-label">TRY</span>
+              </label>
+              <label class="choice">
+                <input type="checkbox" name="symbols" value="thb" />
+                <span class="choice-label">THB</span>
+              </label>
+              <label class="choice">
+                <input type="checkbox" name="symbols" value="vnd" />
+                <span class="choice-label">VND</span>
+              </label>
             </div>
-
-            <div class="field">
-              <span class="field-label">Показывать копейки</span>
-              <div class="option-stack">
-                <label class="option-row">
-                  <input type="radio" name="round" value="0" />
-                  <span class="choice-label">нет</span>
-                </label>
-                <label class="option-row">
-                  <input type="radio" name="round" value="2" checked />
-                  <span class="choice-label">да</span>
-                </label>
-              </div>
-            </div>
+            <p class="field-hint">
+              Если ничего не выбрать, генератор оставит USD как безопасный вариант по умолчанию.
+            </p>
           </div>
 
-          <div class="settings-group is-hidden" id="converter-settings">
-            <div class="field">
-              <label class="field-label" for="converter-symbol">Валюта</label>
-              <select class="select-field" id="converter-symbol" name="converter-symbol">
-                <option value="usd">USD</option>
-                <option value="eur">EUR</option>
-                <option value="cny">CNY</option>
-                <option value="aed">AED</option>
-                <option value="try">TRY</option>
-                <option value="thb">THB</option>
-                <option value="vnd">VND</option>
-              </select>
-            </div>
-
-            <div class="field">
-              <span class="field-label">Направление</span>
-              <div class="option-stack">
-                <label class="option-row">
-                  <input type="radio" name="converter-direction" value="to-rub" checked />
-                  <span class="choice-label">из валюты в рубли</span>
-                </label>
-                <label class="option-row">
-                  <input type="radio" name="converter-direction" value="from-rub" />
-                  <span class="choice-label">из рублей в валюту</span>
-                </label>
-              </div>
+          <div class="field" id="rates-round-field">
+            <span class="field-label">Показывать копейки</span>
+            <div class="option-stack">
+              <label class="option-row">
+                <input type="radio" name="round" value="0" />
+                <span class="choice-label">нет</span>
+              </label>
+              <label class="option-row">
+                <input type="radio" name="round" value="2" checked />
+                <span class="choice-label">да</span>
+              </label>
             </div>
           </div>
 
@@ -717,7 +689,7 @@
           </div>
 
           <div class="field">
-            <span class="field-label">Цвета</span>
+            <span class="field-label">Цвет фона</span>
             <div class="color-grid">
               <label class="color-card">
                 <span class="choice-label">Цвет фона</span>
@@ -765,7 +737,7 @@
             <iframe class="preview-frame" id="widget-preview" title="Widget preview" loading="lazy"></iframe>
           </div>
 
-          <div class="panel" style="padding: 0; border: none; box-shadow: none; background: transparent">
+          <div class="install-card">
             <h2 class="section-title">Как установить</h2>
             <div class="steps-grid">
               <div class="step-card"><p>Скопируйте код</p></div>
@@ -774,36 +746,14 @@
               <div class="step-card"><p>Вставьте код, сохраните и опубликуйте страницу</p></div>
             </div>
           </div>
-
-          <div class="details-card">
-            <details>
-              <summary>Для разработчиков</summary>
-              <p class="dev-copy" style="margin-top: 10px">
-                Этот блок нужен только для локальной проверки и интеграции. Обычному пользователю
-                он не требуется.
-              </p>
-              <div class="dev-grid">
-                <div>
-                  <div class="dev-key">Текущий адрес сервиса</div>
-                  <div class="dev-value" id="api-base-value"></div>
-                </div>
-                <div>
-                  <div class="dev-key">Тип текущего виджета</div>
-                  <div class="dev-value" id="developer-widget-type"></div>
-                </div>
-              </div>
-            </details>
-          </div>
         </section>
       </section>
 
-      <footer class="footer">
+      <footer class="site-footer">
         <div class="footer-grid">
           <div>
-            <div class="footer-title">rubleapi</div>
-            <p class="footer-copy">
-              RubleAPI — валютный виджет для сайтов на основе курсов ЦБ РФ.
-            </p>
+            <div class="footer-title">Курс валют на сайт</div>
+            <p class="footer-copy">RubleAPI — валютный виджет для сайтов на основе курсов ЦБ РФ.</p>
           </div>
           <nav class="footer-nav">
             <div class="footer-heading">Навигация</div>
@@ -833,10 +783,7 @@
         var previewFrame = document.getElementById("widget-preview");
         var copyButton = document.getElementById("copy-code-button");
         var copyStatus = document.getElementById("copy-status");
-        var apiBaseValue = document.getElementById("api-base-value");
-        var developerWidgetType = document.getElementById("developer-widget-type");
-        var ratesSettings = document.getElementById("rates-settings");
-        var converterSettings = document.getElementById("converter-settings");
+        var ratesRoundField = document.getElementById("rates-round-field");
 
         var themePresets = {
           light: {
@@ -884,16 +831,10 @@
         }
 
         function getConfig() {
-          var widgetType = getSelectedValue("widget-type") || "rates";
-          var converterSymbol = getInputValue("converter-symbol") || "usd";
-          var symbols = widgetType === "converter" ? [converterSymbol] : getSelectedSymbols();
-
           return {
             apiBase: getApiBase(),
-            widgetType: widgetType,
-            symbols: symbols,
-            converterSymbol: converterSymbol,
-            converterDirection: getSelectedValue("converter-direction") || "to-rub",
+            widgetType: getSelectedValue("widget-type") || "rates",
+            symbols: getSelectedSymbols(),
             theme: getSelectedValue("theme") || "light",
             round: getSelectedValue("round") || "2",
             width: getSelectedValue("width") || "card",
@@ -907,7 +848,7 @@
         }
 
         function buildEmbedCode(config) {
-          var lines = [
+          return [
             "<script",
             '  src="' + config.apiBase + '/widget.js"',
             '  data-api-base="' + config.apiBase + '"',
@@ -920,31 +861,23 @@
             '  data-radius="' + config.radius + '"',
             '  data-bg-color="' + config.bgColor + '"',
             '  data-text-color="' + config.textColor + '"',
-            '  data-accent-color="' + config.accentColor + '"'
-          ];
-
-          if (config.widgetType === "converter") {
-            lines.push('  data-converter-symbol="' + config.converterSymbol + '"');
-            lines.push('  data-converter-direction="' + config.converterDirection + '"');
-          }
-
-          lines.push('  data-branding="' + config.branding + '">');
-          lines.push("<" + "/script>");
-
-          return lines.join("\n");
+            '  data-accent-color="' + config.accentColor + '"',
+            '  data-branding="' + config.branding + '">',
+            "<" + "/script>"
+          ].join("\n");
         }
 
         function buildPreviewDocument(config) {
-          var lines = [
+          return [
             "<!doctype html>",
             '<html lang="ru">',
             "<head>",
             '  <meta charset="UTF-8" />',
             '  <meta name="viewport" content="width=device-width, initial-scale=1.0" />',
             "  <style>",
-            '    body{margin:0;padding:24px;font-family:system-ui,-apple-system,blinkmacsystemfont,"segoe ui",sans-serif;background:#edf4ff;color:#10213c}',
+            '    body{margin:0;padding:24px;font-family:system-ui,-apple-system,blinkmacsystemfont,"segoe ui",sans-serif;background:#07111f;color:#f5f8ff}',
             "    .preview-shell{max-width:100%}",
-            "    .preview-caption{margin:0 0 14px;font-size:13px;line-height:1.5;color:#5a6b86}",
+            "    .preview-caption{margin:0 0 14px;font-size:13px;line-height:1.5;color:#8fa2bf}",
             "  </style>",
             "</head>",
             "<body>",
@@ -964,27 +897,16 @@
             '    data-bg-color="' + config.bgColor + '"',
             '    data-text-color="' + config.textColor + '"',
             '    data-accent-color="' + config.accentColor + '"',
-            '    data-branding="' + config.branding + '"'
-          ];
-
-          if (config.widgetType === "converter") {
-            lines.push('    data-converter-symbol="' + config.converterSymbol + '"');
-            lines.push('    data-converter-direction="' + config.converterDirection + '"');
-          }
-
-          lines.push("  >");
-          lines.push("  </scr" + "ipt>");
-          lines.push("</body>");
-          lines.push("</html>");
-
-          return lines.join("\n");
+            '    data-branding="' + config.branding + '"',
+            "  >",
+            "  </scr" + "ipt>",
+            "</body>",
+            "</html>"
+          ].join("\n");
         }
 
         function syncModeState(config) {
-          var isConverter = config.widgetType === "converter";
-
-          ratesSettings.classList.toggle("is-hidden", isConverter);
-          converterSettings.classList.toggle("is-hidden", !isConverter);
+          ratesRoundField.classList.toggle("is-hidden", config.widgetType === "converter");
         }
 
         function render() {
@@ -993,8 +915,6 @@
           syncModeState(config);
           codeElement.textContent = buildEmbedCode(config);
           previewFrame.srcdoc = buildPreviewDocument(config);
-          apiBaseValue.textContent = config.apiBase;
-          developerWidgetType.textContent = config.widgetType === "converter" ? "конвертер валют" : "курсы валют";
           copyStatus.textContent = "Скопируйте этот код и вставьте его в html-блок на странице сайта.";
         }
 
