@@ -21,6 +21,22 @@ export async function registerRoutes(
   app: FastifyInstance,
   config: AppConfig,
 ): Promise<AppServices> {
+  const robotsSource = ["User-agent: *", "Allow: /", "", "Sitemap: https://rubleapi.ru/sitemap.xml"].join("\n");
+  const sitemapSource = [
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+    "  <url>",
+    "    <loc>https://rubleapi.ru/</loc>",
+    "  </url>",
+    "  <url>",
+    "    <loc>https://rubleapi.ru/widget</loc>",
+    "  </url>",
+    "  <url>",
+    "    <loc>https://rubleapi.ru/docs</loc>",
+    "  </url>",
+    "</urlset>",
+  ].join("\n");
+
   const ratesRepository = new RatesRepository();
   const cbrClient = new CbrClient();
   const cbrParser = new CbrParser();
@@ -33,6 +49,16 @@ export async function registerRoutes(
       status: "ok",
       service: "rubleapi",
     };
+  });
+
+  app.get("/robots.txt", async (_request, reply) => {
+    reply.type("text/plain; charset=utf-8");
+    return robotsSource;
+  });
+
+  app.get("/sitemap.xml", async (_request, reply) => {
+    reply.type("application/xml; charset=utf-8");
+    return sitemapSource;
   });
 
   app.get("/", async (_request, reply) => {

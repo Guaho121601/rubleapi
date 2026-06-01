@@ -56,11 +56,17 @@
         box-sizing: border-box;
       }
 
+      html {
+        overflow-y: scroll;
+        scrollbar-gutter: stable;
+      }
+
       body {
         margin: 0;
         min-height: 100vh;
         font-family: system-ui, -apple-system, blinkmacsystemfont, "segoe ui", sans-serif;
         color: var(--text-soft);
+        overflow-x: hidden;
         background:
           radial-gradient(circle at top left, rgba(103, 169, 255, 0.18), transparent 28%),
           radial-gradient(circle at top right, rgba(141, 116, 255, 0.16), transparent 24%),
@@ -73,9 +79,10 @@
       }
 
       .page-shell {
-        width: min(1140px, calc(100% - 32px));
+        width: 100%;
+        max-width: 1240px;
         margin: 0 auto;
-        padding: 24px 0 56px;
+        padding: 24px 16px 56px;
       }
 
       .site-header,
@@ -287,8 +294,10 @@
 
       pre {
         margin: 0;
+        max-width: 100%;
         padding: 18px;
-        overflow: auto;
+        overflow-x: auto;
+        overflow-y: hidden;
         border-radius: 18px;
         background: var(--code-bg);
         color: var(--code-text);

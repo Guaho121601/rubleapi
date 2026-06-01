@@ -102,6 +102,11 @@
       }
 
       html {
+        overflow-y: scroll;
+        scrollbar-gutter: stable;
+      }
+
+      html {
         scroll-behavior: smooth;
       }
 
@@ -110,6 +115,7 @@
         min-height: 100vh;
         font-family: system-ui, -apple-system, blinkmacsystemfont, "segoe ui", sans-serif;
         color: var(--text-soft);
+        overflow-x: hidden;
         background:
           radial-gradient(circle at top left, rgba(103, 169, 255, 0.18), transparent 28%),
           radial-gradient(circle at top right, rgba(141, 116, 255, 0.16), transparent 24%),
@@ -122,9 +128,10 @@
       }
 
       .page-shell {
-        width: min(1180px, calc(100% - 32px));
+        width: 100%;
+        max-width: 1240px;
         margin: 0 auto;
-        padding: 24px 0 56px;
+        padding: 24px 16px 56px;
       }
 
       .site-header,
