@@ -69,6 +69,14 @@ export async function registerRoutes(
     return indexSource;
   });
 
+  app.get("/favicon.svg", async (_request, reply) => {
+    const faviconPath = path.resolve(process.cwd(), "src/public/favicon.svg");
+    const faviconSource = await readFile(faviconPath, "utf8");
+
+    reply.type("image/svg+xml; charset=utf-8");
+    return faviconSource;
+  });
+
   app.get("/widget.js", async (_request, reply) => {
     const widgetPath = path.resolve(process.cwd(), "src/public/widget.js");
     const widgetSource = await readFile(widgetPath, "utf8");
