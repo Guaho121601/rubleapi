@@ -21,18 +21,33 @@ export async function registerRoutes(
   app: FastifyInstance,
   config: AppConfig,
 ): Promise<AppServices> {
-  const robotsSource = ["User-agent: *", "Allow: /", "", "Sitemap: https://rubleapi.ru/sitemap.xml"].join("\n");
+  const publicBaseUrl = config.publicBaseUrl;
+  const replacePublicBaseUrlPlaceholder = (source: string): string =>
+    source.split("{{PUBLIC_BASE_URL}}").join(publicBaseUrl);
+  const readPublicFile = async (fileName: string): Promise<string> => {
+    const sourcePath = path.resolve(process.cwd(), `src/public/${fileName}`);
+    const source = await readFile(sourcePath, "utf8");
+
+    return replacePublicBaseUrlPlaceholder(source);
+  };
+  const createPublicUrl = (pathname = ""): string => `${publicBaseUrl}${pathname}`;
+  const robotsSource = [
+    "user-agent: *",
+    "allow: /",
+    "",
+    `sitemap: ${createPublicUrl("/sitemap.xml")}`,
+  ].join("\n");
   const sitemapSource = [
     '<?xml version="1.0" encoding="UTF-8"?>',
     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
     "  <url>",
-    "    <loc>https://rubleapi.ru/</loc>",
+    `    <loc>${createPublicUrl("/")}</loc>`,
     "  </url>",
     "  <url>",
-    "    <loc>https://rubleapi.ru/widget</loc>",
+    `    <loc>${createPublicUrl("/widget")}</loc>`,
     "  </url>",
     "  <url>",
-    "    <loc>https://rubleapi.ru/docs</loc>",
+    `    <loc>${createPublicUrl("/docs")}</loc>`,
     "  </url>",
     "</urlset>",
   ].join("\n");
@@ -62,8 +77,7 @@ export async function registerRoutes(
   });
 
   app.get("/", async (_request, reply) => {
-    const indexPath = path.resolve(process.cwd(), "src/public/index.html");
-    const indexSource = await readFile(indexPath, "utf8");
+    const indexSource = await readPublicFile("index.html");
 
     reply.type("text/html; charset=utf-8");
     return indexSource;
@@ -86,24 +100,21 @@ export async function registerRoutes(
   });
 
   app.get("/widget-generator", async (_request, reply) => {
-    const generatorPath = path.resolve(process.cwd(), "src/public/widget-generator.html");
-    const generatorSource = await readFile(generatorPath, "utf8");
+    const generatorSource = await readPublicFile("widget-generator.html");
 
     reply.type("text/html; charset=utf-8");
     return generatorSource;
   });
 
   app.get("/widget", async (_request, reply) => {
-    const generatorPath = path.resolve(process.cwd(), "src/public/widget-generator.html");
-    const generatorSource = await readFile(generatorPath, "utf8");
+    const generatorSource = await readPublicFile("widget-generator.html");
 
     reply.type("text/html; charset=utf-8");
     return generatorSource;
   });
 
   app.get("/docs", async (_request, reply) => {
-    const docsPath = path.resolve(process.cwd(), "src/public/docs.html");
-    const docsSource = await readFile(docsPath, "utf8");
+    const docsSource = await readPublicFile("docs.html");
 
     reply.type("text/html; charset=utf-8");
     return docsSource;
