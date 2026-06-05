@@ -3,11 +3,27 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Документация по установке валютного виджета | RubleAPI</title>
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <title>Документация по установке виджета курсов и конвертера валют | RubleAPI</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <meta
       name="description"
-      content="Пошаговая документация по установке валютного виджета RubleAPI: быстрый старт, настройка внешнего вида, примеры для Tilda, WordPress и обычного html-сайта."
+      content="Пошаговая документация RubleAPI: как установить виджет курсов валют и как установить конвертер валют на Tilda, WordPress или HTML-сайт."
+    />
+    <link rel="canonical" href="{{PUBLIC_BASE_URL}}/docs" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="RubleAPI" />
+    <meta property="og:locale" content="ru_RU" />
+    <meta property="og:title" content="Документация по установке виджета курсов и конвертера валют | RubleAPI" />
+    <meta
+      property="og:description"
+      content="Пошаговые инструкции и production-примеры кода для виджета курсов валют и конвертера валют RubleAPI."
+    />
+    <meta property="og:url" content="{{PUBLIC_BASE_URL}}/docs" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Документация по установке виджета курсов и конвертера валют | RubleAPI" />
+    <meta
+      name="twitter:description"
+      content="Пошаговые инструкции и production-примеры кода для виджета курсов валют и конвертера валют RubleAPI."
     />
     <script type="application/ld+json">
       {
@@ -33,9 +49,7 @@
       :root {
         color-scheme: dark;
         --bg: #07111f;
-        --bg-strong: #040b16;
         --surface: rgba(11, 21, 37, 0.88);
-        --surface-strong: rgba(15, 28, 48, 0.94);
         --surface-soft: rgba(18, 34, 58, 0.72);
         --border: rgba(137, 180, 255, 0.16);
         --border-strong: rgba(140, 165, 255, 0.28);
@@ -44,7 +58,6 @@
         --muted: #8fa2bf;
         --accent: #67a9ff;
         --accent-strong: #8d74ff;
-        --accent-soft: rgba(103, 169, 255, 0.16);
         --shadow: 0 28px 80px rgba(0, 0, 0, 0.34);
         --code-bg: #050d18;
         --code-text: #eff5ff;
@@ -65,7 +78,7 @@
       body {
         margin: 0;
         min-height: 100vh;
-        font-family: system-ui, -apple-system, blinkmacsystemfont, "segoe ui", sans-serif;
+        font-family: system-ui, -apple-system, blinkmacsystemfont, "Segoe UI", sans-serif;
         color: var(--text-soft);
         overflow-x: hidden;
         background:
@@ -81,7 +94,7 @@
 
       .page-shell {
         width: 100%;
-        max-width: 1240px;
+        max-width: 1180px;
         margin: 0 auto;
         padding: 24px 16px 56px;
       }
@@ -170,28 +183,6 @@
         color: var(--text);
       }
 
-      .button {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 48px;
-        padding: 12px 18px;
-        border-radius: 999px;
-        text-decoration: none;
-        font-size: 14px;
-        font-weight: 700;
-      }
-
-      .button-primary {
-        background: linear-gradient(135deg, var(--accent) 0%, var(--accent-strong) 100%);
-        color: #ffffff;
-        box-shadow: 0 18px 36px rgba(79, 125, 255, 0.34);
-      }
-
-      .button-primary:hover {
-        filter: brightness(1.08);
-      }
-
       .hero-card,
       .section-card,
       .site-footer {
@@ -200,8 +191,13 @@
 
       .hero-card {
         display: grid;
-        gap: 14px;
+        gap: 16px;
         margin-bottom: 20px;
+      }
+
+      .content-stack {
+        display: grid;
+        gap: 20px;
       }
 
       .eyebrow {
@@ -227,7 +223,7 @@
       }
 
       h1 {
-        max-width: 760px;
+        max-width: 820px;
         font-size: clamp(38px, 5vw, 58px);
         line-height: 1;
         letter-spacing: -0.04em;
@@ -238,7 +234,7 @@
       }
 
       h3 {
-        font-size: 18px;
+        font-size: 20px;
       }
 
       p {
@@ -246,14 +242,11 @@
         line-height: 1.75;
       }
 
-      .hero-copy {
-        max-width: 780px;
-        font-size: 18px;
-      }
-
-      .content-stack {
-        display: grid;
-        gap: 20px;
+      .hero-copy,
+      .section-copy {
+        max-width: 820px;
+        font-size: 16px;
+        color: var(--text-soft);
       }
 
       .section-card {
@@ -261,23 +254,10 @@
         gap: 18px;
       }
 
-      .section-copy {
-        color: var(--muted);
-        font-size: 15px;
-      }
-
-      .ways-grid,
-      .tips-grid {
+      .grid-2 {
         display: grid;
-        gap: 16px;
-      }
-
-      .ways-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-      }
-
-      .tips-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
       }
 
       .card {
@@ -302,7 +282,7 @@
         border-radius: 18px;
         background: var(--code-bg);
         color: var(--code-text);
-        font-family: ui-monospace, sfmono-regular, menlo, consolas, monospace;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
         font-size: 14px;
         line-height: 1.65;
       }
@@ -333,6 +313,35 @@
         justify-content: space-between;
         align-items: center;
         gap: 20px;
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 48px;
+        padding: 12px 18px;
+        border-radius: 999px;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 700;
+      }
+
+      .button-primary {
+        background: linear-gradient(135deg, var(--accent) 0%, var(--accent-strong) 100%);
+        color: #ffffff;
+        box-shadow: 0 18px 36px rgba(79, 125, 255, 0.34);
+      }
+
+      .button-secondary {
+        border: 1px solid var(--border-strong);
+        background: rgba(14, 29, 49, 0.8);
+        color: var(--text);
+      }
+
+      .button-primary:hover,
+      .button-secondary:hover {
+        filter: brightness(1.08);
       }
 
       .site-footer {
@@ -401,8 +410,7 @@
           align-items: flex-start;
         }
 
-        .ways-grid,
-        .tips-grid,
+        .grid-2,
         .footer-grid {
           grid-template-columns: 1fr;
         }
@@ -415,24 +423,23 @@
         <a class="brand" href="/">
           <span class="brand-mark">₽</span>
           <span class="brand-copy">
-            <span class="brand-title">Курс валют на сайт</span>
-            <span class="brand-subtitle">RubleAPI</span>
+            <span class="brand-title">RubleAPI</span>
+            <span class="brand-subtitle">Курсы валют и конвертер для сайта</span>
           </span>
         </a>
         <nav class="header-nav">
           <a class="nav-link" href="/">Главная</a>
-          <a class="nav-link" href="/widget">Настроить виджет</a>
+          <a class="nav-link" href="/widget">Виджет курсов</a>
+          <a class="nav-link" href="/converter">Конвертер</a>
           <a class="nav-link" aria-current="page" href="/docs">Документация</a>
-          <a class="nav-link" href="/#faq">FAQ</a>
         </nav>
       </header>
 
       <section class="hero-card">
-        <div class="eyebrow">Документация</div>
-        <h1>Как установить валютный виджет на сайт</h1>
+        <div class="eyebrow">Документация RubleAPI</div>
+        <h1>Как установить виджет курсов валют и конвертер валют на сайт</h1>
         <p class="hero-copy">
-          Ниже собраны простые инструкции по подключению виджета RubleAPI. Сначала выберите настройки
-          в генераторе, затем получите код и вставьте его на нужную страницу сайта.
+          Ниже собраны два отдельных сценария установки. Выберите готовый блок с курсами валют, если нужно просто показать курсы на сайте, или интерактивный конвертер, если посетителю нужен пересчёт суммы по данным ЦБ РФ.
         </p>
       </section>
 
@@ -440,141 +447,154 @@
         <section class="section-card">
           <h2>Быстрый старт</h2>
           <p class="section-copy">
-            Откройте генератор, выберите валюты и внешний вид, скопируйте код и вставьте его на
-            страницу сайта.
+            Оба продукта подключаются одинаково просто: настройте внешний вид в генераторе, скопируйте код и вставьте его в HTML-блок на нужной странице сайта.
           </p>
-          <div class="card">
-            <ol>
-              <li>Откройте страницу <code>/widget</code>.</li>
-              <li>Выберите тип виджета, валюты и оформление.</li>
-              <li>Скопируйте готовый код для вставки.</li>
-              <li>Добавьте код на страницу сайта и опубликуйте изменения.</li>
-            </ol>
+          <div class="grid-2">
+            <div class="card">
+              <h3>Если нужен блок с курсами</h3>
+              <ol>
+                <li>Откройте страницу <code>/widget</code>.</li>
+                <li>Выберите валюты и оформление виджета.</li>
+                <li>Скопируйте готовый код и вставьте его на сайт.</li>
+              </ol>
+            </div>
+            <div class="card">
+              <h3>Если нужен интерактивный пересчёт</h3>
+              <ol>
+                <li>Откройте страницу <code>/converter</code>.</li>
+                <li>Выберите валюты для конвертера и настройте стиль.</li>
+                <li>Скопируйте код и вставьте его на сайт.</li>
+              </ol>
+            </div>
           </div>
         </section>
 
         <section class="section-card">
-          <h2>Установка на Tilda</h2>
-          <div class="card">
-            <p>
-              Добавьте html-блок, вставьте в него код виджета, сохраните изменения и заново
-              опубликуйте страницу.
-            </p>
-            <pre><code>&lt;script
-  src="{{PUBLIC_BASE_URL}}/widget.js"
-  data-api-base="{{PUBLIC_BASE_URL}}"
+          <h2>Как установить виджет курсов</h2>
+          <p class="section-copy">
+            Этот сценарий подходит, если вы хотите показать посетителю готовый блок с курсами валют без ввода суммы.
+          </p>
+          <div class="grid-2">
+            <div class="card">
+              <h3>Шаги установки</h3>
+              <ol>
+                <li>Откройте генератор на странице <code>/widget</code>.</li>
+                <li>Отметьте валюты, которые хотите показывать на сайте.</li>
+                <li>Скопируйте код и вставьте его в HTML-блок страницы.</li>
+                <li>Сохраните и опубликуйте страницу.</li>
+              </ol>
+            </div>
+            <div class="card">
+              <h3>Production-пример кода</h3>
+              <pre><code>&lt;script
+  src="https://rubleapi.ru/widget.js"
+  data-api-base="https://rubleapi.ru"
+  data-widget-type="rates"
   data-symbols="usd,eur,cny"
   data-theme="light"
   data-round="2"
+  data-width="card"
+  data-font-size="medium"
+  data-radius="16"
+  data-bg-color="#ffffff"
+  data-text-color="#4f5d75"
+  data-accent-color="#0f6fc6"
   data-branding="true"&gt;
 &lt;/script&gt;</code></pre>
+            </div>
           </div>
         </section>
 
         <section class="section-card">
-          <h2>Установка на WordPress</h2>
-          <div class="card">
-            <p>
-              В редакторе страницы добавьте блок <code>Custom HTML</code> или
-              <code>Произвольный HTML</code>, вставьте туда код виджета и обновите публикацию.
-            </p>
-            <pre><code>&lt;script
-  src="{{PUBLIC_BASE_URL}}/widget.js"
-  data-api-base="{{PUBLIC_BASE_URL}}"
-  data-symbols="usd,eur"
-  data-theme="dark"
-  data-round="2"
-  data-branding="true"&gt;
-&lt;/script&gt;</code></pre>
-          </div>
-        </section>
-
-        <section class="section-card">
-          <h2>Установка на обычный html-сайт</h2>
-          <div class="card">
-            <p>
-              Вставьте код в нужное место страницы. После загрузки страницы виджет появится рядом с
-              этим кодом.
-            </p>
-            <pre><code>&lt;div class="rates-block"&gt;
-  &lt;h2&gt;Курсы валют&lt;/h2&gt;
-  &lt;script
-    src="{{PUBLIC_BASE_URL}}/widget.js"
-    data-api-base="{{PUBLIC_BASE_URL}}"
-    data-symbols="usd,eur,cny"
-    data-theme="light"
-    data-round="2"
-    data-branding="true"&gt;
-  &lt;/script&gt;
-&lt;/div&gt;</code></pre>
-          </div>
-        </section>
-
-        <section class="section-card">
-          <h2>Настройка внешнего вида</h2>
+          <h2>Как установить конвертер валют</h2>
           <p class="section-copy">
-            В генераторе можно выбрать валюты, тему оформления, ширину, размер текста, скругление
-            углов и цвета.
+            Этот сценарий подходит, если посетитель должен ввести сумму, выбрать валюту и получить пересчёт по данным ЦБ РФ прямо на странице сайта.
           </p>
-          <div class="tips-grid">
+          <div class="grid-2">
             <div class="card">
-              <h3>Что можно менять</h3>
-              <ul>
-                <li>набор валют</li>
-                <li>светлую или тёмную тему</li>
-                <li>ширину виджета</li>
-                <li>размер текста</li>
-                <li>скругление углов</li>
-                <li>цвет фона, текста и акцента</li>
-              </ul>
+              <h3>Шаги установки</h3>
+              <ol>
+                <li>Откройте генератор на странице <code>/converter</code>.</li>
+                <li>Выберите валюты для выпадающего списка конвертера.</li>
+                <li>Настройте тему, размеры и цвета.</li>
+                <li>Скопируйте код, вставьте его на сайт и опубликуйте страницу.</li>
+              </ol>
             </div>
             <div class="card">
-              <h3>Важно про номинал</h3>
+              <h3>Production-пример кода</h3>
+              <pre><code>&lt;script
+  src="https://rubleapi.ru/widget.js"
+  data-api-base="https://rubleapi.ru"
+  data-widget-type="converter"
+  data-symbols="usd,eur,cny"
+  data-theme="light"
+  data-width="card"
+  data-font-size="medium"
+  data-radius="16"
+  data-bg-color="#ffffff"
+  data-text-color="#4f5d75"
+  data-accent-color="#0f6fc6"
+  data-branding="true"&gt;
+&lt;/script&gt;</code></pre>
+            </div>
+          </div>
+        </section>
+
+        <section class="section-card">
+          <h2>Где можно использовать</h2>
+          <div class="grid-2">
+            <div class="card">
+              <h3>Tilda и WordPress</h3>
               <p>
-                Если рядом с валютой указано 10 или 10 000, курс показан за это количество единиц
-                валюты по данным ЦБ РФ. Это уже учитывается в виджете и конвертере.
+                Добавьте блок <code>HTML</code> или <code>Custom HTML</code>, вставьте готовый код и переопубликуйте страницу.
+              </p>
+            </div>
+            <div class="card">
+              <h3>Обычный HTML-сайт</h3>
+              <p>
+                Вставьте код в нужное место страницы. После загрузки страницы RubleAPI сам отрисует виджет курсов или конвертер.
               </p>
             </div>
           </div>
         </section>
 
         <section class="section-card">
-          <h2>Частые ошибки</h2>
-          <div class="card">
-            <ul>
-              <li>Сервис RubleAPI временно недоступен.</li>
-              <li>В коде указан неверный адрес сервиса в <code>data-api-base</code>.</li>
-              <li>В параметрах не выбраны валюты.</li>
-              <li>В базе пока нет сохранённых курсов.</li>
-              <li>Браузер или расширение блокирует загрузку данных.</li>
-              <li>На сайте сохранилась старая версия страницы в кеше.</li>
-            </ul>
+          <h2>Что важно проверить</h2>
+          <div class="grid-2">
+            <div class="card">
+              <h3>Перед публикацией</h3>
+              <ul>
+                <li>Выбраны нужные валюты.</li>
+                <li>Код вставлен целиком, без обрезанных строк.</li>
+                <li>HTML-блок не экранирует тег <code>script</code>.</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3>Если что-то не отображается</h3>
+              <ul>
+                <li>Проверьте, что в коде указан <code>https://rubleapi.ru</code>.</li>
+                <li>Убедитесь, что страница опубликована, а не сохранена как черновик.</li>
+                <li>Очистите кеш страницы и обновите её в браузере.</li>
+              </ul>
+            </div>
           </div>
           <div class="warning-box">
-            Виджет можно вставлять на разные сайты. Сервер RubleAPI разрешает таким сайтам получать
-            данные курсов.
-          </div>
-        </section>
-
-        <section class="section-card">
-          <h2>Условия бесплатного использования</h2>
-          <div class="card">
-            <p>
-              В бесплатной версии должна сохраняться ссылка «Данные: RubleAPI». Отключение брендинга
-              будет доступно в платной версии.
-            </p>
+            Бесплатная версия работает с подписью «Данные: RubleAPI». Данные курсов носят справочный характер и не являются финансовой рекомендацией.
           </div>
         </section>
 
         <section class="section-card">
           <div class="cta-row">
             <div>
-              <h2>Готово к установке</h2>
+              <h2>Открыть генератор</h2>
               <p class="section-copy">
-                Если хотите получить готовый код без ручной настройки, откройте генератор.
+                Если вы уже понимаете сценарий, переходите сразу на нужную страницу генератора и забирайте готовый код.
               </p>
             </div>
-            <a class="button button-primary" href="/widget">Открыть генератор</a>
+            <div class="cta-row">
+              <a class="button button-secondary" href="/widget">Виджет курсов</a>
+              <a class="button button-primary" href="/converter">Конвертер</a>
+            </div>
           </div>
         </section>
       </div>
@@ -582,14 +602,17 @@
       <footer class="site-footer">
         <div class="footer-grid">
           <div>
-            <div class="footer-title">Курс валют на сайт</div>
-            <p class="footer-copy">RubleAPI — валютный виджет для сайтов на основе курсов ЦБ РФ.</p>
+            <div class="footer-title">RubleAPI</div>
+            <p class="footer-copy">
+              Сервис для установки виджета курсов валют и конвертера валют на сайт с данными ЦБ РФ.
+            </p>
           </div>
           <nav class="footer-nav">
             <div class="footer-heading">Навигация</div>
-            <a href="/">главная</a>
-            <a href="/widget">настроить виджет</a>
-            <a href="/docs">документация</a>
+            <a href="/">Главная</a>
+            <a href="/widget">Виджет курсов</a>
+            <a href="/converter">Конвертер</a>
+            <a href="/docs">Документация</a>
           </nav>
           <div>
             <div class="footer-heading">Реквизиты</div>
@@ -637,9 +660,9 @@
         trackLinks: true
       });
     </script>
-    <noscript
-      ><div><img src="https://mc.yandex.ru/watch/109613460" style="position:absolute; left:-9999px;" alt="" /></div
-    ></noscript>
+    <noscript>
+      <div><img src="https://mc.yandex.ru/watch/109613460" style="position:absolute; left:-9999px;" alt="" /></div>
+    </noscript>
     <!-- /Yandex.Metrika counter -->
   </body>
 </html>

@@ -3,12 +3,19 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Настроить валютный виджет для сайта | RubleAPI</title>
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-    <meta
-      name="description"
-      content="Настройте валютный виджет RubleAPI: выберите тип виджета, валюты и внешний вид, посмотрите пример и получите готовый код для вставки на сайт."
-    />
+    <title>{{PAGE_TITLE}}</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="description" content="{{META_DESCRIPTION}}" />
+    <link rel="canonical" href="{{PUBLIC_BASE_URL}}{{PAGE_PATH}}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="RubleAPI" />
+    <meta property="og:locale" content="ru_RU" />
+    <meta property="og:title" content="{{PAGE_TITLE}}" />
+    <meta property="og:description" content="{{META_DESCRIPTION}}" />
+    <meta property="og:url" content="{{PUBLIC_BASE_URL}}{{PAGE_PATH}}" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="{{PAGE_TITLE}}" />
+    <meta name="twitter:description" content="{{META_DESCRIPTION}}" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -23,8 +30,8 @@
           {
             "@type": "ListItem",
             "position": 2,
-            "name": "Настроить виджет",
-            "item": "{{PUBLIC_BASE_URL}}/widget"
+            "name": "{{BREADCRUMB_NAME}}",
+            "item": "{{PUBLIC_BASE_URL}}{{PAGE_PATH}}"
           }
         ]
       }
@@ -44,7 +51,6 @@
         --muted: #8fa2bf;
         --accent: #67a9ff;
         --accent-strong: #8d74ff;
-        --accent-soft: rgba(103, 169, 255, 0.16);
         --shadow: 0 28px 80px rgba(0, 0, 0, 0.34);
         --warning-bg: rgba(116, 86, 20, 0.22);
         --warning-border: rgba(255, 211, 122, 0.28);
@@ -65,7 +71,7 @@
       body {
         margin: 0;
         min-height: 100vh;
-        font-family: system-ui, -apple-system, blinkmacsystemfont, "segoe ui", sans-serif;
+        font-family: system-ui, -apple-system, blinkmacsystemfont, "Segoe UI", sans-serif;
         color: var(--text-soft);
         overflow-x: hidden;
         background:
@@ -170,28 +176,6 @@
         color: var(--text);
       }
 
-      .button {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 48px;
-        padding: 12px 18px;
-        border-radius: 999px;
-        text-decoration: none;
-        font-size: 14px;
-        font-weight: 700;
-      }
-
-      .button-primary {
-        background: linear-gradient(135deg, var(--accent) 0%, var(--accent-strong) 100%);
-        color: #ffffff;
-        box-shadow: 0 18px 36px rgba(79, 125, 255, 0.34);
-      }
-
-      .button-primary:hover {
-        filter: brightness(1.08);
-      }
-
       .hero-card,
       .panel,
       .site-footer {
@@ -200,7 +184,7 @@
 
       .hero-card {
         display: grid;
-        gap: 14px;
+        gap: 16px;
         margin-bottom: 20px;
       }
 
@@ -227,7 +211,7 @@
       }
 
       h1 {
-        max-width: 760px;
+        max-width: 820px;
         font-size: clamp(38px, 5vw, 58px);
         line-height: 1;
         letter-spacing: -0.04em;
@@ -243,8 +227,24 @@
       }
 
       .hero-copy {
-        max-width: 760px;
+        max-width: 820px;
         font-size: 18px;
+      }
+
+      .hero-steps {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .hero-step {
+        padding: 16px 18px;
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        background: var(--surface-soft);
+        color: var(--text);
+        font-size: 14px;
+        font-weight: 600;
       }
 
       .layout {
@@ -313,8 +313,7 @@
       .choice,
       .option-row,
       .step-card,
-      .color-card,
-      .card-block {
+      .color-card {
         display: flex;
         align-items: center;
         gap: 10px;
@@ -392,12 +391,18 @@
         font-size: 18px;
       }
 
-      .copy-button {
+      .copy-button,
+      .button-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 46px;
+        padding: 11px 16px;
         border: none;
         border-radius: 999px;
         background: linear-gradient(135deg, var(--accent) 0%, var(--accent-strong) 100%);
         color: #ffffff;
-        padding: 11px 16px;
+        text-decoration: none;
         font: inherit;
         font-size: 14px;
         font-weight: 700;
@@ -405,7 +410,8 @@
         box-shadow: 0 18px 36px rgba(79, 125, 255, 0.28);
       }
 
-      .copy-button:hover {
+      .copy-button:hover,
+      .button-link:hover {
         filter: brightness(1.08);
       }
 
@@ -418,7 +424,7 @@
         color: var(--code-text);
         overflow-x: auto;
         overflow-y: hidden;
-        font-family: ui-monospace, sfmono-regular, menlo, consolas, monospace;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
         font-size: 14px;
         line-height: 1.65;
       }
@@ -434,7 +440,7 @@
       .preview-frame {
         display: block;
         width: 100%;
-        min-height: 560px;
+        min-height: 620px;
         max-width: 100%;
         margin-top: 14px;
         border: 1px solid var(--border-strong);
@@ -518,6 +524,7 @@
         }
 
         .layout,
+        .hero-steps,
         .currency-grid,
         .size-grid,
         .color-grid,
@@ -528,54 +535,40 @@
       }
     </style>
   </head>
-  <body>
+  <body data-page-mode="{{PAGE_MODE}}">
     <main class="page-shell">
       <header class="site-header">
         <a class="brand" href="/">
           <span class="brand-mark">₽</span>
           <span class="brand-copy">
-            <span class="brand-title">Курс валют на сайт</span>
-            <span class="brand-subtitle">RubleAPI</span>
+            <span class="brand-title">RubleAPI</span>
+            <span class="brand-subtitle">Курсы валют и конвертер для сайта</span>
           </span>
         </a>
         <nav class="header-nav">
           <a class="nav-link" href="/">Главная</a>
-          <a class="nav-link" aria-current="page" href="/widget">Настроить виджет</a>
+          <a class="nav-link" {{NAV_WIDGET_CURRENT}} href="/widget">Виджет курсов</a>
+          <a class="nav-link" {{NAV_CONVERTER_CURRENT}} href="/converter">Конвертер</a>
           <a class="nav-link" href="/docs">Документация</a>
-          <a class="nav-link" href="/#faq">FAQ</a>
         </nav>
       </header>
 
       <section class="hero-card">
-        <div class="eyebrow">Генератор RubleAPI</div>
-        <h1>Настройте валютный виджет</h1>
-        <p class="hero-copy">
-          Выберите валюты и внешний вид. Генератор покажет пример виджета и подготовит код,
-          который можно вставить на сайт.
-        </p>
+        <div class="eyebrow">{{EYEBROW}}</div>
+        <h1>{{HERO_TITLE}}</h1>
+        <p class="hero-copy">{{HERO_COPY}}</p>
+        <div class="hero-steps" aria-label="Сценарий установки">
+          <div class="hero-step">1. Выберите валюты</div>
+          <div class="hero-step">2. Настройте внешний вид</div>
+          <div class="hero-step">3. Скопируйте код</div>
+          <div class="hero-step">4. Вставьте на сайт</div>
+        </div>
       </section>
 
       <section class="layout">
         <form class="panel" id="widget-generator-form">
-          <h2 class="section-title">Параметры виджета</h2>
-          <p class="section-copy">
-            Изменения применяются сразу. Для конвертера выбранные валюты станут выпадающим списком
-            внутри самого виджета.
-          </p>
-
-          <div class="field">
-            <span class="field-label">Тип виджета</span>
-            <div class="option-stack">
-              <label class="option-row">
-                <input type="radio" name="widget-type" value="rates" checked />
-                <span class="choice-label">Курсы валют</span>
-              </label>
-              <label class="option-row">
-                <input type="radio" name="widget-type" value="converter" />
-                <span class="choice-label">Конвертер валют</span>
-              </label>
-            </div>
-          </div>
+          <h2 class="section-title">{{SETTINGS_TITLE}}</h2>
+          <p class="section-copy">{{SETTINGS_COPY}}</p>
 
           <div class="field">
             <span class="field-label">Валюты</span>
@@ -609,21 +602,19 @@
                 <span class="choice-label">VND</span>
               </label>
             </div>
-            <p class="field-hint">
-              Если ничего не выбрать, генератор оставит USD как безопасный вариант по умолчанию.
-            </p>
+            <p class="field-hint">{{CURRENCY_HINT}}</p>
           </div>
 
-          <div class="field" id="rates-round-field">
+          <div class="field{{ROUND_FIELD_CLASS}}" id="rates-round-field">
             <span class="field-label">Показывать копейки</span>
             <div class="option-stack">
               <label class="option-row">
                 <input type="radio" name="round" value="0" />
-                <span class="choice-label">нет</span>
+                <span class="choice-label">Нет</span>
               </label>
               <label class="option-row">
                 <input type="radio" name="round" value="2" checked />
-                <span class="choice-label">да</span>
+                <span class="choice-label">Да</span>
               </label>
             </div>
           </div>
@@ -633,29 +624,29 @@
             <div class="option-stack">
               <label class="option-row">
                 <input type="radio" name="theme" value="light" checked />
-                <span class="choice-label">светлая</span>
+                <span class="choice-label">Светлая</span>
               </label>
               <label class="option-row">
                 <input type="radio" name="theme" value="dark" />
-                <span class="choice-label">тёмная</span>
+                <span class="choice-label">Тёмная</span>
               </label>
             </div>
           </div>
 
           <div class="field">
-            <span class="field-label">Ширина виджета</span>
+            <span class="field-label">Ширина блока</span>
             <div class="option-stack">
               <label class="option-row">
                 <input type="radio" name="width" value="compact" />
-                <span class="choice-label">компактная</span>
+                <span class="choice-label">Компактная</span>
               </label>
               <label class="option-row">
                 <input type="radio" name="width" value="card" checked />
-                <span class="choice-label">карточка</span>
+                <span class="choice-label">Карточка</span>
               </label>
               <label class="option-row">
                 <input type="radio" name="width" value="full" />
-                <span class="choice-label">во всю ширину</span>
+                <span class="choice-label">Во всю ширину</span>
               </label>
             </div>
           </div>
@@ -665,15 +656,15 @@
             <div class="option-stack">
               <label class="option-row">
                 <input type="radio" name="font-size" value="small" />
-                <span class="choice-label">маленький</span>
+                <span class="choice-label">Маленький</span>
               </label>
               <label class="option-row">
                 <input type="radio" name="font-size" value="medium" checked />
-                <span class="choice-label">средний</span>
+                <span class="choice-label">Средний</span>
               </label>
               <label class="option-row">
                 <input type="radio" name="font-size" value="large" />
-                <span class="choice-label">крупный</span>
+                <span class="choice-label">Крупный</span>
               </label>
             </div>
           </div>
@@ -701,18 +692,18 @@
           </div>
 
           <div class="field">
-            <span class="field-label">Цвет фона</span>
+            <span class="field-label">Цвета</span>
             <div class="color-grid">
               <label class="color-card">
-                <span class="choice-label">Цвет фона</span>
+                <span class="choice-label">Фон</span>
                 <input type="color" name="bg-color" value="#ffffff" />
               </label>
               <label class="color-card">
-                <span class="choice-label">Цвет текста</span>
+                <span class="choice-label">Текст</span>
                 <input type="color" name="text-color" value="#4f5d75" />
               </label>
               <label class="color-card">
-                <span class="choice-label">Цвет акцента</span>
+                <span class="choice-label">Акцент</span>
                 <input type="color" name="accent-color" value="#0f6fc6" />
               </label>
             </div>
@@ -722,11 +713,10 @@
             <span class="field-label">Брендинг RubleAPI</span>
             <label class="option-row">
               <input type="checkbox" name="branding" checked disabled />
-              <span class="choice-label">сохранять ссылку «Данные: RubleAPI»</span>
+              <span class="choice-label">Оставить подпись «Данные: RubleAPI»</span>
             </label>
             <div class="brand-lock">
-              Бесплатный виджет можно использовать только при сохранении ссылки «Данные:
-              RubleAPI». Отключение брендинга будет доступно в платной версии.
+              Бесплатная версия работает с сохранением ссылки «Данные: RubleAPI». Отключение брендинга можно добавить позже в отдельной платной версии, но текущий сценарий установки это не усложняет.
             </div>
           </div>
         </form>
@@ -734,28 +724,29 @@
         <section class="panel output-panel">
           <div class="code-card">
             <div class="toolbar">
-              <h2 class="toolbar-title">Код для вставки на сайт</h2>
+              <h2 class="toolbar-title">{{CODE_TITLE}}</h2>
               <button class="copy-button" id="copy-code-button" type="button">Скопировать код</button>
             </div>
             <pre><code id="embed-code"></code></pre>
-            <p class="status-text" id="copy-status">
-              Скопируйте этот код и вставьте его в html-блок на странице сайта.
-            </p>
+            <p class="status-text" id="copy-status">{{CODE_STATUS}}</p>
           </div>
 
           <div class="preview-card">
-            <h2 class="toolbar-title">Пример виджета</h2>
-            <p class="preview-copy">Ниже показано, как виджет будет выглядеть с текущими настройками.</p>
-            <iframe class="preview-frame" id="widget-preview" title="Widget preview" loading="lazy"></iframe>
+            <h2 class="toolbar-title">{{PREVIEW_TITLE}}</h2>
+            <p class="preview-copy">{{PREVIEW_COPY}}</p>
+            <iframe class="preview-frame" id="widget-preview" title="{{PREVIEW_TITLE}}" loading="lazy"></iframe>
           </div>
 
           <div class="install-card">
-            <h2 class="section-title">Как установить</h2>
+            <div class="toolbar">
+              <h2 class="toolbar-title">{{INSTALL_TITLE}}</h2>
+              <a class="button-link" href="/docs">Открыть документацию</a>
+            </div>
             <div class="steps-grid">
-              <div class="step-card"><p>Скопируйте код</p></div>
-              <div class="step-card"><p>Откройте страницу сайта</p></div>
-              <div class="step-card"><p>Добавьте html-блок</p></div>
-              <div class="step-card"><p>Вставьте код, сохраните и опубликуйте страницу</p></div>
+              <div class="step-card"><p>Скопируйте готовый код из генератора.</p></div>
+              <div class="step-card"><p>Откройте страницу сайта в Tilda, WordPress или HTML-редакторе.</p></div>
+              <div class="step-card"><p>Добавьте HTML-блок в нужное место страницы.</p></div>
+              <div class="step-card"><p>Вставьте код, сохраните изменения и опубликуйте страницу.</p></div>
             </div>
           </div>
         </section>
@@ -764,14 +755,15 @@
       <footer class="site-footer">
         <div class="footer-grid">
           <div>
-            <div class="footer-title">Курс валют на сайт</div>
-            <p class="footer-copy">RubleAPI — валютный виджет для сайтов на основе курсов ЦБ РФ.</p>
+            <div class="footer-title">{{FOOTER_PRODUCT_TITLE}}</div>
+            <p class="footer-copy">{{FOOTER_PRODUCT_COPY}}</p>
           </div>
           <nav class="footer-nav">
             <div class="footer-heading">Навигация</div>
-            <a href="/">главная</a>
-            <a href="/widget">настроить виджет</a>
-            <a href="/docs">документация</a>
+            <a href="/">Главная</a>
+            <a href="/widget">Виджет курсов</a>
+            <a href="/converter">Конвертер</a>
+            <a href="/docs">Документация</a>
           </nav>
           <div>
             <div class="footer-heading">Реквизиты</div>
@@ -795,7 +787,7 @@
         var previewFrame = document.getElementById("widget-preview");
         var copyButton = document.getElementById("copy-code-button");
         var copyStatus = document.getElementById("copy-status");
-        var ratesRoundField = document.getElementById("rates-round-field");
+        var pageMode = document.body.getAttribute("data-page-mode") || "rates";
 
         var themePresets = {
           light: {
@@ -845,7 +837,7 @@
         function getConfig() {
           return {
             apiBase: getApiBase(),
-            widgetType: getSelectedValue("widget-type") || "rates",
+            widgetType: pageMode,
             symbols: getSelectedSymbols(),
             theme: getSelectedValue("theme") || "light",
             round: getSelectedValue("round") || "2",
@@ -887,14 +879,14 @@
             '  <meta charset="UTF-8" />',
             '  <meta name="viewport" content="width=device-width, initial-scale=1.0" />',
             "  <style>",
-            '    body{margin:0;padding:24px;font-family:system-ui,-apple-system,blinkmacsystemfont,"segoe ui",sans-serif;background:#07111f;color:#f5f8ff}',
+            '    body{margin:0;padding:24px;font-family:system-ui,-apple-system,blinkmacsystemfont,"Segoe UI",sans-serif;background:#07111f;color:#f5f8ff}',
             "    .preview-shell{max-width:100%}",
             "    .preview-caption{margin:0 0 14px;font-size:13px;line-height:1.5;color:#8fa2bf}",
             "  </style>",
             "</head>",
             "<body>",
             '  <div class="preview-shell">',
-            '    <p class="preview-caption">Предварительный пример виджета с текущими настройками.</p>',
+            '    <p class="preview-caption">Предварительный пример с текущими настройками.</p>',
             "  </div>",
             '  <scr' + 'ipt',
             '    src="' + config.apiBase + '/widget.js"',
@@ -917,17 +909,12 @@
           ].join("\n");
         }
 
-        function syncModeState(config) {
-          ratesRoundField.classList.toggle("is-hidden", config.widgetType === "converter");
-        }
-
         function render() {
           var config = getConfig();
 
-          syncModeState(config);
           codeElement.textContent = buildEmbedCode(config);
           previewFrame.srcdoc = buildPreviewDocument(config);
-          copyStatus.textContent = "Скопируйте этот код и вставьте его в html-блок на странице сайта.";
+          copyStatus.textContent = "{{CODE_STATUS}}";
         }
 
         async function copyCode() {
@@ -986,9 +973,9 @@
         trackLinks: true
       });
     </script>
-    <noscript
-      ><div><img src="https://mc.yandex.ru/watch/109613460" style="position:absolute; left:-9999px;" alt="" /></div
-    ></noscript>
+    <noscript>
+      <div><img src="https://mc.yandex.ru/watch/109613460" style="position:absolute; left:-9999px;" alt="" /></div>
+    </noscript>
     <!-- /Yandex.Metrika counter -->
   </body>
 </html>
