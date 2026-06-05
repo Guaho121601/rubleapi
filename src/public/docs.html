@@ -356,6 +356,17 @@
         justify-content: space-between;
         align-items: center;
         gap: 20px;
+        min-width: 0;
+      }
+
+      .cta-actions {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 12px;
+        min-width: 0;
+        max-width: 100%;
       }
 
       .button {
@@ -363,11 +374,15 @@
         align-items: center;
         justify-content: center;
         min-height: 48px;
+        min-width: 0;
+        max-width: 100%;
         padding: 12px 18px;
         border-radius: 999px;
         text-decoration: none;
         font-size: 14px;
         font-weight: 700;
+        box-sizing: border-box;
+        white-space: nowrap;
       }
 
       .button-primary {
@@ -483,6 +498,10 @@
         .footer-grid {
           grid-template-columns: 1fr;
         }
+
+        .cta-actions {
+          width: 100%;
+        }
       }
 
       @media (max-width: 860px) {
@@ -519,6 +538,10 @@
 
         .nav-link {
           padding: 14px 16px;
+        }
+
+        .cta-actions .button {
+          justify-content: center;
         }
       }
     </style>
@@ -734,7 +757,7 @@
                 готовый код.
               </p>
             </div>
-            <div class="cta-row">
+            <div class="cta-actions">
               <a class="button button-secondary" href="/widget">Информер</a>
               <a class="button button-secondary" href="/converter">Конвертер</a>
               <a class="button button-primary" href="/crypto">Криптовалюта</a>
