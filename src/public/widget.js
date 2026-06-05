@@ -363,24 +363,40 @@
     }).format(date);
   }
 
-  function formatSymbolLabel(rate) {
-    var code = String(rate.code || "").toLowerCase();
+  function getDisplayRate(rate) {
+    var nominal = Number(rate.nominal);
+    var value = Number(rate.value);
+    var code = String(rate.code || "").toUpperCase();
+    var shouldNormalizeSingleUnit = (code === "TRY" || code === "THB") && nominal > 1 && Number.isFinite(value);
 
-    if (!rate.nominal || rate.nominal === 1) {
+    return {
+      code: code,
+      nominal: shouldNormalizeSingleUnit ? 1 : nominal,
+      value: shouldNormalizeSingleUnit ? value / nominal : value,
+      name: rate.name || ""
+    };
+  }
+
+  function formatSymbolLabel(rate) {
+    var displayRate = getDisplayRate(rate);
+    var code = displayRate.code;
+
+    if (!displayRate.nominal || displayRate.nominal === 1) {
       return code;
     }
 
-    return formatNominal(rate.nominal) + " " + code;
+    return formatNominal(displayRate.nominal) + " " + code;
   }
 
   function formatCurrencyTitle(rate) {
-    var code = String(rate.code || "").toUpperCase();
+    var displayRate = getDisplayRate(rate);
+    var code = displayRate.code;
 
-    if (!rate.nominal || rate.nominal === 1) {
+    if (!displayRate.nominal || displayRate.nominal === 1) {
       return code;
     }
 
-    return formatNominal(rate.nominal) + " " + code;
+    return formatNominal(displayRate.nominal) + " " + code;
   }
 
   function escapeHtml(value) {
@@ -430,11 +446,12 @@
 
   function renderRatesWidget(root, config, payload) {
     var orderedRates = sortRatesBySymbols(payload.rates || [], config.symbols);
+    var displayRates = orderedRates.map(getDisplayRate);
     var styleTag = "<style>" + buildStyles(config) + "</style>";
-    var hasExtendedNominal = orderedRates.some(function (rate) {
+    var hasExtendedNominal = displayRates.some(function (rate) {
       return Number(rate.nominal) > 1;
     });
-    var ratesHtml = orderedRates
+    var ratesHtml = displayRates
       .map(function (rate) {
         return [
           '<li class="rubleapi-item">',
@@ -554,10 +571,11 @@
       var selectedRate = getSelectedRate();
       var direction = getSelectedDirection();
       var code = String(selectedRate.code || "").toUpperCase();
+      var displayRate = getDisplayRate(selectedRate);
 
       pairLabel.textContent = direction === "from-rub" ? "RUB -> " + code : code + " -> RUB";
-      nominalNote.textContent = Number(selectedRate.nominal) > 1
-        ? "Курс показан за " + formatCurrencyTitle(selectedRate) + " по данным ЦБ РФ."
+      nominalNote.textContent = Number(displayRate.nominal) > 1
+        ? "Курс показан за " + formatCurrencyTitle(displayRate) + " по данным ЦБ РФ."
         : "Курс показан по данным ЦБ РФ.";
 
       if (!Number.isFinite(amount)) {

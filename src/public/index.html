@@ -169,6 +169,43 @@
         flex-wrap: wrap;
       }
 
+      .nav-toggle {
+        display: none;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 4px;
+        width: 44px;
+        height: 44px;
+        padding: 0;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.04);
+        color: var(--text);
+        cursor: pointer;
+      }
+
+      .nav-toggle-line {
+        display: block;
+        width: 18px;
+        height: 2px;
+        border-radius: 999px;
+        background: currentColor;
+        transition: transform 0.2s ease, opacity 0.2s ease;
+      }
+
+      .site-header.is-nav-open .nav-toggle-line:nth-child(1) {
+        transform: translateY(6px) rotate(45deg);
+      }
+
+      .site-header.is-nav-open .nav-toggle-line:nth-child(2) {
+        opacity: 0;
+      }
+
+      .site-header.is-nav-open .nav-toggle-line:nth-child(3) {
+        transform: translateY(-6px) rotate(-45deg);
+      }
+
       .nav-link {
         padding: 12px 20px;
         border: 1px solid transparent;
@@ -177,6 +214,7 @@
         text-decoration: none;
         font-size: 14px;
         font-weight: 600;
+        white-space: nowrap;
       }
 
       .nav-link:hover,
@@ -383,6 +421,12 @@
         line-height: 1.6;
       }
 
+      .product-grid > *,
+      .docs-card,
+      .footer-grid > * {
+        min-width: 0;
+      }
+
       @media (max-width: 1100px) {
         .product-grid {
           grid-template-columns: 1fr;
@@ -390,10 +434,20 @@
       }
 
       @media (max-width: 980px) {
-        .site-header,
+        .page-shell {
+          padding: 16px 12px 40px;
+        }
+
         .docs-card {
           flex-direction: column;
           align-items: flex-start;
+        }
+
+        .hero-card,
+        .product-card,
+        .docs-card,
+        .site-footer {
+          padding: 20px 16px;
         }
 
         .brand-subtitle {
@@ -403,6 +457,39 @@
 
         .footer-grid {
           grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 860px) {
+        .site-header {
+          position: relative;
+          flex-wrap: wrap;
+          align-items: flex-start;
+          padding: 14px 16px;
+        }
+
+        .nav-toggle {
+          display: inline-flex;
+          margin-left: auto;
+        }
+
+        .header-nav {
+          display: none;
+          width: 100%;
+          flex-direction: column;
+          align-items: stretch;
+          gap: 10px;
+          padding-top: 12px;
+        }
+
+        .site-header.is-nav-open .header-nav {
+          display: flex;
+        }
+
+        .nav-link {
+          width: 100%;
+          padding: 14px 16px;
+          text-align: left;
         }
       }
     </style>
@@ -417,11 +504,16 @@
             <span class="brand-subtitle">Информеры валют, криптовалют и конвертер для сайта</span>
           </span>
         </a>
-        <nav class="header-nav">
+        <button class="nav-toggle" id="site-nav-toggle" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="site-nav">
+          <span class="nav-toggle-line"></span>
+          <span class="nav-toggle-line"></span>
+          <span class="nav-toggle-line"></span>
+        </button>
+        <nav class="header-nav" id="site-nav">
           <a class="nav-link" aria-current="page" href="/">Главная</a>
           <a class="nav-link" href="/widget">Информер</a>
           <a class="nav-link" href="/converter">Конвертер</a>
-          <a class="nav-link" href="/crypto">Крипто</a>
+          <a class="nav-link" href="/crypto">Криптовалюта</a>
           <a class="nav-link" href="/docs">Документация</a>
         </nav>
       </header>
@@ -511,7 +603,7 @@
             <a href="/">Главная</a>
             <a href="/widget">Информер</a>
             <a href="/converter">Конвертер</a>
-            <a href="/crypto">Крипто</a>
+            <a href="/crypto">Криптовалюта</a>
             <a href="/docs">Документация</a>
           </nav>
           <div>
@@ -528,6 +620,42 @@
         </p>
       </footer>
     </main>
+    <script>
+      (function () {
+        var header = document.querySelector(".site-header");
+        var toggle = document.getElementById("site-nav-toggle");
+        var nav = document.getElementById("site-nav");
+
+        if (!header || !toggle || !nav) {
+          return;
+        }
+
+        function setOpenState(isOpen) {
+          header.classList.toggle("is-nav-open", isOpen);
+          toggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+          toggle.setAttribute("aria-label", isOpen ? "Закрыть меню" : "Открыть меню");
+        }
+
+        setOpenState(false);
+
+        toggle.addEventListener("click", function () {
+          setOpenState(!header.classList.contains("is-nav-open"));
+        });
+
+        Array.prototype.slice.call(nav.querySelectorAll("a")).forEach(function (link) {
+          link.addEventListener("click", function () {
+            setOpenState(false);
+          });
+        });
+
+        window.addEventListener("resize", function () {
+          if (window.innerWidth > 860) {
+            setOpenState(false);
+          }
+        });
+      })();
+    </script>
+
     <!-- Yandex.Metrika counter -->
     <script type="text/javascript">
       (function (m, e, t, r, i, k, a) {
