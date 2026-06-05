@@ -3,27 +3,27 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Документация по установке виджета курсов и конвертера валют | RubleAPI</title>
+    <title>Документация: информер валют, криптоинформер и конвертер | RubleAPI</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <meta
       name="description"
-      content="Пошаговая документация RubleAPI: как установить виджет курсов валют и как установить конвертер валют на Tilda, WordPress или HTML-сайт."
+      content="Пошаговая документация RubleAPI: как установить информер курсов валют, криптоинформер и конвертер валют на Tilda, WordPress или HTML-сайт."
     />
     <link rel="canonical" href="{{PUBLIC_BASE_URL}}/docs" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="RubleAPI" />
     <meta property="og:locale" content="ru_RU" />
-    <meta property="og:title" content="Документация по установке виджета курсов и конвертера валют | RubleAPI" />
+    <meta property="og:title" content="Документация: информер валют, криптоинформер и конвертер | RubleAPI" />
     <meta
       property="og:description"
-      content="Пошаговые инструкции и production-примеры кода для виджета курсов валют и конвертера валют RubleAPI."
+      content="Пошаговые инструкции и production-примеры кода для информера валют, криптоинформера и конвертера RubleAPI."
     />
     <meta property="og:url" content="{{PUBLIC_BASE_URL}}/docs" />
     <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="Документация по установке виджета курсов и конвертера валют | RubleAPI" />
+    <meta name="twitter:title" content="Документация: информер валют, криптоинформер и конвертер | RubleAPI" />
     <meta
       name="twitter:description"
-      content="Пошаговые инструкции и production-примеры кода для виджета курсов валют и конвертера валют RubleAPI."
+      content="Пошаговые инструкции и production-примеры кода для информера валют, криптоинформера и конвертера RubleAPI."
     />
     <script type="application/ld+json">
       {
@@ -157,7 +157,7 @@
 
       .brand-subtitle {
         display: block;
-        max-width: 34ch;
+        max-width: 38ch;
         color: var(--muted);
         font-size: 12px;
         font-weight: 600;
@@ -434,22 +434,24 @@
           <span class="brand-mark">₽</span>
           <span class="brand-copy">
             <span class="brand-title">RubleAPI</span>
-            <span class="brand-subtitle">Информер курсов валют и конвертер для сайта</span>
+            <span class="brand-subtitle">Информеры валют, криптовалют и конвертер для сайта</span>
           </span>
         </a>
         <nav class="header-nav">
           <a class="nav-link" href="/">Главная</a>
           <a class="nav-link" href="/widget">Информер</a>
           <a class="nav-link" href="/converter">Конвертер</a>
+          <a class="nav-link" href="/crypto">Крипто</a>
           <a class="nav-link" aria-current="page" href="/docs">Документация</a>
         </nav>
       </header>
 
       <section class="hero-card">
         <div class="eyebrow">Документация RubleAPI</div>
-        <h1>Как установить виджет курсов валют и конвертер валют на сайт</h1>
+        <h1>Как установить информер валют, конвертер и информер криптовалют на сайт</h1>
         <p class="hero-copy">
-          Ниже собраны два отдельных сценария установки. Выберите готовый блок с курсами валют, если нужно просто показать курсы на сайте, или интерактивный конвертер, если посетителю нужен пересчёт суммы по данным ЦБ РФ.
+          Ниже собраны три отдельные сценария установки. Выберите нужный блок, скопируйте готовый
+          код и вставьте его на Tilda, WordPress или обычный HTML-сайт.
         </p>
       </section>
 
@@ -457,15 +459,16 @@
         <section class="section-card">
           <h2>Быстрый старт</h2>
           <p class="section-copy">
-            Оба продукта подключаются одинаково просто: настройте внешний вид в генераторе, скопируйте код и вставьте его в HTML-блок на нужной странице сайта.
+            Все три продукта подключаются одинаково просто: настройте внешний вид в генераторе,
+            скопируйте код и вставьте его в HTML-блок на нужной странице сайта.
           </p>
           <div class="grid-2">
             <div class="card">
-              <h3>Если нужен блок с курсами</h3>
+              <h3>Если нужен блок с курсами валют</h3>
               <ol>
                 <li>Откройте страницу <code>/widget</code>.</li>
-                <li>Выберите валюты и оформление виджета.</li>
-                <li>Скопируйте готовый код и вставьте его на сайт.</li>
+                <li>Выберите валюты и оформление информера.</li>
+                <li>Скопируйте код и вставьте его на сайт.</li>
               </ol>
             </div>
             <div class="card">
@@ -480,13 +483,14 @@
         </section>
 
         <section class="section-card">
-          <h2>Как установить виджет курсов</h2>
+          <h2>Как установить информер курсов валют</h2>
           <p class="section-copy">
-            Этот сценарий подходит, если вы хотите показать посетителю готовый блок с курсами валют без ввода суммы.
+            Этот сценарий подходит, если вы хотите показать посетителю готовый блок с курсами валют
+            без ввода суммы.
           </p>
           <div class="grid-2">
             <div class="card">
-              <h3>Шаги установки</h3>
+              <h3>Установка на Tilda, WordPress и HTML-сайт</h3>
               <ol>
                 <li>Откройте генератор на странице <code>/widget</code>.</li>
                 <li>Отметьте валюты, которые хотите показывать на сайте.</li>
@@ -518,11 +522,12 @@
         <section class="section-card">
           <h2>Как установить конвертер валют</h2>
           <p class="section-copy">
-            Этот сценарий подходит, если посетитель должен ввести сумму, выбрать валюту и получить пересчёт по данным ЦБ РФ прямо на странице сайта.
+            Этот сценарий подходит, если посетитель должен ввести сумму, выбрать валюту и получить
+            пересчёт по данным ЦБ РФ прямо на странице сайта.
           </p>
           <div class="grid-2">
             <div class="card">
-              <h3>Шаги установки</h3>
+              <h3>Установка на Tilda, WordPress и HTML-сайт</h3>
               <ol>
                 <li>Откройте генератор на странице <code>/converter</code>.</li>
                 <li>Выберите валюты для выпадающего списка конвертера.</li>
@@ -551,20 +556,45 @@
         </section>
 
         <section class="section-card">
-          <h2>Где можно использовать</h2>
+          <h2>Информер криптовалют</h2>
+          <p class="section-copy">
+            Этот сценарий подходит, если вы хотите показать на сайте BTC, ETH, USDT, TON, SOL,
+            BNB и другие выбранные монеты в компактном блоке с автообновлением данных.
+          </p>
           <div class="grid-2">
             <div class="card">
-              <h3>Tilda и WordPress</h3>
-              <p>
-                Добавьте блок <code>HTML</code> или <code>Custom HTML</code>, вставьте готовый код и переопубликуйте страницу.
-              </p>
+              <h3>Установка на Tilda, WordPress и HTML-сайт</h3>
+              <ol>
+                <li>Откройте генератор на странице <code>/crypto</code>.</li>
+                <li>Выберите монеты и отметьте, что показывать: USD, RUB и изменение за 24 часа.</li>
+                <li>Настройте внешний вид блока под дизайн сайта.</li>
+                <li>Скопируйте код и вставьте его в HTML-блок страницы.</li>
+              </ol>
             </div>
             <div class="card">
-              <h3>Обычный HTML-сайт</h3>
-              <p>
-                Вставьте код в нужное место страницы. После загрузки страницы RubleAPI сам отрисует виджет курсов или конвертер.
-              </p>
+              <h3>Production-пример кода</h3>
+              <pre><code>&lt;script
+  src="https://rubleapi.ru/widget.js"
+  data-api-base="https://rubleapi.ru"
+  data-mode="crypto"
+  data-symbols="btc,eth,usdt"
+  data-theme="light"
+  data-width="card"
+  data-font-size="medium"
+  data-radius="16"
+  data-bg-color="#ffffff"
+  data-text-color="#4f5d75"
+  data-accent-color="#0f6fc6"
+  data-show-usd="true"
+  data-show-rub="true"
+  data-show-change="true"
+  data-branding="true"&gt;
+&lt;/script&gt;</code></pre>
             </div>
+          </div>
+          <div class="warning-box">
+            Курсы криптовалют справочные, могут отличаться на разных площадках и не являются
+            инвестиционной рекомендацией.
           </div>
         </section>
 
@@ -574,7 +604,7 @@
             <div class="card">
               <h3>Перед публикацией</h3>
               <ul>
-                <li>Выбраны нужные валюты.</li>
+                <li>Выбраны нужные валюты или монеты.</li>
                 <li>Код вставлен целиком, без обрезанных строк.</li>
                 <li>HTML-блок не экранирует тег <code>script</code>.</li>
               </ul>
@@ -589,7 +619,8 @@
             </div>
           </div>
           <div class="warning-box">
-            Бесплатная версия работает с подписью «Данные: RubleAPI». Данные курсов носят справочный характер и не являются финансовой рекомендацией.
+            Бесплатная версия работает с подписью «Данные: RubleAPI». Данные носят справочный
+            характер и не являются финансовой или инвестиционной рекомендацией.
           </div>
         </section>
 
@@ -598,12 +629,14 @@
             <div>
               <h2>Открыть генератор</h2>
               <p class="section-copy">
-                Если вы уже понимаете сценарий, переходите сразу на нужную страницу генератора и забирайте готовый код.
+                Если вы уже выбрали сценарий, переходите на нужную страницу генератора и забирайте
+                готовый код.
               </p>
             </div>
             <div class="cta-row">
-              <a class="button button-secondary" href="/widget">Виджет курсов</a>
-              <a class="button button-primary" href="/converter">Конвертер</a>
+              <a class="button button-secondary" href="/widget">Информер</a>
+              <a class="button button-secondary" href="/converter">Конвертер</a>
+              <a class="button button-primary" href="/crypto">Крипто</a>
             </div>
           </div>
         </section>
@@ -614,14 +647,16 @@
           <div>
             <div class="footer-title">RubleAPI</div>
             <p class="footer-copy">
-              Сервис для установки виджета курсов валют и конвертера валют на сайт с данными ЦБ РФ.
+              Сервис для установки информеров валют, криптовалют и конвертера валют на сайт с
+              готовым кодом для вставки.
             </p>
           </div>
           <nav class="footer-nav">
             <div class="footer-heading">Навигация</div>
             <a href="/">Главная</a>
-            <a href="/widget">Виджет курсов</a>
+            <a href="/widget">Информер</a>
             <a href="/converter">Конвертер</a>
+            <a href="/crypto">Крипто</a>
             <a href="/docs">Документация</a>
           </nav>
           <div>
@@ -634,7 +669,7 @@
           </div>
         </div>
         <p class="footer-note">
-          Данные курсов носят справочный характер и не являются финансовой рекомендацией.
+          Данные носят справочный характер и не являются финансовой или инвестиционной рекомендацией.
         </p>
       </footer>
     </main>

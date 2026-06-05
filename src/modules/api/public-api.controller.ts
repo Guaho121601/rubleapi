@@ -1,5 +1,6 @@
 import type { FastifyInstance } from "fastify";
 
+import type { CryptoService } from "../crypto/crypto.service";
 import type { RatesService } from "../rates/rates.service";
 import type { RateSnapshot } from "../rates/rates.types";
 
@@ -23,9 +24,18 @@ function serializeSnapshot(snapshot: RateSnapshot) {
   };
 }
 
+function serializeCryptoSnapshot(snapshot: NonNullable<Awaited<ReturnType<CryptoService["findLatestCrypto"]>>>) {
+  return {
+    source: snapshot.source,
+    updatedAt: snapshot.updatedAt,
+    assets: snapshot.assets,
+  };
+}
+
 export async function registerPublicApiRoutes(
   app: FastifyInstance,
   ratesService: RatesService,
+  cryptoService: CryptoService,
 ): Promise<void> {
   app.get<{ Querystring: LatestRatesQuery }>("/api/rates/latest", async (request, reply) => {
     const symbols = request.query.symbols
@@ -65,5 +75,24 @@ export async function registerPublicApiRoutes(
     }
 
     return serializeSnapshot(snapshot);
+  });
+
+  app.get<{ Querystring: LatestRatesQuery }>("/api/crypto/latest", async (request, reply) => {
+    const symbols = request.query.symbols
+      ? request.query.symbols.split(",").map((symbol) => symbol.trim()).filter(Boolean)
+      : undefined;
+
+    const snapshot = await cryptoService.findLatestCrypto({
+      symbols,
+    });
+
+    if (!snapshot) {
+      reply.code(404);
+      return {
+        error: "Crypto snapshot not found",
+      };
+    }
+
+    return serializeCryptoSnapshot(snapshot);
   });
 }

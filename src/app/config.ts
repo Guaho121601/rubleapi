@@ -22,6 +22,8 @@ export interface AppConfig {
   databasePath: string;
   publicBaseUrl: string;
   ratesSyncIntervalHours: number;
+  cryptoSyncIntervalMinutes: number;
+  coinGeckoBaseUrl: string;
   nodeEnv: string;
 }
 
@@ -31,6 +33,8 @@ const DEFAULT_DATABASE_PATH = "./data/rubleapi.sqlite";
 const DEFAULT_DEVELOPMENT_PUBLIC_BASE_URL = "http://127.0.0.1:3000";
 const DEFAULT_PRODUCTION_PUBLIC_BASE_URL = "https://rubleapi.ru";
 const DEFAULT_RATES_SYNC_INTERVAL_HOURS = 6;
+const DEFAULT_CRYPTO_SYNC_INTERVAL_MINUTES = 10;
+const DEFAULT_COINGECKO_BASE_URL = "https://api.coingecko.com";
 
 function normalizePublicBaseUrl(value: string): string {
   return value.replace(/\/+$/, "");
@@ -49,6 +53,10 @@ function createConfig(): AppConfig {
     getEnvValue("rates_sync_interval_hours", "RATES_SYNC_INTERVAL_HOURS") ??
       DEFAULT_RATES_SYNC_INTERVAL_HOURS,
   );
+  const cryptoSyncIntervalMinutes = Number(
+    getEnvValue("crypto_sync_interval_minutes", "CRYPTO_SYNC_INTERVAL_MINUTES") ??
+      DEFAULT_CRYPTO_SYNC_INTERVAL_MINUTES,
+  );
 
   return {
     host: getEnvValue("host", "HOST") ?? DEFAULT_HOST,
@@ -65,6 +73,12 @@ function createConfig(): AppConfig {
       Number.isFinite(ratesSyncIntervalHours) && ratesSyncIntervalHours > 0
         ? ratesSyncIntervalHours
         : DEFAULT_RATES_SYNC_INTERVAL_HOURS,
+    cryptoSyncIntervalMinutes:
+      Number.isFinite(cryptoSyncIntervalMinutes) && cryptoSyncIntervalMinutes > 0
+        ? cryptoSyncIntervalMinutes
+        : DEFAULT_CRYPTO_SYNC_INTERVAL_MINUTES,
+    coinGeckoBaseUrl:
+      getEnvValue("coingecko_base_url", "COINGECKO_BASE_URL") ?? DEFAULT_COINGECKO_BASE_URL,
     nodeEnv,
   };
 }

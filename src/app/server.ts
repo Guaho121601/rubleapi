@@ -15,9 +15,11 @@ export async function buildServer() {
 
   const services = await registerRoutes(app, config);
   await services.ratesScheduler.start();
+  await services.cryptoScheduler.start();
 
   app.addHook("onClose", async () => {
     services.ratesScheduler.stop();
+    services.cryptoScheduler.stop();
   });
 
   return app;

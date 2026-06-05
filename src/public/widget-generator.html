@@ -150,7 +150,7 @@
 
       .brand-subtitle {
         display: block;
-        max-width: 34ch;
+        max-width: 38ch;
         color: var(--muted);
         font-size: 12px;
         font-weight: 600;
@@ -552,13 +552,14 @@
           <span class="brand-mark">₽</span>
           <span class="brand-copy">
             <span class="brand-title">RubleAPI</span>
-            <span class="brand-subtitle">Информер курсов валют и конвертер для сайта</span>
+            <span class="brand-subtitle">Информеры валют, криптовалют и конвертер для сайта</span>
           </span>
         </a>
         <nav class="header-nav">
           <a class="nav-link" href="/">Главная</a>
           <a class="nav-link" {{NAV_WIDGET_CURRENT}} href="/widget">Информер</a>
           <a class="nav-link" {{NAV_CONVERTER_CURRENT}} href="/converter">Конвертер</a>
+          <a class="nav-link" {{NAV_CRYPTO_CURRENT}} href="/crypto">Крипто</a>
           <a class="nav-link" href="/docs">Документация</a>
         </nav>
       </header>
@@ -568,7 +569,7 @@
         <h1>{{HERO_TITLE}}</h1>
         <p class="hero-copy">{{HERO_COPY}}</p>
         <div class="hero-steps" aria-label="Сценарий установки">
-          <div class="hero-step">1. Выберите валюты</div>
+          <div class="hero-step">{{STEP_ONE_LABEL}}</div>
           <div class="hero-step">2. Настройте внешний вид</div>
           <div class="hero-step">3. Скопируйте код</div>
           <div class="hero-step">4. Вставьте на сайт</div>
@@ -581,36 +582,9 @@
           <p class="section-copy">{{SETTINGS_COPY}}</p>
 
           <div class="field">
-            <span class="field-label">Валюты</span>
+            <span class="field-label">{{SYMBOL_GROUP_LABEL}}</span>
             <div class="currency-grid">
-              <label class="choice">
-                <input type="checkbox" name="symbols" value="usd" checked />
-                <span class="choice-label">USD</span>
-              </label>
-              <label class="choice">
-                <input type="checkbox" name="symbols" value="eur" checked />
-                <span class="choice-label">EUR</span>
-              </label>
-              <label class="choice">
-                <input type="checkbox" name="symbols" value="cny" checked />
-                <span class="choice-label">CNY</span>
-              </label>
-              <label class="choice">
-                <input type="checkbox" name="symbols" value="aed" />
-                <span class="choice-label">AED</span>
-              </label>
-              <label class="choice">
-                <input type="checkbox" name="symbols" value="try" />
-                <span class="choice-label">TRY</span>
-              </label>
-              <label class="choice">
-                <input type="checkbox" name="symbols" value="thb" />
-                <span class="choice-label">THB</span>
-              </label>
-              <label class="choice">
-                <input type="checkbox" name="symbols" value="vnd" />
-                <span class="choice-label">VND</span>
-              </label>
+{{CURRENCY_CHOICES}}
             </div>
             <p class="field-hint">{{CURRENCY_HINT}}</p>
           </div>
@@ -628,6 +602,8 @@
               </label>
             </div>
           </div>
+
+{{EXTRA_OPTIONS_SECTION}}
 
           <div class="field">
             <span class="field-label">Тема оформления</span>
@@ -726,7 +702,7 @@
               <span class="choice-label">Оставить подпись «Данные: RubleAPI»</span>
             </label>
             <div class="brand-lock">
-              Бесплатная версия работает с сохранением ссылки «Данные: RubleAPI». Отключение брендинга можно добавить позже в отдельной платной версии, но текущий сценарий установки это не усложняет.
+              Бесплатная версия работает с сохранением ссылки «Данные: RubleAPI». Это не мешает установке информера или конвертера и помогает быстро запустить блок на сайте.
             </div>
           </div>
         </form>
@@ -759,6 +735,8 @@
               <div class="step-card"><p>Вставьте код, сохраните изменения и опубликуйте страницу.</p></div>
             </div>
           </div>
+
+{{DISCLAIMER_CARD}}
         </section>
       </section>
 
@@ -771,8 +749,9 @@
           <nav class="footer-nav">
             <div class="footer-heading">Навигация</div>
             <a href="/">Главная</a>
-            <a href="/widget">Виджет курсов</a>
+            <a href="/widget">Информер</a>
             <a href="/converter">Конвертер</a>
+            <a href="/crypto">Крипто</a>
             <a href="/docs">Документация</a>
           </nav>
           <div>
@@ -785,7 +764,7 @@
           </div>
         </div>
         <p class="footer-note">
-          Данные курсов носят справочный характер и не являются финансовой рекомендацией.
+          Данные носят справочный характер и не являются финансовой или инвестиционной рекомендацией.
         </p>
       </footer>
     </main>
@@ -817,13 +796,14 @@
         }
 
         function getSelectedSymbols() {
+          var fallbackSymbol = pageMode === "crypto" ? "btc" : "usd";
           var selected = Array.prototype.slice
             .call(form.querySelectorAll('input[name="symbols"]:checked'))
             .map(function (input) {
               return input.value;
             });
 
-          return selected.length ? selected : ["usd"];
+          return selected.length ? selected : [fallbackSymbol];
         }
 
         function getSelectedValue(name) {
@@ -834,6 +814,11 @@
         function getInputValue(name) {
           var input = form.querySelector('[name="' + name + '"]');
           return input ? input.value : "";
+        }
+
+        function getCheckedValue(name) {
+          var input = form.querySelector('[name="' + name + '"]');
+          return input ? String(Boolean(input.checked)) : "false";
         }
 
         function applyThemePreset(theme) {
@@ -857,32 +842,57 @@
             bgColor: getInputValue("bg-color") || themePresets.light.bgColor,
             textColor: getInputValue("text-color") || themePresets.light.textColor,
             accentColor: getInputValue("accent-color") || themePresets.light.accentColor,
-            branding: "true"
+            branding: "true",
+            showUsd: getCheckedValue("show-usd"),
+            showRub: getCheckedValue("show-rub"),
+            showChange: getCheckedValue("show-change")
           };
         }
 
+        function buildModeAttributes(config) {
+          if (config.widgetType === "crypto") {
+            return [
+              '  data-mode="crypto"',
+              '  data-show-usd="' + config.showUsd + '"',
+              '  data-show-rub="' + config.showRub + '"',
+              '  data-show-change="' + config.showChange + '"'
+            ];
+          }
+
+          return ['  data-widget-type="' + config.widgetType + '"'];
+        }
+
         function buildEmbedCode(config) {
-          return [
+          var lines = [
             "<script",
             '  src="' + config.apiBase + '/widget.js"',
-            '  data-api-base="' + config.apiBase + '"',
-            '  data-widget-type="' + config.widgetType + '"',
+            '  data-api-base="' + config.apiBase + '"'
+          ];
+
+          lines = lines.concat(buildModeAttributes(config));
+          lines = lines.concat([
             '  data-symbols="' + config.symbols.join(",") + '"',
             '  data-theme="' + config.theme + '"',
-            '  data-round="' + config.round + '"',
             '  data-width="' + config.width + '"',
             '  data-font-size="' + config.fontSize + '"',
             '  data-radius="' + config.radius + '"',
             '  data-bg-color="' + config.bgColor + '"',
             '  data-text-color="' + config.textColor + '"',
-            '  data-accent-color="' + config.accentColor + '"',
-            '  data-branding="' + config.branding + '">',
-            "<" + "/script>"
-          ].join("\n");
+            '  data-accent-color="' + config.accentColor + '"'
+          ]);
+
+          if (config.widgetType === "rates") {
+            lines.push('  data-round="' + config.round + '"');
+          }
+
+          lines.push('  data-branding="' + config.branding + '">');
+          lines.push("<" + "/script>");
+
+          return lines.join("\n");
         }
 
         function buildPreviewDocument(config) {
-          return [
+          var previewLines = [
             "<!doctype html>",
             '<html lang="ru">',
             "<head>",
@@ -900,23 +910,36 @@
             "  </div>",
             '  <scr' + 'ipt',
             '    src="' + config.apiBase + '/widget.js"',
-            '    data-api-base="' + config.apiBase + '"',
-            '    data-widget-type="' + config.widgetType + '"',
+            '    data-api-base="' + config.apiBase + '"'
+          ];
+
+          previewLines = previewLines.concat(
+            buildModeAttributes(config).map(function (line) {
+              return "    " + line.trim();
+            }),
+          );
+          previewLines = previewLines.concat([
             '    data-symbols="' + config.symbols.join(",") + '"',
             '    data-theme="' + config.theme + '"',
-            '    data-round="' + config.round + '"',
             '    data-width="' + config.width + '"',
             '    data-font-size="' + config.fontSize + '"',
             '    data-radius="' + config.radius + '"',
             '    data-bg-color="' + config.bgColor + '"',
             '    data-text-color="' + config.textColor + '"',
-            '    data-accent-color="' + config.accentColor + '"',
-            '    data-branding="' + config.branding + '"',
-            "  >",
-            "  </scr" + "ipt>",
-            "</body>",
-            "</html>"
-          ].join("\n");
+            '    data-accent-color="' + config.accentColor + '"'
+          ]);
+
+          if (config.widgetType === "rates") {
+            previewLines.push('    data-round="' + config.round + '"');
+          }
+
+          previewLines.push('    data-branding="' + config.branding + '"');
+          previewLines.push("  >");
+          previewLines.push("  </scr" + "ipt>");
+          previewLines.push("</body>");
+          previewLines.push("</html>");
+
+          return previewLines.join("\n");
         }
 
         function render() {
