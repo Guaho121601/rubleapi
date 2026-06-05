@@ -14,6 +14,19 @@ interface DateParams {
 
 const API_DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
 
+function normalizeSymbolsQuery(value?: string): string[] | undefined {
+  if (!value) {
+    return undefined;
+  }
+
+  const symbols = value
+    .split(",")
+    .map((symbol) => symbol.trim().toUpperCase())
+    .filter(Boolean);
+
+  return symbols.length ? symbols : undefined;
+}
+
 function serializeSnapshot(snapshot: RateSnapshot) {
   return {
     source: snapshot.source,
@@ -38,9 +51,7 @@ export async function registerPublicApiRoutes(
   cryptoService: CryptoService,
 ): Promise<void> {
   app.get<{ Querystring: LatestRatesQuery }>("/api/rates/latest", async (request, reply) => {
-    const symbols = request.query.symbols
-      ? request.query.symbols.split(",").map((symbol) => symbol.trim()).filter(Boolean)
-      : undefined;
+    const symbols = normalizeSymbolsQuery(request.query.symbols);
 
     const snapshot = await ratesService.findLatestRates({
       symbols,
@@ -78,9 +89,7 @@ export async function registerPublicApiRoutes(
   });
 
   app.get<{ Querystring: LatestRatesQuery }>("/api/crypto/latest", async (request, reply) => {
-    const symbols = request.query.symbols
-      ? request.query.symbols.split(",").map((symbol) => symbol.trim()).filter(Boolean)
-      : undefined;
+    const symbols = normalizeSymbolsQuery(request.query.symbols);
 
     const snapshot = await cryptoService.findLatestCrypto({
       symbols,
