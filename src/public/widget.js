@@ -179,6 +179,10 @@
   function createMount(scriptElement) {
     var host = document.createElement("div");
     host.className = "rubleapi-host";
+    host.style.display = "block";
+    host.style.width = "100%";
+    host.style.maxWidth = "100%";
+    host.style.minWidth = "0";
 
     if (scriptElement.parentNode) {
       scriptElement.parentNode.insertBefore(host, scriptElement.nextSibling);
@@ -230,8 +234,8 @@
   function getWidthStyles(width) {
     if (width === "compact") {
       return {
-        width: "280px",
-        maxWidth: "280px"
+        width: "100%",
+        maxWidth: "min(280px, 100%)"
       };
     }
 
@@ -243,8 +247,8 @@
     }
 
     return {
-      width: "360px",
-      maxWidth: "360px"
+      width: "100%",
+      maxWidth: "min(360px, 100%)"
     };
   }
 
@@ -263,44 +267,63 @@
     var shadow = config.theme === "dark"
       ? "0 12px 32px rgba(2,8,23,.36)"
       : "0 12px 32px rgba(15,23,42,.08)";
+    var narrowWidgetStyles = [
+      ".rubleapi-widget{padding:14px}",
+      ".rubleapi-item{align-items:flex-start}",
+      ".rubleapi-rate-item{flex-direction:column;gap:6px}",
+      ".rubleapi-rate-main,.rubleapi-value{width:100%}",
+      ".rubleapi-value{text-align:left;white-space:normal}",
+      ".rubleapi-converter-top{flex-direction:column;align-items:flex-start}",
+      ".rubleapi-chip{width:100%;justify-content:flex-start}",
+      ".rubleapi-result-value{font-size:" + (typography.value + 4) + "px}",
+      ".rubleapi-crypto-head{flex-direction:column;align-items:flex-start;gap:8px}",
+      ".rubleapi-crypto-prices{width:100%;justify-items:start}",
+      ".rubleapi-crypto-price,.rubleapi-crypto-change{width:100%;text-align:left}"
+    ].join("");
 
     return [
-      '.rubleapi-widget{font-family:system-ui,-apple-system,blinkmacsystemfont,"Segoe UI",sans-serif;box-sizing:border-box;width:' + sizing.width + ";max-width:" + sizing.maxWidth + ";border:1px solid " + border + ";border-radius:" + config.radius + "px;background:" + background + ";color:" + text + ";padding:16px;box-shadow:" + shadow + ";font-size:" + typography.base + "px}",
-      ".rubleapi-widget *{box-sizing:border-box}",
+      ":host{display:block;width:100%;max-width:100%;min-width:0}",
+      '.rubleapi-widget{font-family:system-ui,-apple-system,blinkmacsystemfont,"Segoe UI",sans-serif;box-sizing:border-box;width:' + sizing.width + ";max-width:" + sizing.maxWidth + ";min-width:0;border:1px solid " + border + ";border-radius:" + config.radius + "px;background:" + background + ";color:" + text + ";padding:16px;box-shadow:" + shadow + ";font-size:" + typography.base + "px;overflow:hidden;container-type:inline-size}",
+      ".rubleapi-widget *{box-sizing:border-box;min-width:0}",
       ".rubleapi-title{margin:0 0 12px;font-size:" + typography.title + "px;font-weight:700;color:" + title + "}",
       ".rubleapi-subtitle{margin:0 0 12px;font-size:" + typography.meta + "px;line-height:1.55;color:" + muted + "}",
-      ".rubleapi-list{list-style:none;padding:0;margin:0 0 14px}",
-      ".rubleapi-item{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid " + border + "}",
+      ".rubleapi-list{list-style:none;padding:0;margin:0 0 14px;display:grid;gap:0;min-width:0}",
+      ".rubleapi-item{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid " + border + ";min-width:0}",
       ".rubleapi-item:last-child{border-bottom:none;padding-bottom:0}",
-      ".rubleapi-symbol{font-size:" + typography.symbol + "px;font-weight:700;color:" + title + "}",
-      ".rubleapi-value{font-size:" + typography.value + "px;font-weight:600;color:" + accent + ";white-space:nowrap}",
-      ".rubleapi-note{margin-top:12px;font-size:" + typography.meta + "px;line-height:1.5;color:" + muted + "}",
+      ".rubleapi-rate-main{display:grid;gap:2px;min-width:0;flex:1}",
+      ".rubleapi-symbol{font-size:" + typography.symbol + "px;font-weight:700;color:" + title + ";overflow-wrap:anywhere}",
+      ".rubleapi-rate-label{font-size:" + typography.meta + "px;line-height:1.45;color:" + muted + ";overflow-wrap:anywhere}",
+      ".rubleapi-value{font-size:" + typography.value + "px;font-weight:600;color:" + accent + ";white-space:nowrap;text-align:right;overflow-wrap:anywhere;word-break:break-word}",
+      ".rubleapi-note{margin-top:12px;font-size:" + typography.meta + "px;line-height:1.5;color:" + muted + ";overflow-wrap:anywhere}",
       ".rubleapi-converter{display:grid;gap:12px}",
-      ".rubleapi-converter-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}",
-      ".rubleapi-chip{display:inline-flex;align-items:center;padding:8px 12px;border-radius:999px;background:" + chipAccent + ";color:" + accent + ";font-size:" + typography.meta + "px;font-weight:700}",
+      ".rubleapi-converter-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}",
+      ".rubleapi-chip{display:inline-flex;align-items:center;padding:8px 12px;border-radius:999px;background:" + chipAccent + ";color:" + accent + ";font-size:" + typography.meta + "px;font-weight:700;max-width:100%;overflow-wrap:anywhere;word-break:break-word}",
       ".rubleapi-field{display:grid;gap:8px}",
-      ".rubleapi-field-label{font-size:" + typography.meta + "px;font-weight:700;letter-spacing:.02em;color:" + muted + "}",
-      ".rubleapi-input,.rubleapi-select{width:100%;min-height:46px;padding:12px 14px;border:1px solid " + border + ";border-radius:" + Math.max(config.radius - 6, 8) + "px;background:" + background + ";color:" + title + ";font:inherit}",
+      ".rubleapi-field-label{font-size:" + typography.meta + "px;font-weight:700;letter-spacing:.02em;color:" + muted + ";overflow-wrap:anywhere}",
+      ".rubleapi-input,.rubleapi-select{width:100%;max-width:100%;min-height:46px;padding:12px 14px;border:1px solid " + border + ";border-radius:" + Math.max(config.radius - 6, 8) + "px;background:" + background + ";color:" + title + ";font:inherit}",
       ".rubleapi-direction{display:grid;gap:8px}",
       ".rubleapi-direction-grid{display:grid;gap:8px}",
       ".rubleapi-direction-option{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid " + border + ";border-radius:" + Math.max(config.radius - 6, 8) + "px;background:" + softAccent + "}",
       ".rubleapi-direction-option input{margin:0;accent-color:" + accent + "}",
+      ".rubleapi-direction-option span{flex:1;overflow-wrap:anywhere}",
       ".rubleapi-result{padding:14px;border:1px solid " + border + ";border-radius:" + Math.max(config.radius - 4, 10) + "px;background:" + softAccent + "}",
       ".rubleapi-result-label{margin:0 0 6px;font-size:" + typography.meta + "px;color:" + muted + "}",
-      ".rubleapi-result-value{margin:0;font-size:" + (typography.value + 6) + "px;line-height:1.2;font-weight:700;color:" + accent + "}",
+      ".rubleapi-result-value{margin:0;font-size:" + (typography.value + 6) + "px;line-height:1.2;font-weight:700;color:" + accent + ";overflow-wrap:anywhere;word-break:break-word}",
       ".rubleapi-crypto-row{display:grid;gap:4px;min-width:0;flex:1}",
-      ".rubleapi-crypto-head{display:flex;align-items:center;justify-content:space-between;gap:12px}",
+      ".rubleapi-crypto-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;min-width:0}",
       ".rubleapi-crypto-name{display:grid;gap:2px;min-width:0}",
-      ".rubleapi-crypto-code{font-size:" + typography.symbol + "px;font-weight:700;color:" + title + "}",
-      ".rubleapi-crypto-label{font-size:" + typography.meta + "px;color:" + muted + "}",
-      ".rubleapi-crypto-prices{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:6px 10px}",
-      ".rubleapi-crypto-price{font-size:" + typography.value + "px;font-weight:600;color:" + accent + "}",
-      ".rubleapi-crypto-change{font-size:" + typography.meta + "px;font-weight:700}",
+      ".rubleapi-crypto-code{font-size:" + typography.symbol + "px;font-weight:700;color:" + title + ";overflow-wrap:anywhere}",
+      ".rubleapi-crypto-label{font-size:" + typography.meta + "px;color:" + muted + ";overflow-wrap:anywhere}",
+      ".rubleapi-crypto-prices{display:grid;gap:6px;justify-items:end;min-width:0}",
+      ".rubleapi-crypto-price{display:block;font-size:" + typography.value + "px;font-weight:600;color:" + accent + ";text-align:right;overflow-wrap:anywhere;word-break:break-word}",
+      ".rubleapi-crypto-change{display:block;font-size:" + typography.meta + "px;font-weight:700;overflow-wrap:anywhere;word-break:break-word}",
       ".rubleapi-crypto-change.is-positive{color:" + palette.positive + "}",
       ".rubleapi-crypto-change.is-negative{color:" + palette.negative + "}",
-      ".rubleapi-meta{display:flex;flex-direction:column;gap:4px;margin-top:14px;font-size:" + typography.meta + "px;color:" + muted + "}",
-      ".rubleapi-branding{margin-top:10px;font-size:" + typography.meta + "px;font-weight:600;color:" + accent + "}",
-      '.rubleapi-error{font-family:system-ui,-apple-system,blinkmacsystemfont,"Segoe UI",sans-serif;width:' + sizing.width + ";max-width:" + sizing.maxWidth + ";border:1px solid #f0c7c7;border-radius:" + config.radius + "px;background:#fff7f7;color:#a33a3a;padding:16px;font-size:" + typography.base + "px}"
+      ".rubleapi-meta{display:flex;flex-direction:column;gap:4px;margin-top:14px;font-size:" + typography.meta + "px;color:" + muted + ";overflow-wrap:anywhere}",
+      ".rubleapi-branding{margin-top:10px;font-size:" + typography.meta + "px;font-weight:600;color:" + accent + ";overflow-wrap:anywhere}",
+      '.rubleapi-error{font-family:system-ui,-apple-system,blinkmacsystemfont,"Segoe UI",sans-serif;width:' + sizing.width + ";max-width:" + sizing.maxWidth + ";min-width:0;border:1px solid #f0c7c7;border-radius:" + config.radius + "px;background:#fff7f7;color:#a33a3a;padding:16px;font-size:" + typography.base + "px;box-sizing:border-box}",
+      "@container (max-width: 420px){" + narrowWidgetStyles + "}",
+      "@media (max-width: 420px){" + narrowWidgetStyles + "}"
     ].join("");
   }
 
@@ -453,9 +476,16 @@
     });
     var ratesHtml = displayRates
       .map(function (rate) {
+        var rateName = rate.name
+          ? '<span class="rubleapi-rate-label">' + escapeHtml(rate.name) + "</span>"
+          : "";
+
         return [
-          '<li class="rubleapi-item">',
+          '<li class="rubleapi-item rubleapi-rate-item">',
+          '<div class="rubleapi-rate-main">',
           '<span class="rubleapi-symbol">' + escapeHtml(formatSymbolLabel(rate)) + "</span>",
+          rateName,
+          "</div>",
           '<span class="rubleapi-value">' + escapeHtml(formatRubValue(rate.value, config.round)) + "</span>",
           "</li>"
         ].join("");
@@ -633,11 +663,11 @@
           : "";
 
         return [
-          '<li class="rubleapi-item">',
+          '<li class="rubleapi-item rubleapi-crypto-item">',
           '<div class="rubleapi-crypto-row">',
           '<div class="rubleapi-crypto-head">',
           '<div class="rubleapi-crypto-name">',
-          '<span class="rubleapi-crypto-code">' + escapeHtml(asset.symbol) + "</span>",
+          '<span class="rubleapi-crypto-code">' + escapeHtml(String(asset.symbol || "").toUpperCase()) + "</span>",
           '<span class="rubleapi-crypto-label">' + escapeHtml(asset.name) + "</span>",
           "</div>",
           '<div class="rubleapi-crypto-prices">' + prices.join("") + "</div>",
