@@ -117,6 +117,7 @@
         display: inline-flex;
         align-items: center;
         gap: 12px;
+        min-width: 0;
         text-decoration: none;
       }
 
@@ -138,6 +139,7 @@
         display: flex;
         flex-direction: column;
         gap: 2px;
+        min-width: 0;
       }
 
       .brand-title {
@@ -147,9 +149,12 @@
       }
 
       .brand-subtitle {
+        display: block;
+        max-width: 34ch;
         color: var(--muted);
         font-size: 12px;
         font-weight: 600;
+        line-height: 1.35;
       }
 
       .header-nav {
@@ -523,6 +528,11 @@
           align-items: flex-start;
         }
 
+        .brand-subtitle {
+          max-width: 100%;
+          font-size: 11px;
+        }
+
         .layout,
         .hero-steps,
         .currency-grid,
@@ -542,12 +552,11 @@
           <span class="brand-mark">₽</span>
           <span class="brand-copy">
             <span class="brand-title">RubleAPI</span>
-            <span class="brand-subtitle">Курсы валют и конвертер для сайта</span>
+            <span class="brand-subtitle">Виджет / информер курсов валют и конвертер для сайта</span>
           </span>
         </a>
         <nav class="header-nav">
-          <a class="nav-link" href="/">Главная</a>
-          <a class="nav-link" {{NAV_WIDGET_CURRENT}} href="/widget">Виджет курсов</a>
+          <a class="nav-link" {{NAV_WIDGET_CURRENT}} href="/widget">Виджет / информер</a>
           <a class="nav-link" {{NAV_CONVERTER_CURRENT}} href="/converter">Конвертер</a>
           <a class="nav-link" href="/docs">Документация</a>
         </nav>
