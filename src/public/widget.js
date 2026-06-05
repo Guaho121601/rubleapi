@@ -277,13 +277,13 @@
       ".rubleapi-chip{width:100%;justify-content:flex-start}",
       ".rubleapi-result-value{font-size:" + (typography.value + 4) + "px}",
       ".rubleapi-crypto-head{flex-direction:column;align-items:flex-start;gap:8px}",
-      ".rubleapi-crypto-prices{width:100%;justify-items:start}",
+      ".rubleapi-crypto-prices{width:100%;justify-content:flex-start}",
       ".rubleapi-crypto-price,.rubleapi-crypto-change{width:100%;text-align:left}"
     ].join("");
 
     return [
       ":host{display:block;width:100%;max-width:100%;min-width:0}",
-      '.rubleapi-widget{font-family:system-ui,-apple-system,blinkmacsystemfont,"Segoe UI",sans-serif;box-sizing:border-box;width:' + sizing.width + ";max-width:" + sizing.maxWidth + ";min-width:0;border:1px solid " + border + ";border-radius:" + config.radius + "px;background:" + background + ";color:" + text + ";padding:16px;box-shadow:" + shadow + ";font-size:" + typography.base + "px;overflow:hidden;container-type:inline-size}",
+      '.rubleapi-widget{font-family:system-ui,-apple-system,blinkmacsystemfont,"Segoe UI",sans-serif;box-sizing:border-box;width:' + sizing.width + ";max-width:" + sizing.maxWidth + ";min-width:0;border:1px solid " + border + ";border-radius:" + config.radius + "px;background:" + background + ";color:" + text + ";padding:16px;box-shadow:" + shadow + ";font-size:" + typography.base + "px;overflow:hidden}",
       ".rubleapi-widget *{box-sizing:border-box;min-width:0}",
       ".rubleapi-title{margin:0 0 12px;font-size:" + typography.title + "px;font-weight:700;color:" + title + "}",
       ".rubleapi-subtitle{margin:0 0 12px;font-size:" + typography.meta + "px;line-height:1.55;color:" + muted + "}",
@@ -314,16 +314,15 @@
       ".rubleapi-crypto-name{display:grid;gap:2px;min-width:0}",
       ".rubleapi-crypto-code{font-size:" + typography.symbol + "px;font-weight:700;color:" + title + ";overflow-wrap:anywhere}",
       ".rubleapi-crypto-label{font-size:" + typography.meta + "px;color:" + muted + ";overflow-wrap:anywhere}",
-      ".rubleapi-crypto-prices{display:grid;gap:6px;justify-items:end;min-width:0}",
+      ".rubleapi-crypto-prices{display:flex;flex-wrap:wrap;justify-content:flex-end;align-items:center;gap:6px 10px;min-width:0}",
       ".rubleapi-crypto-price{display:block;font-size:" + typography.value + "px;font-weight:600;color:" + accent + ";text-align:right;overflow-wrap:anywhere;word-break:break-word}",
-      ".rubleapi-crypto-change{display:block;font-size:" + typography.meta + "px;font-weight:700;overflow-wrap:anywhere;word-break:break-word}",
+      ".rubleapi-crypto-change{display:block;font-size:" + typography.meta + "px;font-weight:700;text-align:right;overflow-wrap:anywhere;word-break:break-word}",
       ".rubleapi-crypto-change.is-positive{color:" + palette.positive + "}",
       ".rubleapi-crypto-change.is-negative{color:" + palette.negative + "}",
       ".rubleapi-meta{display:flex;flex-direction:column;gap:4px;margin-top:14px;font-size:" + typography.meta + "px;color:" + muted + ";overflow-wrap:anywhere}",
       ".rubleapi-branding{margin-top:10px;font-size:" + typography.meta + "px;font-weight:600;color:" + accent + ";overflow-wrap:anywhere}",
       '.rubleapi-error{font-family:system-ui,-apple-system,blinkmacsystemfont,"Segoe UI",sans-serif;width:' + sizing.width + ";max-width:" + sizing.maxWidth + ";min-width:0;border:1px solid #f0c7c7;border-radius:" + config.radius + "px;background:#fff7f7;color:#a33a3a;padding:16px;font-size:" + typography.base + "px;box-sizing:border-box}",
-      "@container (max-width: 420px){" + narrowWidgetStyles + "}",
-      "@media (max-width: 420px){" + narrowWidgetStyles + "}"
+      "@media (max-width: 480px){" + narrowWidgetStyles + "}"
     ].join("");
   }
 
